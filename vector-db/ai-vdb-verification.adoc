@@ -1,0 +1,24 @@
+---
+sidebar: sidebar 
+permalink: vector-db/ai-vdb-verification.html 
+keywords: Solution Overview vector database 
+summary: 解決方案驗證概述 - NetApp 的向量資料庫解決方案 
+---
+= 解決方案概述
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+我們針對五個關鍵領域進行了全面的解決方案驗證，具體細節概述如下。每個部分都深入探討了客戶面臨的挑戰、 NetApp提供的解決方案以及隨後為客戶帶來的好處。
+
+. link:ai-vdb-milvus-setup.html["在本地使用 Kubernetes 設定 Milvus 集群"]客戶面臨的挑戰是獨立擴展儲存和運算、有效的基礎設施管理和資料管理。在本節中，我們詳細介紹了在 Kubernetes 上安裝 Milvus 叢集的過程，並利用NetApp儲存控制器儲存叢集資料和客戶資料。
+. milvus 與 Amazon FSx ONTAP for NetApp ONTAP – 檔案與物件二元性 在本節中，我們將介紹為何ONTAP在雲端部署向量資料庫，以及在NetApp Amazon FSxAmazon FSxONTAPNetAppONTAP（milvus 獨立版）的步驟。
+. link:ai-vdb-dp-snapcenter.html["使用NetApp SnapCenter進行向量資料庫保護。"]在本節中，我們將深入探討SnapCenter如何保護駐留在ONTAP中的向量資料庫資料和 Milvus 資料。在此範例中，我們利用源自 NFS ONTAP磁碟區（vol1）的 NAS 儲存桶（milvusdbvol1）來儲存客戶數據，並使用單獨的 NFS 磁碟區（vectordbpv）來儲存 Milvus 叢集配置資料。
+. link:ai-vdb-dr-snapmirror.html["使用NetApp SnapMirror進行災難復原"]在本節中，我們討論災難復原（DR）對於向量資料庫的重要性以及NetApp災難復原產品SnapMirror如何為向量資料庫提供DR解決方案。
+. link:ai-vdb-perf-validation.html["性能驗證"]在本節中，我們旨在深入研究向量資料庫（例如 Milvus 和 pgvecto.rs）的效能驗證，重點關注它們的儲存效能特徵，例如 I/O 設定檔和 NetApp 儲存控制器在 LLM 生命週期內支援 RAG 和推理工作負載的行為。當這些資料庫與ONTAP儲存解決方案結合時，我們將評估並識別任何效能差異因素。我們的分析將基於關鍵效能指標，例如每秒處理的查詢數（QPS）。
+

@@ -1,0 +1,49 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/stgr-splunkss-solution-overview.html 
+keywords: storagegrid, splunk enterprise, smartstore, object storage, machine data 
+summary: 本頁介紹了完成此解決方案所使用的元件，包括NetApp StorageGRID、Splunk Enterprise 和 Splunk SmartStore。 
+---
+= 解決方案概述
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本頁介紹了完成此解決方案所使用的元件，包括NetApp StorageGRID、Splunk Enterprise 和 Splunk SmartStore。
+
+
+
+== NetAppStorageGRID
+
+NetApp StorageGRID是一個高效能且經濟高效的物件儲存平台。它使用分散式、基於節點的網格架構提供智慧、策略驅動的全球資料管理。它透過其無所不在的全域物件命名空間與複雜的資料管理功能結合，簡化了 PB 級非結構化資料和數十億個物件的管理。單次呼叫物件存取可跨站點擴展，並簡化高可用性架構，同時確保無論站點或基礎設施是否中斷，都能持續進行物件存取。
+
+多租戶允許多個雲端和企業非結構化資料應用程式在同一網格內安全地服務，從而增加了StorageGRID的投資回報率和用例。可以使用元資料驅動的物件生命週期策略來建立多個服務級別，從而優化跨多個地區的耐用性、保護性、效能和局部性。隨著需求的變化，使用者可以調整策略並且無中斷地重新調整資料格局。
+
+SmartStore 利用StorageGRID作為遠端儲存層，並允許客戶部署多個地理分佈的站點，以實現強大的可用性和耐用性，並以單一物件命名空間的形式呈現。這使得 Splunk SmartStore 能夠利用StorageGRID的高效能、高密度容量以及使用單一 URL 與物件互動擴展到多個實體網站上的數百個節點的能力。此單一 URL 還允許在不中斷的情況下進行儲存擴充、升級和修復，甚至超越單一網站。  StorageGRID獨特的資料管理策略引擎提供了最佳化的效能和耐用性水平，並符合資料局部性要求。
+
+
+
+== Splunk Enterprise
+
+Splunk 是機器生成資料收集和分析的領導者，透過其營運分析功能幫助簡化和現代化 IT。它還擴展到商業分析、安全性和物聯網用例。儲存是成功部署 Splunk 軟體的關鍵因素。
+
+機器產生的數據是成長最快的大數據類型。其格式難以預測，並且來自許多不同的來源，通常速率很高且數量巨大。這些工作負載特徵通常被稱為數位排氣。  Splunk SmartStore 有助於理解這些資料並提供智慧資料分層，以便在最具成本效益的儲存層上優化放置熱資料和溫資料。
+
+
+
+== Splunk SmartStore
+
+Splunk SmartStore 是一種索引器功能，它使用物件儲存（也稱為遠端儲存或遠端儲存層）例如StorageGRID透過 S3 協定儲存熱資料。
+
+隨著部署的資料量增加，對儲存的需求通常會超過對電腦資源的需求。  SmartStore 可讓您透過分別擴展運算和儲存來經濟高效地管理索引器儲存和運算資源。
+
+SmartStore 引入了使用 S3 協定的遠端儲存層和快取管理器。這些功能允許資料駐留在本機索引器或遠端儲存上。快取管理器位於索引器上，負責管理索引器和遠端儲存層之間的資料移動。資料與儲存桶元資料一起儲存在儲存桶（熱和溫）中。
+
+使用 SmartStore，您可以將索引器儲存佔用空間降至最低，並選擇 I/O 最佳化的運算資源，因為大多數資料都駐留在遠端儲存層上。索引器維護一個本地緩存，代表返回請求和預測結果所需的最少資料量。本地快取包含熱儲存桶、參與活動或最近搜尋的熱儲存桶副本以及儲存桶元資料。
+
+具有StorageGRID的 Splunk SmartStore 使客戶能夠透過高效能且經濟高效的遠端儲存逐步擴展環境，同時為整體解決方案提供高度的彈性。這使得客戶可以在任何給定時間添加任何給定數量的任何組件（熱存儲和/或溫 S3 存儲），無論他們是需要更多索引器、更改資料保留，還是在不造成任何中斷的情況下增加攝取率。

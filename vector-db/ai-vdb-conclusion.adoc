@@ -1,0 +1,68 @@
+---
+sidebar: sidebar 
+permalink: vector-db/ai-vdb-conclusion.html 
+keywords: vector database, conclusion 
+summary: 結論 - NetApp 的向量資料庫解決方案 
+---
+= 結論
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本節總結了NetApp的向量資料庫解決方案。
+
+
+
+== 結論
+
+總而言之，本文檔全面概述了在NetApp儲存解決方案上部署和管理向量資料庫（例如 Milvus 和 pgvector）。我們討論了利用NetApp ONTAP和StorageGRID物件儲存的基礎設施指南，並透過檔案和物件儲存驗證了 AWS FSx ONTAP中的 Milvus 資料庫。
+
+我們探索了 NetApp 的檔案物件二元性，證明了它不僅適用於向量資料庫中的數據，也適用於其他應用程式。我們也重點介紹了 NetApp 的企業管理產品SnapCenter如何為向量資料庫資料提供備份、復原和複製功能，確保資料的完整性和可用性。
+
+該文件還深入探討了 NetApp 的混合雲解決方案如何在本地端和雲端環境中提供資料複製和保護，從而提供無縫、安全的資料管理體驗。我們對NetApp ONTAP上 Milvus 和 pgvecto 等向量資料庫的效能驗證提供了見解，並提供了有關其效率和可擴展性的寶貴資訊。
+
+最後，我們討論了兩個生成式 AI 用例：具有 LLM 的 RAG 和 NetApp 的內部 ChatAI。這些實際範例強調了本文檔中概述的概念和實踐的實際應用和好處。總的來說，對於任何希望利用 NetApp 強大的儲存解決方案來管理向量資料庫的人來說，本文檔都是一份全面的指南。
+
+
+
+=== 致謝
+
+作者衷心感謝以下貢獻者以及其他提供回饋和評論的人，使本文對NetApp客戶和NetApp領域具有價值。
+
+. Sathish Thyagarajan， NetApp ONTAP AI 與分析技術行銷工程師
+. NetApp技術行銷工程師 Mike Oglesby
+. NetApp資深總監 AJ Mahajan
+. NetApp工作負載效能工程經理 Joe Scott
+. NetApp Fsx 產品管理資深總監 Puneet Dhawan
+. NetApp FSx 產品團隊資深產品經理 Yuval Kalderon
+
+
+
+
+=== 在哪裡可以找到更多信息
+
+要了解有關本文檔中描述的信息的更多信息，請查看以下文檔和/或網站：
+
+* Milvus 文檔 - https://milvus.io/docs/overview.md[]
+* Milvus 獨立文檔 - https://milvus.io/docs/v2.0.x/install_standalone-docker.md[]
+* NetApp產品文檔https://www.netapp.com/support-and-training/documentation/[]
+* instaclustr -link:https://www.instaclustr.com/support/documentation/?_bt=&_bk=&_bm=&_bn=x&_bg=&utm_term=&utm_campaign=&utm_source=adwords&utm_medium=ppc&hsa_acc=1467100120&hsa_cam=20766399079&hsa_grp=&hsa_ad=&hsa_src=x&hsa_tgt=&hsa_kw=&hsa_mt=&hsa_net=adwords&hsa_ver=3&gad_source=1&gclid=CjwKCAjw26KxBhBDEiwAu6KXtzOZhN0dl0H1smOMcj9nsC0qBQphdMqFR7IrVQqeG2Y4aHWydUMj2BoCdFwQAvD_BwE["installclustr 文檔"]
+
+
+
+
+=== 版本歷史記錄
+
+|===
+
+
+| 版本 | 日期 | 文件版本歷史記錄 
+
+
+| 版本 1.0 | 2024年4月 | 初始版本 
+|===

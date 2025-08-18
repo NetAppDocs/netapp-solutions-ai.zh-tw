@@ -1,0 +1,27 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/bda-ai-additional-info.html 
+keywords: additional information 
+summary:  
+---
+= 在哪裡可以找到更多信息
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+要了解有關本文檔中描述的信息的更多信息，請查看以下文檔和/或網站：
+
+* NetApp FlexGroup卷最佳實務與實作指南
++
+https://www.netapp.com/pdf.html?item=/media/12385-tr4571pdf.pdf[]
+
+* NetApp產品文檔
++
+https://www.netapp.com/us/documentation/index.aspx[]
+
+

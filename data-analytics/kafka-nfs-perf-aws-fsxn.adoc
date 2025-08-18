@@ -1,0 +1,256 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-nfs-perf-aws-fsxn.html 
+keywords: AWS FSx ONTAP, openmessage benchmarking, architectural setup, kafka 
+summary: 在NetApp NFS 上安裝儲存層的 Kafka 叢集在 AWS 雲端進行了效能基準測試。基準測試範例在以下章節中說明。 
+---
+= AWS FSx ONTAP中的效能概述與驗證
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+在NetApp NFS 上安裝儲存層的 Kafka 叢集在 AWS FSx ONTAP中進行了效能基準測試。基準測試範例在以下章節中說明。
+
+
+
+== AWS FSx ONTAP中的 Apache Kafka
+
+網路檔案系統 (NFS) 是一種廣泛用於儲存大量資料的網路檔案系統。在大多數組織中，資料越來越多地由 Apache Kafka 等串流應用程式產生。這些工作負載需要可擴展性、低延遲以及具有現代儲存功能的強大資料擷取架構。為了實現即時分析並提供可操作的見解，需要精心設計且高效能的基礎架構。
+
+Kafka 在設計上與 POSIX 相容的檔案系統協同工作，並依賴該檔案系統來處理檔案操作，但是在 NFSv3 檔案系統上儲存資料時，Kafka 代理程式 NFS 用戶端可以以不同於 XFS 或 Ext4 等本機檔案系統的方式解釋檔案操作。一個常見的例子是 NFS Silly 重新命名，它導致 Kafka 代理在擴展叢集和重新分配分區時失敗。為了應對這項挑戰， NetApp更新了開源 Linux NFS 用戶端，這些變更現在已在 RHEL8.7、RHEL9.1 中普遍可用，並且從目前 FSx ONTAP版本ONTAP 9.12.1 開始受支援。
+
+Amazon FSx ONTAP在雲端提供完全託管、可擴展且高效能的 NFS 檔案系統。  FSx ONTAP上的 Kafka 資料可以擴展以處理大量資料並確保容錯能力。  NFS 為關鍵和敏感資料集提供集中儲存管理和資料保護。
+
+這些增強功能使 AWS 客戶能夠在 AWS 運算服務上執行 Kafka 工作負載時利用 FSx ONTAP 。這些好處是：* 降低 CPU 使用率以減少 I/O 等待時間* 更快的 Kafka 代理程式恢復時間。  * 可靠性和效率。  * 可擴展性和效能。  * 多可用區域可用性。  * 資料保護。
+
+
+
+=== AWS FSx ONTAP中的效能概述與驗證
+
+在NetApp NFS 上安裝儲存層的 Kafka 叢集在 AWS 雲端進行了效能基準測試。基準測試範例在以下章節中說明。
+
+
+
+==== AWS FSx ONTAP中的 Kafka
+
+使用 AWS FSx ONTAP 的Kafka 叢集在 AWS 雲端中進行了效能基準測試。以下章節描述了此基準測試。
+
+
+
+==== 建築設置
+
+下表顯示了使用 AWS FSx ONTAP 的Kafka 叢集的環境配置。
+
+|===
+| 平台組件 | 環境配置 
+
+
+| 卡夫卡 3.2.3  a| 
+* 3 位動物園管理員 – t2.small
+* 3 個代理伺服器 – i3en.2xlarge
+* 1 x Grafana – c5n.2xlarge
+* 4 x 生產者/消費者 -- c5n.2xlarge *
+
+
+
+
+| 所有節點上的作業系統 | RHEL8.6 
+
+
+| AWS FSx ONTAP | 多可用區，吞吐量 4GB/秒，IOPS 160000 
+|===
+
+
+==== NetApp FSx ONTAP設定
+
+. 在我們的初步測試中，我們建立了一個容量為 2TB、吞吐量為 40000 IOP 的 FSx ONTAP檔案系統，吞吐量為 2GB/秒。
++
+....
+[root@ip-172-31-33-69 ~]# aws fsx create-file-system --region us-east-2  --storage-capacity 2048 --subnet-ids <desired subnet 1> subnet-<desired subnet 2> --file-system-type ONTAP --ontap-configuration DeploymentType=MULTI_AZ_HA_1,ThroughputCapacity=2048,PreferredSubnetId=<desired primary subnet>,FsxAdminPassword=<new password>,DiskIopsConfiguration="{Mode=USER_PROVISIONED,Iops=40000"}
+....
++
+在我們的範例中，我們透過 AWS CLI 部署 FSx ONTAP 。您將需要根據需要在您的環境中進一步自訂命令。  FSx ONTAP還可以透過 AWS 控制台進行部署和管理，從而透過更少的命令列輸入獲得更輕鬆、更簡化的部署體驗。
+
++
+文件在 FSx ONTAP中，我們測試區域（US-East-1）中 2GB/秒吞吐量檔案系統可實現的最大 IOPS 為 80,000 iops。  FSx ONTAP檔案系統的最大總 iops 為 160,000 iops，需要 4GB/秒的吞吐量部署才能實現，我們將在本文檔的後面進行演示。
+
++
+有關 FSx ONTAP性能規格的更多信息，請隨時訪問此處的 AWS FSx ONTAP文件： https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/performance.html[] 。
+
++
+FSx「create-file-system」的詳細命令列語法可以在這裡找到： https://docs.aws.amazon.com/cli/latest/reference/fsx/create-file-system.html[]
+
++
+例如，您可以指定特定的 KMS 金鑰，而不是在未指定 KMS 金鑰時使用的預設 AWS FSx 主金鑰。
+
+. 在建立 FSx ONTAP檔案系統時，請按照以下方式描述您的檔案系統，等待 JSON 返回中的「LifeCycle」狀態變為「AVAILABLE」：
++
+....
+[root@ip-172-31-33-69 ~]# aws fsx describe-file-systems  --region us-east-1 --file-system-ids fs-02ff04bab5ce01c7c
+....
+. 透過使用 fsxadmin 使用者登入 FSx ONTAP SSH 來驗證憑證：Fsxadmin 是 FSx ONTAP檔案系統建立時的預設管理員帳戶。  fsxadmin 的密碼是首次在 AWS 主控台或使用 AWS CLI 建立檔案系統時所配置的密碼，如我們在步驟 1 中完成的密碼，如我們在步驟 1 中完成的密碼。
++
+....
+[root@ip-172-31-33-69 ~]# ssh fsxadmin@198.19.250.244
+The authenticity of host '198.19.250.244 (198.19.250.244)' can't be established.
+ED25519 key fingerprint is SHA256:mgCyRXJfWRc2d/jOjFbMBsUcYOWjxoIky0ltHvVDL/Y.
+This key is not known by any other names
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '198.19.250.244' (ED25519) to the list of known hosts.
+(fsxadmin@198.19.250.244) Password:
+
+This is your first recorded login.
+....
+. 驗證您的憑證後，在 FSx ONTAP檔案系統上建立儲存虛擬機
++
+....
+[root@ip-172-31-33-69 ~]# aws fsx --region us-east-1 create-storage-virtual-machine --name svmkafkatest --file-system-id fs-02ff04bab5ce01c7c
+....
++
+儲存虛擬機器 (SVM) 是一個獨立的檔案伺服器，具有自己的管理憑證和端點，用於管理和存取 FSx ONTAP磁碟區中的數據，並提供 FSx ONTAP多租用戶。
+
+. 配置好主儲存虛擬機器後，透過 SSH 進入新建立的 FSx ONTAP檔案系統，並使用下列範例命令在儲存虛擬機器中建立卷，同樣，我們為此驗證會建立 6 個磁碟區。根據我們的驗證，保留預設成分（8）或更少的成分將為 kafka 提供更好的性能。
++
+....
+FsxId02ff04bab5ce01c7c::*> volume create -volume kafkafsxN1 -state online -policy default -unix-permissions ---rwxr-xr-x -junction-active true -type RW -snapshot-policy none  -junction-path /kafkafsxN1 -aggr-list aggr1
+....
+. 我們的測試需要額外的容量。將磁碟區的大小擴展至 2TB 並安裝在連線路徑上。
++
+....
+FsxId02ff04bab5ce01c7c::*> volume size -volume kafkafsxN1 -new-size +2TB
+vol size: Volume "svmkafkatest:kafkafsxN1" size set to 2.10t.
+
+FsxId02ff04bab5ce01c7c::*> volume size -volume kafkafsxN2 -new-size +2TB
+vol size: Volume "svmkafkatest:kafkafsxN2" size set to 2.10t.
+
+FsxId02ff04bab5ce01c7c::*> volume size -volume kafkafsxN3 -new-size +2TB
+vol size: Volume "svmkafkatest:kafkafsxN3" size set to 2.10t.
+
+FsxId02ff04bab5ce01c7c::*> volume size -volume kafkafsxN4 -new-size +2TB
+vol size: Volume "svmkafkatest:kafkafsxN4" size set to 2.10t.
+
+FsxId02ff04bab5ce01c7c::*> volume size -volume kafkafsxN5 -new-size +2TB
+vol size: Volume "svmkafkatest:kafkafsxN5" size set to 2.10t.
+
+FsxId02ff04bab5ce01c7c::*> volume size -volume kafkafsxN6 -new-size +2TB
+vol size: Volume "svmkafkatest:kafkafsxN6" size set to 2.10t.
+
+FsxId02ff04bab5ce01c7c::*> volume show -vserver svmkafkatest -volume *
+Vserver   Volume       Aggregate    State      Type       Size  Available Used%
+--------- ------------ ------------ ---------- ---- ---------- ---------- -----
+svmkafkatest
+          kafkafsxN1   -            online     RW       2.10TB     1.99TB    0%
+svmkafkatest
+          kafkafsxN2   -            online     RW       2.10TB     1.99TB    0%
+svmkafkatest
+          kafkafsxN3   -            online     RW       2.10TB     1.99TB    0%
+svmkafkatest
+          kafkafsxN4   -            online     RW       2.10TB     1.99TB    0%
+svmkafkatest
+          kafkafsxN5   -            online     RW       2.10TB     1.99TB    0%
+svmkafkatest
+          kafkafsxN6   -            online     RW       2.10TB     1.99TB    0%
+svmkafkatest
+          svmkafkatest_root
+                       aggr1        online     RW          1GB    968.1MB    0%
+7 entries were displayed.
+
+FsxId02ff04bab5ce01c7c::*> volume mount -volume kafkafsxN1 -junction-path /kafkafsxN1
+
+FsxId02ff04bab5ce01c7c::*> volume mount -volume kafkafsxN2 -junction-path /kafkafsxN2
+
+FsxId02ff04bab5ce01c7c::*> volume mount -volume kafkafsxN3 -junction-path /kafkafsxN3
+
+FsxId02ff04bab5ce01c7c::*> volume mount -volume kafkafsxN4 -junction-path /kafkafsxN4
+
+FsxId02ff04bab5ce01c7c::*> volume mount -volume kafkafsxN5 -junction-path /kafkafsxN5
+
+FsxId02ff04bab5ce01c7c::*> volume mount -volume kafkafsxN6 -junction-path /kafkafsxN6
+....
++
+在 FSx ONTAP中，磁碟區可以進行精簡配置。在我們的範例中，擴充磁碟區的總容量超過了檔案系統的總容量，因此我們需要擴展檔案系統的總容量以解鎖額外的預配置磁碟區容量，我們將在下一步中示範這一點。
+
+. 接下來，為了提高效能和容量，我們將 FSx ONTAP吞吐容量從 2GB/秒擴展到 4GB/秒，IOPS 擴展到 160000，容量擴展到 5 TB
++
+....
+[root@ip-172-31-33-69 ~]# aws fsx update-file-system --region us-east-1  --storage-capacity 5120 --ontap-configuration 'ThroughputCapacity=4096,DiskIopsConfiguration={Mode=USER_PROVISIONED,Iops=160000}' --file-system-id fs-02ff04bab5ce01c7c
+....
++
+FSx「update-file-system」的詳細命令列語法可以在這裡找到：https://docs.aws.amazon.com/cli/latest/reference/fsx/update-file-system.html[]
+
+. FSx ONTAP磁碟區透過 nconnect 和 Kafka 代理程式中的預設選項進行掛載
++
+下圖展示了我們基於 FSx ONTAP 的Kafka 叢集的最終架構：
+
++
+image:aws-fsx-kafka-architecture.png["此圖顯示了基於 FSx ONTAP的 Kafka 叢集的架構。"]
+
++
+** 計算。我們使用了三節點 Kafka 集群，並在專用伺服器上運行三節點 zookeeper 集合。每個代理程式有六個 NFS 掛載點，分別指向 FSx ONTAP實例上的六個磁碟區。
+** 監控。我們使用兩個節點來實現 Prometheus-Grafana 組合。為了產生工作負載，我們使用了一個單獨的三節點集群，該集群可以為該 Kafka 集群生產和消費。
+** 貯存。我們使用了安裝了六個 2TB 磁碟區的 FSx ONTAP 。然後將該磁碟區匯出到具有 NFS 掛載的 Kafka 代理程式。 FSx ONTAP磁碟區在 Kafka 代理程式中安裝了 16 個 nconnect 會話和預設選項。
+
+
+
+
+
+
+==== OpenMessage 基準測試配置。
+
+我們使用了與NetApp Cloud Volumes ONTAP相同的配置，其詳細資訊請參閱此處 - link:kafka-nfs-performance-overview-and-validation-in-aws.html#architectural-setup
+
+
+
+==== 測試方法
+
+. 根據上面描述的規範，使用 terraform 和 ansible 配置了 Kafka 叢集。  Terraform 用於使用 AWS 執行個體為 Kafka 叢集建置基礎設施，並且 ansible 在其上建置 Kafka 叢集。
+. 使用上面描述的工作負載配置和同步驅動程式觸發了 OMB 工作負載。
++
+....
+sudo bin/benchmark –drivers driver-kafka/kafka-sync.yaml workloads/1-topic-100-partitions-1kb.yaml
+....
+. 使用具有相同工作負載配置的吞吐量驅動程式觸發了另一個工作負載。
++
+....
+sudo bin/benchmark –drivers driver-kafka/kafka-throughput.yaml workloads/1-topic-100-partitions-1kb.yaml
+....
+
+
+
+
+==== 觀察
+
+使用兩種不同類型的驅動程式來產生工作負載，以對在 NFS 上執行的 Kafka 執行個體的效能進行基準測試。驅動程式之間的差異在於日誌刷新屬性。
+
+對於 Kafka 複製因子 1 和 FSx ONTAP：
+
+* 同步驅動程式持續產生的總吞吐量：~ 3218 MBps，峰值效能約為 3652 MBps。
+* 吞吐量驅動程式持續產生的總吞吐量：~ 3679 MBps，峰值效能為 ~ 3908 MBps。
+
+
+對於複製因子為 3 且具有 FSx ONTAP 的Kafka：
+
+* 同步驅動程式持續產生的總吞吐量：~ 1252 MBps，峰值效能約為 1382 MBps。
+* 吞吐量驅動程式持續產生的總吞吐量：~ 1218 MBps，峰值效能約為 1328 MBps。
+
+
+在 Kafka 複製因子 3 中，讀寫操作在 FSx ONTAP上發生了三次，在 Kafka 複製因子 1 中，讀寫操作在 FSx ONTAP上發生了一次，因此在兩種驗證中，我們都能夠達到 4GB/秒的最大吞吐量。
+
+由於日誌會立即刷新到磁碟，因此同步驅動程式可以產生一致的吞吐量，而由於日誌會批次提交到磁碟，因此吞吐量驅動程式會產生突發性的吞吐量。
+
+這些吞吐量數字是針對給定的 AWS 配置產生的。對於更高的效能要求，可以擴大實例類型並進一步調整以獲得更好的吞吐量數字。總吞吐量或總速率是生產者和消費者速率的組合。
+
+image:aws-fsxn-performance-rf-1-rf-3.png["此圖顯示了 Kafka 與 RF1 和 RF3 的效能"]
+
+下圖顯示了 Kafka 複製因子 3 的 2GB/秒 FSx ONTAP和 4GB/秒效能。複製因子 3 在 FSx ONTAP儲存上執行三次讀寫操作。吞吐量驅動程式的總速率為 881 MB/秒，在 2GB/秒 FSx ONTAP檔案系統上以大約 2.64 GB/秒的速度讀取和寫入 Kafka 操作，吞吐量驅動程式的總速率為 1328 MB/秒，以大約 3.98 GB/秒的速度讀取和寫入 kafka 操作。  Kafka 效能是線性的，並且基於 FSx ONTAP吞吐量可擴充。
+
+image:aws-fsxn-2gb-4gb-scale.png["此圖顯示了 2GB/秒和 4GB/秒的擴充效能。"]
+
+下圖顯示了 EC2 執行個體與 FSx ONTAP之間的效能（Kafka 複製因子：3）
+
+image:aws-fsxn-ec2-fsxn-comparition.png["此圖顯示了 EC2 與 FSx ONTAP在 RF3 中的效能比較。"]

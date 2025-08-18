@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-eseries-nva1150-design.html 
+keywords:  
+summary:  
+---
+= NVA-1150-DESIGN：Quantum StorNext 與NetApp E 系列系統設計指南
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+NetApp的 Ryan Rodine
+
+[role="lead"]
+本文檔詳細介紹如何使用NetApp E 系列儲存系統設計 StorNext 平行檔案系統解決方案。此解決方案涵蓋NetApp EF280 全快閃陣列、 NetApp EF300 全快閃 NVMe 陣列、EF600 全快閃 NVMe 陣列和NetApp E5760 混合系統。它提供基於 Frametest 基準測試的效能表徵，Frametest 是一種廣泛用於媒體和娛樂產業測試的工具。
+
+link:https://www.netapp.com/pdf.html?item=/media/19426-nva-1150-design.pdf["NVA-1150-DESIGN：Quantum StorNext 與NetApp E 系列系統設計指南"^]

@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: software/ai-conf-protopia-speed.html 
+keywords: speed, obfuscation, pytorch 
+summary: 為了進行此驗證，我們將 Protopia 混淆應用於 1920 x 1080 像素影像五次，並測量每次完成混淆步驟所需的時間。 
+---
+= 混淆速度
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+為了進行此驗證，我們將 Protopia 混淆應用於 1920 x 1080 像素影像五次，並測量每次完成混淆步驟所需的時間。
+
+我們使用在單一NVIDIA V100 GPU 上運行的 PyTorch 來應用混淆，並在運行之間清除了 GPU 快取。在五次運行中，混淆步驟分別花費 5.47ms、5.27ms、4.54ms、5.24ms 和 4.84ms 完成。平均速度為5.072毫秒。

@@ -1,0 +1,225 @@
+---
+sidebar: sidebar 
+permalink: software/ai-osmlops-concepts.html 
+keywords: MLOps, Trident, ONTAP, containers, AI, Kubernetes, Kubeflow, Jupyter, Airflow, MLflow, JupyterHub 
+summary: NetApp的開源 MLOps - 技術概述 
+---
+= 技術概述
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本節重點介紹NetApp的 OpenSource MLOps 技術概述。
+
+
+
+== 人工智慧
+
+人工智慧是一門電腦科學學科，其中電腦經過訓練可以模仿人類思維的認知功能。人工智慧開發人員訓練電腦以類似於人類甚至優於人類的方式學習和解決問題。深度學習和機器學習是人工智慧的子領域。越來越多的組織採用 AI、ML 和 DL 來支援其關鍵業務需求。以下是一些範例：
+
+* 分析大量數據以發掘以前未知的商業見解
+* 使用自然語言處理直接與客戶互動
+* 自動化各種業務流程與功能
+
+
+現代人工智慧訓練和推理工作負載需要大規模並行運算能力。因此，GPU 越來越多地被用於執行 AI 操作，因為 GPU 的平行處理能力遠遠優於通用 CPU。
+
+
+
+== 容器
+
+容器是在共享主機作業系統核心上運行的隔離的使用者空間實例。容器的採用正在迅速增加。容器提供許多與虛擬機器 (VM) 相同的應用程式沙盒優勢。然而，由於虛擬機器所依賴的虛擬機器管理程式和客戶作業系統層已被消除，因此容器變得更加輕量級。下圖描述了虛擬機器與容器的可視化。
+
+容器還允許直接將應用程式依賴項、運行時間等與應用程式有效率地打包在一起。最常用的容器打包格式是Docker容器。以 Docker 容器格式容器化的應用程式可以在任何可以執行 Docker 容器的機器上執行。即使應用程式的依賴項不存在於機器上，情況也是如此，因為所有依賴項都打包在容器本身中。欲了解更多信息，請訪問 https://www.docker.com["Docker 網站"^]。
+
+image:aicp-002.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+
+
+== Kubernetes
+
+Kubernetes 是一個開源的、分散式的容器編排平台，最初由 Google 設計，現在由雲端原生運算基金會 (CNCF) 維護。 Kubernetes 支援容器化應用程式的部署、管理和擴充功能的自動化。近年來，Kubernetes 已成為主流的容器編排平台。欲了解更多信息，請訪問 https://kubernetes.io["Kubernetes 網站"^]。
+
+
+
+== NetApp Trident
+
+link:https://docs.netapp.com/us-en/trident/index.html["Trident"^]支援在所有流行的NetApp儲存平台上（公有雲或內部）使用和管理儲存資源，包括ONTAP （AFF、 FAS、Select、Cloud、 Amazon FSx ONTAP）、 Azure NetApp Files服務和Google Cloud NetApp Volumes。  Trident是一個符合容器儲存介面 (CSI) 的動態儲存編排器，可與 Kubernetes 原生整合。
+
+
+
+== NetApp DataOps 工具包
+
+這link:https://github.com/NetApp/netapp-dataops-toolkit["NetApp DataOps 工具包"^]是一個基於 Python 的工具，可簡化由高效能、橫向擴展NetApp儲存支援的開發/培訓工作區和推理伺服器的管理。主要功能包括：
+
+* 快速配置由高效能、橫向擴展NetApp儲存支援的新的高容量工作區。
+* 近乎即時地克隆高容量工作區，以實現實驗或快速迭代。
+* 幾乎即時地保存高容量工作區的快照，以用於備份和/或可追溯性/基準測試。
+* 近乎即時地提供、複製和快照大容量、高效能資料磁碟區。
+
+
+
+
+== Apache Airflow
+
+Apache Airflow 是一個開源工作流程管理平台，支援以程式設計方式編寫、排程和監控複雜的企業工作流程。它通常用於自動化 ETL 和資料管道工作流程，但並不局限於這些類型的工作流程。  Airflow 計畫由 Airbnb 發起，但後來在業界變得非常流行，現在由 Apache 軟體基金會贊助。 Airflow 是用 Python 編寫的，Airflow 工作流程是透過 Python 腳本建立的，而 Airflow 是在「配置即程式碼」的原則下設計的。許多企業 Airflow 用戶現在在 Kubernetes 上運行 Airflow。
+
+
+
+=== 有向無環圖（DAG）
+
+在 Airflow 中，工作流程被稱為有向無環圖 (DAG)。  DAG 由依序、並行或兩者結合執行的任務組成，取決於 DAG 定義。  Airflow 排程器在一組工作器上執行各個任務，遵守 DAG 定義中指定的任務層級依賴關係。  DAG 是透過 Python 腳本定義和建立的。
+
+
+
+== Jupyter 筆記本
+
+Jupyter Notebooks 是類似 wiki 的文檔，包含即時程式碼和描述性文字。 Jupyter Notebooks 在 AI 和 ML 社群中被廣泛用作記錄、儲存和共享 AI 和 ML 專案的一種方式。有關 Jupyter Notebooks 的更多信息，請訪問 http://www.jupyter.org/["Jupyter 網站"^]。
+
+
+
+=== Jupyter Notebook 伺服器
+
+Jupyter Notebook 伺服器是一個開源 Web 應用程序，允許使用者建立 Jupyter Notebook。
+
+
+
+== JupyterHub
+
+JupyterHub 是一個多用戶應用程序，允許個人用戶配置和存取自己的 Jupyter Notebook 伺服器。有關 JupyterHub 的更多信息，請訪問 https://jupyter.org/hub["JupyterHub 網站"^]。
+
+
+
+== 機器學習流
+
+MLflow 是一個流行的開源 AI 生命週期管理平台。 MLflow 的主要功能包括 AI/ML 實驗追蹤和 AI/ML 模型庫。有關 MLflow 的更多信息，請訪問 https://www.mlflow.org/["MLflow 網站"^]。
+
+
+
+== Kubeflow
+
+Kubeflow 是 Kubernetes 的開源 AI 和 ML 工具包，最初由 Google 開發。  Kubeflow 專案使得在 Kubernetes 上部署 AI 和 ML 工作流程變得簡單、可移植且可擴充。 Kubeflow 抽象化了 Kubernetes 的複雜性，使資料科學家能夠專注於他們最了解的領域——資料科學。請參考下圖以了解視覺化效果。對於喜歡一體化 MLOps 平台的組織來說，Kubeflow 是一個不錯的開源選擇。欲了解更多信息，請訪問 http://www.kubeflow.org/["Kubeflow 網站"^]。
+
+
+
+=== Kubeflow 管道
+
+Kubeflow Pipelines 是 Kubeflow 的關鍵元件。 Kubeflow Pipelines 是一個用於定義和部署可移植、可擴展的 AI 和 ML 工作流程的平台和標準。有關詳細信息，請參閱 https://www.kubeflow.org/docs/components/pipelines/["Kubeflow 官方文檔"^]。
+
+
+
+=== Kubeflow 筆記本
+
+Kubeflow 簡化了 Kubernetes 上 Jupyter Notebook 伺服器的設定和部署。有關 Kubeflow 上下文中的 Jupyter Notebooks 的更多信息，請參閱 https://www.kubeflow.org/docs/components/notebooks/overview/["Kubeflow 官方文檔"^]。
+
+
+
+=== 卡提布
+
+Katib 是一個用於自動化機器學習 (AutoML) 的 Kubernetes 原生專案。  Katib 支援超參數調整、早期停止和神經架構搜尋 (NAS)。 Katib 是一個與機器學習 (ML) 框架無關的專案。它可以調整使用者選擇的任何語言編寫的應用程式的超參數，並且原生支援許多 ML 框架，例如 TensorFlow、MXNet、PyTorch、XGBoost 等。 Katib 支援許多不同的 AutoML 演算法，例如貝葉斯優化、Parzen 估計器樹、隨機搜尋、協方差矩陣自適應進化策略、超頻、高效能神經架構搜尋、可微分架構搜尋等等。有關 Kubeflow 上下文中的 Jupyter Notebooks 的更多信息，請參閱 https://www.kubeflow.org/docs/components/katib/overview/["Kubeflow 官方文檔"^]。
+
+
+
+== NetApp ONTAP
+
+ONTAP 9 是NetApp最新一代儲存管理軟體，它支援企業實現基礎架構現代化並過渡到雲端就緒資料中心。 ONTAP利用業界領先的數據管理功能，只需一套工具即可管理和保護數據，無論數據位於何處。您也可以將資料自由移動到任何需要的地方：邊緣、核心或雲端。  ONTAP 9 包含眾多功能，可簡化資料管理、加速和保護關鍵數據，並支援跨混合雲架構的下一代基礎架構功能。
+
+
+
+=== 簡化資料管理
+
+資料管理對於企業 IT 營運和資料科學家至關重要，以便將適當的資源用於 AI 應用程式和訓練 AI/ML 資料集。以下有關NetApp技術的附加資訊超出了本次驗證的範圍，但可能與您的部署相關。
+
+ONTAP資料管理軟體包括以下功能，可簡化操作並降低總營運成本：
+
+* 內聯資料壓縮和擴展重複資料刪除。資料壓縮減少了儲存區塊內部浪費的空間，重複資料刪除顯著增加了有效容量。這適用於本地儲存的資料和分層到雲端的資料。
+* 最小、最大和自適應服務品質 (AQoS)。細粒度的服務品質 (QoS) 控制有助於維持高度共享環境中關鍵應用程式的效能水準。
+* NetApp FabricPool。提供冷資料到公有和私有雲儲存選項的自動分層，包括 Amazon Web Services (AWS)、Azure 和NetApp StorageGRID儲存解決方案。有關FabricPool的更多信息，請參閱 https://www.netapp.com/pdf.html?item=/media/17239-tr4598pdf.pdf["TR-4598： FabricPool最佳實踐"^]。
+
+
+
+
+=== 加速並保護數據
+
+ONTAP提供卓越等級的效能和資料保護，並透過以下方式擴展這些功能：
+
+* 性能和更低的延遲。  ONTAP以盡可能低的延遲提供盡可能高的吞吐量。
+* 資料保護。  ONTAP提供內建資料保護功能，並在所有平台上提供通用管理。
+* NetApp磁碟區加密 (NVE)。  ONTAP提供原生磁碟區級加密，同時支援板載和外部金鑰管理。
+* 多租戶和多因素身份驗證。  ONTAP支援以最高等級的安全性共用基礎架構資源。
+
+
+
+
+=== 面向未來的基礎設施
+
+ONTAP具有以下功能，可協助滿足嚴苛且不斷變化的業務需求：
+
+* 無縫擴展和無中斷運行。 ONTAP支援無中斷地向現有控制器和橫向擴展叢集添加容量。客戶可以升級到最新技術，而無需昂貴的資料遷移或中斷。
+* 雲端連線。  ONTAP是與雲端連線最緊密的儲存管理軟體，在所有公有雲中提供軟體定義儲存和雲端原生執行個體的選項。
+* 與新興應用程式的整合。  ONTAP使用支援現有企業應用的相同基礎架構，為下一代平台和應用（如自動駕駛汽車、智慧城市和工業 4.0）提供企業級資料服務。
+
+
+
+
+== NetApp快照副本
+
+NetApp Snapshot 副本是磁碟區的唯讀、時間點映像。該影像佔用的儲存空間極小，且產生的效能開銷可以忽略不計，因為它僅記錄自上次 Snapshot 副本建立以來對檔案的更改，如下圖所示。
+
+Snapshot 副本的效率歸功於核心ONTAP儲存虛擬化技術，即任意位置寫入檔案佈局 (WAFL)。與資料庫一樣， WAFL使用元資料指向磁碟上的實際資料區塊。但是，與資料庫不同， WAFL不會覆蓋現有區塊。它將更新的資料寫入新區塊並更改元資料。這是因為ONTAP在創建 Snapshot 副本時引用元數據，而不是複製數據塊，所以 Snapshot 副本非常有效率。這樣做可以消除其他系統在定位要複製的區塊時產生的尋道時間，以及複製本身的成本。
+
+您可以使用 Snapshot 副本來還原單一檔案或 LUN，或還原磁碟區的全部內容。  ONTAP將 Snapshot 副本中的指標資訊與磁碟上的資料進行比較，以重建遺失或損壞的對象，而無需停機或造成顯著的效能成本。
+
+image:aicp-004.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+
+
+== NetApp FlexClone技術
+
+NetApp FlexClone技術參考 Snapshot 元資料來建立磁碟區的可寫入時間點副本。副本與其父級共用資料塊，除了元資料所需的儲存空間外，不消耗任何儲存空間，直到將變更寫入副本為止，如下圖所示。傳統的複製可能需要幾分鐘甚至幾小時才能創建，而FlexClone軟體可以讓您幾乎立即複製最大的資料集。這使得它非常適合需要相同資料集的多個副本（例如，開發工作區）或資料集的臨時副本（針對生產資料集測試應用程式）的情況。
+
+image:aicp-005.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+
+
+== NetApp SnapMirror資料複製技術
+
+NetApp SnapMirror軟體是一種跨資料結構的經濟高效、易於使用的統一複製解決方案。它透過 LAN 或 WAN 高速複製資料。它為所有類型的應用程式（包括虛擬和傳統環境中的關鍵業務應用程式）提供高資料可用性和快速資料複製。當您將資料複製到一個或多個NetApp儲存系統並不斷更新輔助資料時，您的資料將保持最新狀態並可隨時使用。不需要外部複製伺服器。下圖是利用SnapMirror技術的架構範例。
+
+SnapMirror軟體透過網路僅發送更改的區塊來利用NetApp ONTAP儲存效率。 SnapMirror軟體還使用內建網路壓縮來加速資料傳輸並將網路頻寬利用率降低高達 70%。借助SnapMirror技術，您可以利用一個精簡複製資料流來建立一個儲存庫，同時維護活動鏡像和先前的時間點副本，從而將網路流量減少高達 50%。
+
+
+
+== NetApp BlueXP複製與同步
+
+link:https://bluexp.netapp.com/cloud-sync-service["BlueXP複製和同步"^]是NetApp 的一項快速、安全的資料同步服務。無論您需要在本機 NFS 或 SMB 檔案共用、 NetApp StorageGRID、 NetApp ONTAP S3、 Google Cloud NetApp Volumes、 Azure NetApp Files、AWS S3、AWS EFS、Azure Blob、Google Cloud Storage 或 IBM CloudObject Storage 之間傳輸檔案， BlueXP Copy and Sync 都能快速安全地移動到您的位置。
+
+資料傳輸完成後，可在來源端和目標端完全使用。 BlueXP Copy and Sync 可以在觸發更新時按需同步數據，或根據預先定義的時間表連續同步數據。無論如何， BlueXP Copy and Sync 僅移動增量，因此在資料複製上花費的時間和金錢被最小化。
+
+BlueXP Copy and Sync 是一種軟體即服務 (SaaS) 工具，其設定和使用極為簡單。  BlueXP Copy 和 Sync 觸發的資料傳輸由資料代理執行。  BlueXP Copy 和 Sync 資料代理程式可以部署在 AWS、Azure、Google Cloud Platform 或本地端。
+
+
+
+== NetApp XCP
+
+link:https://xcp.netapp.com/["NetApp XCP"^]是一款基於客戶端的軟體，用於任意到NetApp和NetApp到NetApp 的資料遷移和檔案系統洞察。  XCP 旨在透過利用所有可用的系統資源來處理大容量資料集和高效能遷移，從而實現擴展並實現最大效能。  XCP 可協助您全面了解檔案系統，並提供產生報告的選項。
+
+
+
+== NetApp ONTAP FlexGroup卷
+
+訓練資料集可能包含數十億個檔案。文件可以包括文字、音訊、視訊和其他形式的非結構化數據，這些數據必須儲存和處理才能並行讀取。儲存系統必須儲存大量小文件，並且必須並行讀取這些文件以實現順序和隨機 I/O。
+
+FlexGroup磁碟區是一個由多個組成成員磁碟區組成的單一命名空間，如下圖所示。從儲存管理員的角度來看， FlexGroup磁碟區的管理和行為類似於NetApp FlexVol volume。 FlexGroup卷中的檔案被指派給各個成員卷，並且不會跨卷或節點進行條帶化。它們支援以下功能：
+
+* FlexGroup磁碟區為高元資料工作負載提供了數 PB 的容量和可預測的低延遲。
+* 它們支援同一命名空間中最多 4000 億個檔案。
+* 它們支援跨 CPU、節點、聚合體和組成FlexVol磁碟區的 NAS 工作負載的平行操作。
+
+
+image:aicp-007.png["此圖顯示輸入/輸出對話框或表示書面內容"]

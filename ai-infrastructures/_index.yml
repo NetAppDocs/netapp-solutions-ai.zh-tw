@@ -1,0 +1,30 @@
+---
+indexpage:
+  title: NetApp AI 基礎架構與融合系統
+  summary: 利用 NetApp 經過驗證的參考架構和融合系統部署企業級 AI 基礎架構。從NetApp AIPod解決方案到高效能儲存平台，我們的設計可提供要求嚴苛的
+    AI/ML 工作負載所需的效能、可擴充性和可靠性。
+  lead: 利用 NetApp 經過驗證的參考架構和融合系統部署企業級 AI 基礎架構。從NetApp AIPod解決方案到高效能儲存平台，我們的設計可提供要求嚴苛的
+    AI/ML 工作負載所需的效能、可擴充性和可靠性。
+  tiles:
+  - title: NetApp AIPod參考架構
+    links:
+    - title: 搭載NVIDIA DGX 系統的NetApp AIPod
+      url: "../infra/ai-aipod-nv-intro.html"
+    - title: NetApp AIPod與聯想攜手為NVIDIA OVX 提供支持
+      url: "../infra/ai-aipod-lenovo-nva1172.html"
+    - title: AIPod架構
+      url: "../infra/ai-aipod-nv-architecture.html"
+    - title: AIPod部署細節
+      url: "../infra/ai-aipod-nv-deploy.html"
+    - title: AIPod驗證和尺寸指南
+      url: "../infra/ai-aipod-nv-validation.html"
+  - title: 適用於 AI 工作負載的高效能存儲
+    links:
+    - title: 搭載 EF 系列儲存的NVIDIA DGX SuperPOD
+      url: "../infra/ai-eseries-superpod.html"
+    - title: E系列的BeeGFS平行檔案系統
+      url: "../infra/ai-eseries-beegfs.html"
+    - title: 配備 E 系列儲存的 IBM Spectrum Scale
+      url: "../infra/ai-eseries-spectrumscale.html"
+    - title: NetApp ONTAP與聯想 ThinkSystem
+      url: "../infra/ai-lenovo-train-intro.html"

@@ -1,0 +1,193 @@
+---
+section: data-analytics
+title: 現代數據分析
+url: "/data-analytics/index.html"
+entries:
+- title: 利用NetApp文件物件二元性和 AWS SageMaker 進行雲端資料管理
+  pdf-filename: 利用NetApp文件物件二元性和 AWS SageMaker 進行雲端資料管理
+  entries:
+  - title: 解決方案概述
+    url: "/data-analytics/cdm-fod-solution-overview.html"
+  - title: 解決方案技術
+    url: "/data-analytics/cdm-fod-solution-technology.html"
+  - title: 資料科學家和其他應用程式的資料二元性
+    url: "/data-analytics/cdm-fod-data-duality.html"
+  - title: 結論
+    url: "/data-analytics/cdm-fod-conclusion.html"
+- title: 使用NetApp NFS 儲存的 Apache Kafka 工作負載
+  pdf-filename: 使用NetApp NFS 儲存的 Apache Kafka 工作負載
+  entries:
+  - title: 介紹
+    url: "/data-analytics/kafka-nfs-introduction.html"
+  - title: NetApp針對 NFS 到 Kafka 工作負載中愚蠢重命名問題的解決方案
+    url: "/data-analytics/kafka-nfs-silly-rename-solution.html"
+  - title: 功能驗證 - 愚蠢的重命名修復
+    url: "/data-analytics/kafka-nfs-silly-rename-validate.html"
+  - title: 為什麼選擇NetApp NFS 來支援 Kafka 工作負載？
+    url: "/data-analytics/kafka-nfs-why-netapp.html"
+  - title: AWS 中的效能概述與驗證 - Cloud Volume ONTAP
+    url: "/data-analytics/kafka-nfs-perf-aws.html"
+  - title: AWS 中的效能概述與驗證 - FSx for NetApp ONTAP
+    url: "/data-analytics/kafka-nfs-perf-aws-fsxn.html"
+  - title: 使用AFF本地進行效能概述和驗證
+    url: "/data-analytics/kafka-nfs-perf-aff.html"
+  - title: 結論
+    url: "/data-analytics/kafka-nfs-conclusion.html"
+  - title: 在哪裡可以找到更多信息
+    url: "/data-analytics/kafka-nfs-additional-info.html"
+- title: Confluent Kafka 與NetApp ONTAP儲存控制器
+  pdf-filename: Confluent Kafka 與NetApp ONTAP儲存控制器
+  entries:
+  - title: 概況
+    url: "/data-analytics/kafka-ontap-overview.html"
+  - title: 解決方案
+    url: "/data-analytics/kafka-sc-solution.html"
+  - title: 技術概述
+    url: "/data-analytics/kafka-sc-technology-overview.html"
+  - title: 匯合性能驗證
+    url: "/data-analytics/kafka-sc-confluent-perf.html"
+  - title: 使用生產-消費性工作負載產生器進行效能測試
+    url: "/data-analytics/kafka-sc-performance.html"
+  - title: 性能最佳實踐指南
+    url: "/data-analytics/kafka-sc-best-practice.html"
+  - title: 結論
+    url: "/data-analytics/kafka-sc-conclusion.html"
+- title: 適用於 Apache Spark 的NetApp儲存解決方案
+  pdf-filename: 適用於 Apache Spark 的NetApp儲存解決方案
+  entries:
+  - title: 解決方案概述
+    url: "/data-analytics/apache-spark-solution-overview.html"
+  - title: 目標受眾
+    url: "/data-analytics/apache-spark-target-audience.html"
+  - title: 解決方案技術
+    url: "/data-analytics/apache-spark-solution-technology.html"
+  - title: NetApp Spark 解決方案概述
+    url: "/data-analytics/spark-solutions-overview.html"
+  - title: 用例摘要
+    url: "/data-analytics/apache-spark-use-cases-summary.html"
+  - title: 主要的 AI、ML 和 DL 用例和架構
+    url: "/data-analytics/spark-ai-use-cases.html"
+  - title: 測試結果
+    url: "/data-analytics/apache-spark-testing-results.html"
+  - title: 混合雲解決方案
+    url: "/data-analytics/spark-hybrid-cloud.html"
+  - title: 針對每個主要用例的 Python 腳本
+    url: "/data-analytics/spark-python-scripts.html"
+  - title: 結論
+    url: "/data-analytics/apache-spark-conclusion.html"
+  - title: 在哪裡可以找到更多信息
+    url: "/data-analytics/spark-additional-info.html"
+- title: 大數據分析到人工智慧
+  pdf-filename: 大數據分析到人工智慧
+  entries:
+  - title: 介紹
+    url: "/data-analytics/bda-ai-introduction.html"
+  - title: 客戶挑戰
+    url: "/data-analytics/bda-ai-customer-challenges.html"
+  - title: 數據移動器解決方案
+    url: "/data-analytics/bda-ai-data-mover-solution.html"
+  - title: 人工智慧資料移動解決方案
+    url: "/data-analytics/bda-ai-data-mover.html"
+  - title: GPFS 到NetApp ONTAP NFS
+    url: "/data-analytics/bda-ai-gpfs-to-netapp-ontap-nfs.html"
+  - title: HDFS 和 MapR-FS 到ONTAP NFS
+    url: "/data-analytics/bda-ai-hdfs-maprfs-to-nfs.html"
+  - title: 商業利益
+    url: "/data-analytics/bda-ai-business-benefits.html"
+  - title: GPFS 到 NFS - 詳細步驟
+    url: "/data-analytics/bda-ai-gpfs-to-nfs.html"
+  - title: MapR-FS 到ONTAP NFS
+    url: "/data-analytics/bda-ai-mapr-fs-to-ontap-nfs.html"
+  - title: 附加資訊
+    url: "/data-analytics/bda-ai-additional-info.html"
+- title: Confluent Kafka 的最佳實踐
+  pdf-filename: Confluent Kafka 的最佳實踐
+  entries:
+  - title: 介紹
+    url: "/data-analytics/confluent-kafka-introduction.html"
+  - title: 解決方案架構細節
+    url: "/data-analytics/confluent-kafka-solution.html"
+  - title: 技術概述
+    url: "/data-analytics/kafka-tech-overview.html"
+  - title: 匯合驗證
+    url: "/data-analytics/kafka-certification.html"
+  - title: 具有可擴展性的效能測試
+    url: "/data-analytics/kafka-perf.html"
+  - title: Confluent S3連接器
+    url: "/data-analytics/kafka-s3-connector.html"
+  - title: Confluent 自我再平衡集群
+    url: "/data-analytics/kafka-rebalance.html"
+  - title: 最佳實踐指南
+    url: "/data-analytics/kafka-best-practices.html"
+  - title: 漿紗
+    url: "/data-analytics/confluent-kafka-sizing.html"
+  - title: 結論
+    url: "/data-analytics/confluent-kafka-conclusion.html"
+- title: NetApp混合雲資料解決方案 - 基於客戶使用案例的 Spark 和 Hadoop
+  pdf-filename: NetApp混合雲資料解決方案 - 基於客戶使用案例的 Spark 和 Hadoop
+  entries:
+  - title: 解決方案概述
+    url: "/data-analytics/hdcs-sh-solution-overview.html"
+  - title: 由NetApp支援的適用於大數據架構的資料結構
+    url: "/data-analytics/hdcs-sh-data-fabric.html"
+  - title: Hadoop 資料保護與NetApp
+    url: "/data-analytics/hdcs-sh-hadoop-data-protection.html"
+  - title: Hadoop 資料保護案例概述
+    url: "/data-analytics/hdcs-sh-use-cases.html"
+  - title: 用例 1 - 備份 Hadoop 數據
+    url: "/data-analytics/hdcs-sh-use-case-backup.html"
+  - title: 用例 2 - 從雲端到本地的備份和災難恢復
+    url: "/data-analytics/hdcs-sh-use-case-backup-dr-cloud.html"
+  - title: 用例 3 - 在現有 Hadoop 資料上啟用 DevTest
+    url: "/data-analytics/hdcs-sh-use-case-devtest.html"
+  - title: 用例 4 - 資料保護和多雲連接
+    url: "/data-analytics/hdcs-sh-use-case-dp-multicloud.html"
+  - title: 用例 5 - 加速分析工作負載
+    url: "/data-analytics/hdcs-sh-use-case-analytics.html"
+  - title: 結論
+    url: "/data-analytics/hdcs-sh-conclusion.html"
+- title: NetApp和 Dremio 的下一代混合冰山湖屋解決方案
+  pdf-filename: NetApp和 Dremio 的下一代混合 Iceberg Lakehouse 解決方案
+  entries:
+  - title: 介紹
+    url: "/data-analytics/dremio-lakehouse-introduction.html"
+  - title: 解決方案概述
+    url: "/data-analytics/dremio-lakehouse-solution.html"
+  - title: 技術要求
+    url: "/data-analytics/dremio-lakehouse-tech-overview.html"
+  - title: 部署流程
+    url: "/data-analytics/dremio-lakehouse-deployment.html"
+  - title: 解決方案驗證概述
+    url: "/data-analytics/dremio-lakehouse-verification.html"
+  - title: 客戶用例
+    url: "/data-analytics/dremio-lakehouse-use-cases.html"
+  - title: 結論
+    url: "/data-analytics/dremio-lakehouse-conclusion.html"
+- title: 針對不同分析策略的不同解決方案
+  pdf-filename: 針對不同分析策略的不同解決方案解決方案簡介
+  url: "/data-analytics/sb-4154.html"
+- title: NetApp StorageGRID與 Splunk SmartStore
+  pdf-filename: NetApp StorageGRID與 Splunk SmartStore
+  entries:
+  - title: 介紹
+    url: "/data-analytics/stgr-splunkss-introduction.html"
+  - title: 解決方案概述
+    url: "/data-analytics/stgr-splunkss-solution-overview.html"
+  - title: 此解決方案的優勢
+    url: "/data-analytics/stgr-splunkss-solution-benefits.html"
+  - title: Splunk 架構
+    url: "/data-analytics/stgr-splunkss-arch.html"
+  - title: Splunk SmartStore 的StorageGRID功能
+    url: "/data-analytics/stgr-splunkss-storagegrid-feat.html"
+  - title: 分層和成本節省
+    url: "/data-analytics/stgr-splunkss-tiering-savings.html"
+  - title: 單站點 SmartStore 效能
+    url: "/data-analytics/stgr-splunkss-single-site-perf.html"
+  - title: 結論
+    url: "/data-analytics/stgr-splunkss-conclusion.html"
+- title: NetApp E系列E5700和Splunk Enterprise
+  pdf-filename: NetApp E系列E5700和Splunk Enterprise
+  url: "/data-analytics/tr-4623.html"
+- title: 使用NetApp儲存部署 Apache Spark 工作負載
+  pdf-filename: Apache Spark 工作負載與NetApp儲存解決方案（部署指南）
+  url: "/data-analytics/nva-1157-deploy.html"

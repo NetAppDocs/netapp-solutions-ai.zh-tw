@@ -1,0 +1,75 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/hdcs-sh-conclusion.html 
+keywords: conclusion, summary, data protection, hadoop, more information, Acknowledgements 
+summary: 本節概述了NetApp為滿足各種 Hadoop 資料保護要求而提供的用例和解決方案。 
+---
+= 結論
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本節概述了NetApp為滿足各種 Hadoop 資料保護要求而提供的用例和解決方案。透過使用由NetApp支援的資料結構，客戶可以：
+
+* 利用 NetApp 豐富的資料管理功能以及與 Hadoop 原生工作流程的集成，可以靈活地選擇正確的資料保護解決方案。
+* 將其 Hadoop 叢集備份視窗時間減少近 70%。
+* 消除 Hadoop 叢集備份造成的任何效能影響。
+* 同時為單一分析資料來源提供不同雲端供應商的多雲資料保護和資料存取。
+* 使用FlexClone技術建立快速且節省空間的 Hadoop 叢集副本。
+
+
+
+
+== 在哪裡可以找到更多信息
+
+要了解有關本文檔中描述的信息的更多信息，請參閱以下文檔和/或網站：
+
+* NetApp大數據分析解決方案
++
+https://www.netapp.com/us/solutions/applications/big-data-analytics/index.aspx["https://www.netapp.com/us/solutions/applications/big-data-analytics/index.aspx"^]
+
+* 使用NetApp儲存的 Apache Spark 工作負載
++
+https://www.netapp.com/pdf.html?item=/media/26877-nva-1157-deploy.pdf["https://www.netapp.com/pdf.html?item=/media/26877-nva-1157-deploy.pdf"^]
+
+* 適用於 Apache Spark 的NetApp儲存解決方案
++
+https://www.netapp.com/media/16864-tr-4570.pdf["https://www.netapp.com/media/16864-tr-4570.pdf"^]
+
+* NetApp支援的資料結構上的 Apache Hadoop
++
+https://www.netapp.com/media/16877-tr-4529.pdf["https://www.netapp.com/media/16877-tr-4529.pdf"^]
+
+
+
+
+
+== 致謝
+
+* Paul Burland， NetApp澳新銀行維多利亞區銷售部銷售代表
+* NetApp業務發展經理 Hoseb Dermanilian
+* NetApp MPSG 總監 Lee Dorrier
+* NetApp澳新銀行維多利亞區 SE 系統工程師 David Thiessen
+
+
+
+
+== 版本歷史記錄
+
+|===
+| 版本 | 日期 | 文件版本歷史記錄 
+
+
+| 版本 1.0 | 2018年1月 | 初始版本 
+
+
+| 版本 2.0 | 2021年10月 | 更新案例 #5：加速分析工作負載 
+
+
+| 版本 3.0 | 2023年11月 | 刪除了 NIPAM 詳細信息 
+|===

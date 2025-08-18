@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/tr-4623.html 
+keywords:  
+summary:  
+---
+= TR-4623： NetApp E 系列 E5700 和 Splunk Enterprise
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+NetApp的 Mitch Blackburn
+
+[role="lead"]
+TR-4623 描述了NetApp E 系列和 Splunk 設計的整合架構。此設計針對節點儲存均衡、可靠性、效能、儲存容量、密度等進行了最佳化，採用了Splunk聚集索引節點模型，具有更高的可擴展性和更低的TCO。將儲存與計算分離可以分別擴展，從而節省過度配置其中一個或另一個的成本。此外，本文檔也總結了透過Splunk機器日誌事件模擬工具所獲得的效能測試結果。
+
+link:https://www.netapp.com/pdf.html?item=/media/16851-tr-4623pdf.pdf["TR-4623： NetApp E 系列 E5700 和 Splunk Enterprise"^]

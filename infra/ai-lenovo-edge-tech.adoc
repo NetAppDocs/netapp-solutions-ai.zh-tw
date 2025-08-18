@@ -1,0 +1,225 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-lenovo-edge-tech.html 
+keywords: tech, technology, overview, aff, a220, a250, ef280, ef300, 
+summary: 本節介紹此AI解決方案的技術基礎。 
+---
+= 技術概述
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本節介紹此AI解決方案的技術基礎。
+
+
+
+== NetApp AFF系統
+
+最先進的NetApp AFF儲存系統支援邊緣 AI 推理部署，以業界領先的效能、卓越的靈活性、雲端整合和一流的資料管理滿足企業儲存需求。  NetApp AFF系統專為快閃記憶體設計，有助於加速、管理和保護業務關鍵資料。
+
+* 入門級NetApp AFF儲存系統基於FAS2750硬體和 SSD 快閃記憶體媒體
+* HA 配置中的兩個控制器
+
+
+image:ai-edge-005.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+NetApp入門級AFF C190儲存系統支援以下功能：
+
+* 最大驅動器數量為 24 個 960GB SSD
+* 兩種可能的配置：
++
+** 乙太網路 (10GbE)：4 個 10GBASE-T (RJ-45) 端口
+** 統一（16Gb FC 或 10GbE）：4 個統一目標適配器 2 (UTA2) 端口
+
+
+* 最大50.5TB有效容量
++
+
+NOTE: 對於 NAS 工作負載，單一入門級AFF C190系統支援 4.4GBps 的順序讀取吞吐量和 230K IOPS 的小型隨機讀取吞吐量，延遲時間為 1ms 或更短。
+
+
+
+
+
+== NetApp AFF A220
+
+NetApp還提供其他入門級儲存系統，為更大規模的部署提供更高的效能和可擴充性。對於 NAS 工作負載，單一入門級AFF A220系統支援：
+
+* 順序讀取吞吐量為 6.2GBps
+* 375K IOPS，用於延遲為 1ms 或更短的小隨機讀取
+* 最大驅動器數量為 144 個 960GB、3.8TB 或 7.6TB SSD
+* AFF A220可擴充至超過 1PB 的有效容量
+
+
+
+
+== NetApp AFF A250
+
+* 最大有效容量為 35PB，最大橫向擴展 2-24 個節點（12 個 HA 對）
+* 性能比AFF A220提高 ≥ 45%
+* 440k IOPS 隨機讀取@1ms
+* 基於最新的NetApp ONTAP版本： ONTAP 9.8
+* 利用兩個 25Gb 乙太網路實現 HA 和群集互連
+
+
+
+
+== NetApp E系列EF系統
+
+EF 系列是入門級和中檔全快閃 SAN 儲存陣列系列，可加速對資料的訪問，並幫助您透過NetApp SANtricity軟體更快地從中獲取價值。這些系統提供 SAS 和 NVMe 快閃記憶體，並為您提供從經濟實惠到極致的 IOPS、低於 100 微秒的響應時間和高達 44GBps 的頻寬，使其成為混合工作負載和 AI 推理和高效能運算 (HPC) 等要求苛刻的應用程式的理想選擇。
+
+下圖顯示的是NetApp EF280 儲存系統。
+
+image:ai-edge-007.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+
+
+== NetApp EF280
+
+* 32Gb/16Gb FC、25Gb/10Gb iSCSI 和 12Gb SAS 支持
+* 最大有效容量為 96 個驅動器，總計 1.5PB
+* 吞吐量為 10GBps（順序讀取）
+* 300K IOPs（隨機讀取）
+* NetApp EF280 是NetApp產品組合中成本最低的全快閃陣列 (AFA)
+
+
+
+
+== NetApp EF300
+
+* 24 個 NVMe SSD 驅動器，總容量為 367TB
+* 擴充選項總計 240 個 NL-SAS HDD、96 個 SAS SSD 或組合
+* 100Gb NVMe/IB、NVMe/RoCE、iSER/IB 和 SRP/IB
+* 32Gb NVME/FC，FCP
+* 25Gb iSCSI
+* 20GBps（連續讀取）
+* 670K IOPs（隨機讀取）
+
+
+
+NOTE: 有關詳細信息，請參閱 https://www.netapp.com/pdf.html?item=/media/19339-DS-4082.pdf["NetApp EF 系列NetApp EF 系列全快閃陣列 EF600、F300、EF570 和 EF280 資料表"^]。
+
+
+
+== NetApp ONTAP 9
+
+ONTAP 9.8.1 是NetApp最新一代的儲存管理軟體，它支援企業實現基礎架構現代化並過渡到雲端就緒資料中心。 ONTAP利用業界領先的數據管理功能，只需一套工具即可管理和保護數據，無論數據位於何處。您也可以將資料自由移動到任何需要的地方：邊緣、核心或雲端。  ONTAP 9.8.1 包含眾多功能，可簡化資料管理、加速和保護關鍵數據，並支援跨混合雲架構的下一代基礎架構功能。
+
+
+
+=== 簡化資料管理
+
+資料管理對於企業 IT 營運至關重要，以便為應用程式和資料集使用適當的資源。  ONTAP包括以下功能，可簡化操作並降低整體營運成本：
+
+* *內聯資料壓縮和擴展重複資料刪除。 *資料壓縮減少了儲存區塊內部浪費的空間，重複資料刪除顯著增加了有效容量。這適用於本地儲存的資料和分層到雲端的資料。
+* *最小、最大和自適應服務品質 (AQoS)。 *細粒度的服務品質 (QoS) 控制有助於維持高度共享環境中關鍵應用程式的效能水準。
+* * NetApp FabricPool。 *此功能可將冷資料自動分層至公有和私有雲端儲存選項，包括 Amazon Web Services (AWS)、Azure 和NetApp StorageGRID儲存解決方案。有關FabricPool的更多信息，請參閱link:https://www.netapp.com/pdf.html?item=/media/17239-tr4598pdf.pdf["TR-4598"^]。
+
+
+
+
+=== 加速並保護數據
+
+ONTAP 9 提供卓越等級的效能和資料保護，並透過以下方式擴展這些功能：
+
+* *性能和更低的延遲。 *  ONTAP以盡可能低的延遲提供盡可能高的吞吐量。
+* *資料保護*  ONTAP提供內建資料保護功能，並在所有平台上提供通用管理。
+* * NetApp磁碟區加密 (NVE)。 *  ONTAP提供原生磁碟區級加密，同時支援板載和外部金鑰管理。
+* *多租戶和多因素身份驗證。 *  ONTAP支援以最高等級的安全性共用基礎架構資源。
+
+
+
+
+=== 面向未來的基礎設施
+
+ONTAP 9 具有以下功能，可協助滿足嚴苛且不斷變化的業務需求：
+
+* *無縫擴展和無中斷運行。 * ONTAP支援無中斷地向現有控制器和橫向擴展叢集添加容量。客戶可以升級到最新技術，例如 NVMe 和 32Gb FC，而無需昂貴的資料遷移或中斷。
+* *雲端連線。 *  ONTAP是與雲端連接最緊密的儲存管理軟體，在所有公有雲中均提供軟體定義儲存（ONTAP Select）和Google Cloud NetApp Volumes Volumes ）的選項。
+* *與新興應用程式整合。 *  ONTAP使用支援現有企業應用的相同基礎架構，為下一代平台和應用（如自動駕駛汽車、智慧城市和工業 4.0）提供企業級資料服務。
+
+
+
+
+== NetApp SANtricity
+
+NetApp SANtricity旨在為 E 系列混合快閃記憶體和 EF 系列全快閃陣列提供業界領先的效能、可靠性和簡單性。實現 E 系列混合快閃記憶體和 EF 系列全快閃陣列的最大效能和使用率，適用於資料分析、視訊監控以及備份和復原等高負載應用程式。借助SANtricity，可以在儲存保持在線的情況下完成配置調整、維護、容量擴展和其他任務。 SANtricity還提供卓越的資料保護、主動監控和經過認證的安全性——所有這些都可以透過易於使用的機上系統管理員介面存取。要了解更多信息，請參閱 https://www.netapp.com/pdf.html?item=/media/7676-ds-3891.pdf["NetApp E系列SANtricity軟體資料表"^]。
+
+
+
+=== 效能最佳化
+
+效能最佳化的SANtricity軟體以高 IOPS、高吞吐量和低延遲向您的所有資料分析、視訊監控和備份應用程式提供資料。加速高 IOPS、低延遲應用程式以及高頻寬、高吞吐量應用程式的效能。
+
+
+
+=== 最大化正常運作時間
+
+在儲存保持在線時完成所有管理任務。調整配置、執行維護或擴充容量，而無需中斷 I/O。透過自動化功能、線上配置、最先進的動態磁碟池 (DPP) 技術等實現一流的可靠性。
+
+
+
+=== 安心休息
+
+SANtricity軟體透過易於使用的機載系統管理員介面提供卓越的資料保護、主動監控和認證的安全性。簡化儲存管理工作。獲得對所有 E 系列儲存系統進行進階調整所需的靈活性。隨時隨地管理您的NetApp E 系列系統。我們的網路為基礎的機載介面簡化了您的管理工作流程。
+
+
+
+== NetApp Trident
+
+https://netapp.io/persistent-storage-provisioner-for-kubernetes/["Trident"^]NetApp推出的一款適用於 Docker 和 Kubernetes 的開源動態儲存編排器，可簡化持久性儲存的建立、管理和使用。  Trident是 Kubernetes 原生應用程序，直接在 Kubernetes 叢集內運作。  Trident讓客戶能夠將 DL 容器映像無縫部署到NetApp儲存體上，並為 AI 容器部署提供企業級體驗。  Kubernetes 使用者（例如 ML 開發人員和資料科學家）可以建立、管理和自動化編排和克隆，以利用由NetApp技術支援的NetApp進階資料管理功能。
+
+
+
+== NetApp BlueXP複製與同步
+
+https://docs.netapp.com/us-en/occm/concept_cloud_sync.html["BlueXP複製和同步"^]是NetApp 的一項快速、安全的資料同步服務。無論您需要在本機 NFS 或 SMB 檔案共用、 NetApp StorageGRID、 NetApp ONTAP S3、 Google Cloud NetApp Volumes、 Azure NetApp Files、Amazon Simple Storage Service (Amazon S3)、Amazon Elastic File System (Amazon EFS)、Azure Blob、Google )傳輸都能快速安全地將文件移動到您需要的位置。資料傳輸完成後，可在來源端和目標端完全使用。  BlueXP Copy and Sync 根據您預先定義的時間表持續同步數據，僅移動增量，從而最大限度地減少數據複製所花費的時間和金錢。  BlueXP Copy and Sync 是一種軟體即服務 (SaaS) 工具，其設定和使用極為簡單。 BlueXP Copy 和 Sync 觸發的資料傳輸由資料代理執行。您可以在 AWS、Azure、Google Cloud Platform 或本機部署BlueXP Copy 和 Sync 資料代理程式。
+
+
+
+=== 聯想 ThinkSystem 伺服器
+
+聯想 ThinkSystem 伺服器採用創新的硬體、軟體和服務，可解決客戶當前面臨的挑戰，並提供革命性的、適合用途的模組化設計方法來應對未來的挑戰。這些伺服器利用一流的行業標準技術以及差異化的聯想創新，為 x86 伺服器提供最大的靈活性。
+
+部署聯想 ThinkSystem 伺服器的主要優勢包括：
+
+* 高度可擴展、模組化設計，可隨著您的業務成長
+* 業界領先的彈性，可節省數小時昂貴的計劃外停機時間
+* 快速快閃記憶體技術可實現更低的延遲、更快的回應時間和更智慧的即時資料管理
+
+
+在人工智慧領域，聯想正在採取切實可行的方法來幫助企業了解並採用機器學習和人工智慧為其工作負載帶來的好處。聯想客戶可以在聯想人工智慧創新中心探索和評估聯想人工智慧產品，以充分了解其特定用例的價值。為了縮短價值實現時間，這種以客戶為中心的方法為客戶提供了可立即使用且針對 AI 進行最佳化的解決方案開發平台的概念驗證。
+
+
+
+=== 聯想 ThinkSystem SE350 邊緣伺服器
+
+邊緣運算允許在網路邊緣分析來自物聯網設備的數據，然後再將其發送到資料中心或雲端。如下圖所示，聯想 ThinkSystem SE350 專為滿足邊緣部署的獨特要求而設計，注重靈活性、連接性、安全性和遠端可管理性，具有緊湊、堅固且耐環境侵蝕的外形。
+
+SE350 配備英特爾至強 D 處理器，可靈活支援邊緣 AI 工作負載的加速，專為解決資料中心外各種環境中的伺服器部署挑戰而設計。
+
+image:ai-edge-008.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+image:ai-edge-009.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+
+
+==== MLPerf
+
+MLPerf 是業界領先的評估 AI 效能的基準套件。它涵蓋了應用人工智慧的許多領域，包括影像分類、物件檢測、醫學成像和自然語言處理 (NLP)。在本次驗證中，我們使用了 Inference v0.7 工作負載，這是本次驗證完成時 MLPerf Inference 的最新版本。這 https://mlcommons.org/en/news/mlperf-inference-v07/["MLPerf 推理 v0.7"^]該套件包括四個針對資料中心和邊緣系統的新基準：
+
+* *伯特*使用 SQuAD 資料集對 Transformer 的雙向編碼器表示 (BERT) 進行微調，以用於問答。
+* *DLRM。 *深度學習推薦模型 (DLRM) 是一種經過訓練以優化點擊率 (CTR) 的個人化和推薦模型。
+* 3D U-Net。  3D U-Net 架構在腦腫瘤分割 (BraTS) 資料集上進行訓練。
+* *RNN-T* 循環神經網路感測器 (RNN-T) 是一種在 LibriSpeech 子集上訓練的自動語音辨識 (ASR) 模型。  MLPerf 推理結果和程式碼是公開的，並根據 Apache 許可發布。  MLPerf Inference 有一個 Edge 部門，支援以下場景：
+* *單流。 *該場景模擬了響應能力是關鍵因素的系統，例如在智慧型手機上執行的離線 AI 查詢。單獨的查詢被傳送到系統並記錄回應時間。所有回應的第 90 個百分位延遲被報告為結果。
+* *多流。 *此基準適用於處理來自多個感測器的輸入的系統。在測試期間，查詢以固定的時間間隔發送。施加了 QoS 約束（允許的最大延遲）。此測試報告系統在滿足 QoS 約束的情況下可以處理的流數量。
+* *離線。 *這是涵蓋批次應用程式的最簡單的場景，其指標是每秒樣本的吞吐量。所有數據均可供系統使用，基準測量處理所有樣本所需的時間。
+
+
+聯想已發佈本文檔中使用的伺服器 SE350 與 T4 的 MLPerf 推理分數。查看結果 https://mlperf.org/inference-results-0-7/["https://mlperf.org/inference-results-0-7/"]在條目 #0.7-145 的「邊緣，封閉分區」部分。

@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: software/ai-osmlops-kubeflow-notebook.html 
+keywords: Jupyter, Notebook, Workspace, Kubeflow 
+summary: NetApp的開源 MLOps - 為資料科學家或開發人員提供 Jupyter Notebook 工作區 
+---
+= 為資料科學家或開發人員提供 Jupyter Notebook 工作區
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Kubeflow 能夠快速設定新的 Jupyter Notebook 伺服器作為資料科學家工作區。有關 Kubeflow 上下文中的 Jupyter Notebooks 的更多信息，請參閱 https://www.kubeflow.org/docs/components/notebooks/["Kubeflow 官方文檔"^]。
+
+image:aicp-009.png["此圖顯示輸入/輸出對話框或表示書面內容"]

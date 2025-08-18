@@ -1,0 +1,149 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-eseries-superpod.html 
+keywords: netapp, aipod, nvidia, dgx superpod, ai solution, design 
+summary: 此NetApp驗證架構描述了具有NetApp BeeGFS 構建塊的NVIDIA DGX SuperPOD的設計。此解決方案是一個全端資料中心平台，已在NVIDIA的專用驗收集群上經過驗證。 
+---
+= NVIDIA DGX SuperPOD與NetApp - 設計指南
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+此NetApp驗證架構描述了具有NetApp BeeGFS 構建塊的NVIDIA DGX SuperPOD的設計。此解決方案是一個全端資料中心平台，在NVIDIA的專用驗收集群上進行了驗證。
+
+image:nvidialogo.png["200,200"]
+
+NetApp 的Amine Bennani、Christian Whiteside、David Arnette 和 Sathish Thyagarajan
+
+
+
+== 執行摘要
+
+在當今快速發展的技術格局中，人工智慧正在徹底改變消費者體驗並推動各行各業的創新。然而，這也給 IT 部門帶來了巨大的挑戰，他們面臨著部署能夠處理 AI 工作負載的強烈需求的高效能運算 (HPC) 解決方案的壓力。隨著各組織競相利用人工智慧的力量，對易於部署、擴展和管理的解決方案的需求也日益迫切。
+
+NVIDIA DGX SuperPOD是一個 AI 資料中心基礎架構平台，作為 IT 的交鑰匙解決方案提供，以支援當今企業面臨的最複雜的 AI 工作負載。任何精確的深度學習 (DL) 模型的核心都是大量數據，需要能夠有效地提供和重新提供這些數據的高吞吐量儲存解決方案。  NetApp BeeGFS 解決方案由具有 BeeGFS 平行檔案系統的NetApp EF600 儲存陣列組成，使NVIDIA DGX SuperPOD能夠充分發揮其功能。 NetApp BeeGFS 解決方案已通過NVIDIA驗證，可與 SuperPOD 架構整合和擴充。其結果是簡化了 AI 資料中心的部署和管理，同時提供了幾乎無限的效能和容量可擴展性。
+
+
+
+== 解決方案概述
+
+NetApp BeeGFS 解決方案由高效能NetApp EF600 NVMe 儲存系統和可擴展的 BeeGFS 平行檔案系統提供支援，為要求苛刻的 AI 工作負載提供了強大而高效的儲存基礎。其共享磁碟架構確保高可用性，即使面臨系統挑戰也能保持一致的效能和可存取性。該解決方案提供了可擴展且靈活的架構，可客製化以滿足不同的儲存需求。客戶可以透過整合額外的儲存構建塊來輕鬆擴展其儲存效能和容量，以處理最苛刻的工作負載。
+
+
+
+=== 解決方案技術
+
+* NVIDIA DGX SuperPOD利用 DGX H100 和 H200 系統以及經過驗證的外部連接共享儲存：
++
+** 每個 DGX SuperPOD 可擴充單元 (SU) 由 32 個 DGX 系統組成，能夠以 FP8 精度達到 640 petaFLOPS 的 AI 效能。  NetApp建議為單一 DGX SuperPOD 設定使用至少 2 個建置區塊來調整NetApp BeeGFS 儲存解決方案的大小。
+
+
+
+
+_解決方案的高層視圖_
+
+image:ef-superpod-highlevel.png["該圖顯示了採用NVIDIA DGX SuperPOD的NetApp BeeGFS 解決方案的高級概覽。"]
+
+* NetApp BeeGFS 建置區塊由兩個NetApp EF600 陣列和兩台 x86 伺服器組成：
++
+** 透過以NVIDIA DGX SuperPOD為基礎的NetApp EF600 全快閃陣列，客戶可以獲得可靠的儲存基礎，並享有 6 個 9 的正常運作時間。
+** NetApp EF600 和NVIDIA DGX 系統之間的檔案系統層是 BeeGFS 平行檔案系統。 BeeGFS 由德國弗勞恩霍夫高效能運算中心創建，旨在解決傳統平行檔案系統的痛點。其結果是一個具有現代用戶空間架構的檔案系統，現在由 ThinkParQ 開發和交付，並被許多超級運算環境使用。
+** NetApp對 BeeGFS 的支援使 NetApp 優秀的支援組織與客戶對效能和正常運作時間的要求保持一致。客戶可以獲得優質的支援資源、提前獲得 BeeGFS 版本，以及使用部分 BeeGFS 企業功能，例如配額實施和高可用性 (HA)。
+
+
+* NVIDIA SuperPOD SU 和NetApp BeeGFS 構建塊的結合提供了一種敏捷的 AI 解決方案，其中計算或儲存可以輕鬆無縫地擴展。
+
+
+NetApp BeeGFS 構建塊
+
+image:ef-superpod-buildingblock.png["圖中顯示了單一NetApp BeeGFS 構建塊。"]
+
+
+
+=== 用例摘要
+
+此解決方案適用於以下用例：
+
+* 人工智慧（AI）包括機器學習（ML）、深度學習（DL）、自然語言處理（NLP）、自然語言理解（NLU）和生成人工智慧（GenAI）。
+* 中大規模人工智慧訓練
+* 電腦視覺、語音、音訊和語言模型
+* HPC，包括透過訊息傳遞介面 (MPI) 和其他分散式運算技術加速的應用程式
+* 應用程式工作負載具有以下特點：
++
+** 讀取或寫入大於 1GB 的文件
+** 多個客戶端（10 個、100 個和 1000 個）讀取或寫入相同文件
+
+
+* 多 TB 或多 PB 資料集
+* 需要針對大檔案和小檔案混合進行最佳化的單一儲存命名空間的環境
+
+
+
+
+== 技術要求
+
+本節介紹採用NetApp解決方案的NVIDIA DGX SuperPOD的技術需求。
+
+
+
+=== 硬體需求
+
+下表 1 列出了單一 SU 實施解決方案所需的硬體元件。解決方案規模從 32 個NVIDIA DGX H100 系統和兩個或三個NetApp BeeGFS 構建塊開始。單一NetApp BeeGFS 建置區塊由兩個NetApp EF600 陣列和兩台 x86 伺服器組成。隨著部署規模的增加，客戶可以添加額外的建置區塊。有關詳細信息，請參閱 https://docs.nvidia.com/dgx-superpod/reference-architecture-scalable-infrastructure-h100/latest/dgx-superpod-components.html["NVIDIA DGX H100 SuperPOD 參考架構"^]和 https://fieldportal.netapp.com/content/1792438["NVA-1164-DESIGN： NetApp NVA 上的 BeeGFS 設計"^]。
+
+|===
+| 硬體 | 數量 
+
+
+| NVIDIA DGX H100 或 H200 | 32 
+
+
+| NVIDIA Quantum QM9700 交換機 | 8 片葉子，4 根脊柱 
+
+
+| NetApp BeeGFS 構建塊 | 3 
+|===
+
+
+=== 軟體需求
+
+下表 2 列出了實施此解決方案所需的軟體元件。解決方案的任何特定實施中使用的軟體元件可能會根據客戶要求而有所不同。
+
+|===
+| 軟體 
+
+
+| NVIDIA DGX 軟體堆疊 
+
+
+| NVIDIA基礎指令管理器 
+
+
+| ThinkParQ BeeGFS平行檔案系統 
+|===
+
+
+== 解決方案驗證
+
+NVIDIA DGX SuperPOD與NetApp透過使用NetApp BeeGFS 構建塊在NVIDIA的專用驗收集群上進行了驗證。驗收標準是基於NVIDIA執行的一系列應用程式、效能和壓力測試。有關詳細信息，請參閱 https://nvidia-gpugenius.highspot.com/viewer/62915e2ef093f1a97b2d1fe6?iid=62913b14052a903cff46d054&source=email.62915e2ef093f1a97b2d1fe7.4["NVIDIA DGX SuperPOD： NetApp EF600 和 BeeGFS 參考架構"^]。
+
+
+
+== 結論
+
+NetApp和NVIDIA有著長期的合作，致力於為市場提供一系列 AI 解決方案。 NVIDIA DGX SuperPOD與NetApp EF600 全快閃陣列結合，是經過驗證的解決方案，客戶可以放心部署。這種完全整合的交鑰匙架構消除了部署風險，使任何人都可以走上贏得人工智慧領導地位的道路。
+
+
+
+== 在哪裡可以找到更多信息
+
+要了解有關本文檔中描述的信息的更多信息，請查看以下文檔和/或網站：
+
+* link:https://docs.nvidia.com/dgx-superpod/reference-architecture-scalable-infrastructure-h100/latest/index.html#["NVIDIA DGX SuperPOD參考架構"]
+* link:https://docs.nvidia.com/nvidia-dgx-superpod-data-center-design-dgx-h100.pdf["NVIDIA DGX SuperPOD資料中心設計參考指南"]
+* link:https://nvidiagpugenius.highspot.com/viewer/62915e2ef093f1a97b2d1fe6?iid=62913b14052a903cff46d054&source=email.62915e2ef093f1a97b2d1fe7.4["NVIDIA DGX SuperPOD： NetApp EF600 和 BeeGFS"]
+

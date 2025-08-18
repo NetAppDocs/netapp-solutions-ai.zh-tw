@@ -1,0 +1,49 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-sc-conclusion.html 
+keywords: conclusion, where to find additional information 
+summary: 這項驗證測試在配備NetApp ONTAP儲存控制器的 Confluent 上達到了 31.74GBps 的分層吞吐量。 
+---
+= 結論
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+這項驗證測試在配備NetApp ONTAP儲存控制器的 Confluent 上達到了 31.74GBps 的分層吞吐量。
+
+
+
+== 在哪裡可以找到更多信息
+
+要了解有關本文檔中描述的信息的更多信息，請查看以下文檔和/或網站：
+
+* 什麼是 Confluent？
++
+https://www.confluent.io/apache-kafka-vs-confluent/["https://www.confluent.io/apache-kafka-vs-confluent/"^]
+
+* S3-sink 參數詳情
++
+https://docs.confluent.io/kafka-connect-s3-sink/current/configuration_options.html["https://docs.confluent.io/kafka-connect-s3-sink/current/configuration_options.html#s3-configuration-options"^]
+
+* 阿帕契卡夫卡
++
+https://en.wikipedia.org/wiki/Apache_Kafka["https://en.wikipedia.org/wiki/Apache_Kafka"^]
+
+* ONTAP中的 S3 最佳實踐
++
+https://www.netapp.com/pdf.html?item=/media/17219-tr4814.pdf["https://www.netapp.com/pdf.html?item=/media/17219-tr4814.pdf"^]
+
+* S3 物件儲存管理
++
+https://docs.netapp.com/us-en/ontap/s3-config/s3-support-concept.html["https://docs.netapp.com/us-en/ontap/s3-config/s3-support-concept.html"^]
+
+* NetApp產品文檔
++
+https://www.netapp.com/support-and-training/documentation/["https://www.netapp.com/support-and-training/documentation/"^]
+
+

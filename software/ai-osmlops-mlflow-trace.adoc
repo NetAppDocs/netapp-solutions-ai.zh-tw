@@ -1,0 +1,47 @@
+---
+sidebar: sidebar 
+permalink: software/ai-osmlops-mlflow-trace.html 
+keywords: AI, control plane, MLOps, MLflow 
+summary: NetApp開源 MLOps - 使用NetApp和 MLflow 實現資料集到模型的可追溯性 
+---
+= 使用NetApp和 MLflow 實現資料集到模型的可追溯性
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+這 https://github.com/NetApp/netapp-dataops-toolkit/tree/main/netapp_dataops_k8s["適用於 Kubernetes 的NetApp DataOps 工具包"^]可以與 MLflow 的實驗追蹤功能結合使用，以實現資料集到模型或工作區到模型的可追溯性。
+
+要實現資料集到模型或工作區到模型的可追溯性，只需在訓練運行過程中使用 DataOps Toolkit 建立資料集或工作區磁碟區的快照，如下列範例程式碼片段所示。此程式碼將資料卷名稱和快照名稱儲存為與您記錄到 MLflow 實驗追蹤伺服器的特定訓練運行相關的標籤。
+
+[source]
+----
+...
+from netapp_dataops.k8s import create_volume_snapshot
+
+with mlflow.start_run() :
+    ...
+
+    namespace = "my_namespace" # Kubernetes namespace in which dataset volume PVC resides
+    dataset_volume_name = "project1" # Name of PVC corresponding to dataset volume
+    snapshot_name = "run1" # Name to assign to your new snapshot
+
+    # Create snapshot
+    create_volume_snapshot(
+        namespace=namespace,
+        pvc_name=dataset_volume_name,
+        snapshot_name=snapshot_name,
+        printOutput=True
+    )
+
+    # Log data volume name and snapshot name as "tags"
+    # associated with this training run in mlflow.
+    mlflow.set_tag("data_volume_name", dataset_volume_name)
+    mlflow.set_tag("snapshot_name", snapshot_name)
+
+    ...
+----

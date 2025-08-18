@@ -1,0 +1,29 @@
+---
+sidebar: sidebar 
+permalink: software/ai-nvaie-vmw-setup.html 
+keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, NVIDIA AI Enterprise, NVAIE, VMware 
+summary: NVIDIA AI Enterprise 與NetApp和 VMware - 初始設置 
+---
+= 初始設定
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本節介紹了將NVIDIA AI Enterprise 與NetApp和 VMware 結合使用所需執行的初始設定任務。
+
+
+
+== 先決條件
+
+在執行本節概述的步驟之前，我們假設您已經部署了 VMware vSphere 和NetApp ONTAP。請參閱link:https://docs.nvidia.com/ai-enterprise/latest/product-support-matrix/index.html["NVIDIA AI Enterprise 產品支援矩陣"^]有關支援的 vSphere 版本的詳細資訊。請參閱link:https://docs.netapp.com/us-en/netapp-solutions/vmware/index.html["NetApp和 VMware 解決方案文檔"^]有關使用NetApp ONTAP部署 VMware vSphere 的詳細資訊。
+
+
+
+== 安裝NVIDIA AI Enterprise Host 軟體
+
+若要安裝NVIDIA AI Entrprise 主機軟體，請依照link:https://docs.nvidia.com/ai-enterprise/latest/quick-start-guide/index.html["NVIDIA AI Enterprise 快速入門指南"]。

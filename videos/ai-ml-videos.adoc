@@ -1,0 +1,23 @@
+---
+sidebar: sidebar 
+permalink: videos/ai-ml-videos.html 
+keywords: video, demonstration, deployment 
+summary:  
+---
+= 觀看有關NetApp的 AI 解決方案的視頻
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+了解NetApp如何支援 AI 和機器學習計劃。這些精選的影片播放清單展示了NetApp AI 解決方案和 MLOps 工作流程，重點介紹了進階分析的部署策略、自動化和資料管理。
+
+.NetApp AI 解決方案
+全面的視訊播放列表，涵蓋 AI 基礎設施、融合系統和企業 AI 部署。link:https://www.youtube.com/playlist?list=PLdXI3bZJEw7nSrRhuolRPYqvSlGLuTOAO["觀看NetApp AI 解決方案播放列表"^]
+
+.機器學習操作 (MLOps)
+有關 MLOps 工作流程、資料管道和最佳操作實踐的影片系列。link:https://www.youtube.com/playlist?list=PLdXI3bZJEw7n1sWK-QGq4QMI1VBJS-ZZW["觀看 MLOps 播放列表"^]

@@ -1,0 +1,27 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-lenovo-train-results.html 
+keywords: test results, data, 
+summary: 本節總結了此解決方案的測試結果。 
+---
+= 測試結果
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+下表總結了針對該解決方案執行的所有測試的結果。
+
+|===
+| 測試描述 | 結果摘要 
+
+
+| 圖像辨識訓練：多個並發作業 | 高效的性能。即使叢集已充分利用，所有作業仍能全速運作。  NetApp儲存系統提供了與本地 SSD 儲存相當的訓練效能，同時支援伺服器之間輕鬆共享資料。 
+
+
+| 影像辨識訓練：橫向擴展 | 最多四個節點的效率很高。此時，橫向擴展的效率較低，但仍可行。使用更高速的運算網路可以提高可擴展性。  NetApp儲存系統提供了與本地 SSD 儲存相當的訓練效能，同時支援伺服器之間輕鬆共享資料。 
+|===

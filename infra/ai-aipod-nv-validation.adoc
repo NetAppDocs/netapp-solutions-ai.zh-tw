@@ -1,0 +1,75 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-aipod-nv-validation.html 
+keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, NVIDIA AI Enterprise, NVIDIA BasePOD, NVIDIA DGX 
+summary: NetApp AIPod與NVIDIA DGX 系統 - 解決方案驗證與規模調整指南 
+---
+= NVA-1173 NetApp AIPod與NVIDIA DGX 系統 - 解決方案驗證與規模調整指南
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本節重點介紹採用NVIDIA DGX 系統的NetApp AIPod的解決方案驗證與尺寸調整指引。
+
+
+
+== 解決方案驗證
+
+使用開源工具 FIO 透過一系列合成工作負載驗證了此解決方案中的儲存配置。這些測試包括讀寫 I/O 模式，旨在模擬執行深度學習訓練作業的 DGX 系統產生的儲存工作負載。使用同時運行 FIO 工作負載的 2 插槽 CPU 伺服器叢集來驗證儲存配置，以模擬 DGX 系統叢集。每個客戶端都配置了前面描述的相同網路配置，並添加了以下詳細資訊。
+
+以下安裝選項用於此驗證：
+
+[cols="30%, 70%"]
+|===
+
+
+| 版本=4.1 | 啟用 pNFS 來並行存取多個儲存節點 
+
+
+| 原型=rdma | 將傳輸協定設為 RDMA，而不是預設的 TCP 
+
+
+| 連接埠=20049 | 為 RDMA NFS 服務指定正確的連接埠 
+
+
+| 最大連線數=16 | 啟用 NFS 會話中繼來聚合儲存連接埠頻寬 
+
+
+| 寫=渴望 | 提高緩衝寫入的寫入效能 
+
+
+| rsize=262144,wsize=262144 | 將 I/O 傳輸大小設定為 256k 
+|===
+此外，客戶端的 NFS max_session_slots 值配置為 1024。由於此解決方案是使用 NFS over RDMA 進行測試的，因此儲存網路連接埠配置了主動/被動結合。本次驗證使用了以下債券參數：
+
+[cols="30%, 70%"]
+|===
+
+
+| 模式=主動備份 | 將綁定設定為主動/被動模式 
+
+
+| primary=<介面名稱> | 所有客戶端的主介面分佈在交換器上 
+
+
+| mii-監控間隔=100 | 指定監控間隔為100ms 
+
+
+| 故障轉移 mac 策略=活動 | 指定活動鏈路的 MAC 位址是綁定的 MAC。這是 RDMA 透過綁定介面正確運行所必需的。 
+|===
+儲存系統配置如下，包括兩個 A900 HA 對（4 個控制器），每個 HA 對連接兩個 NS224 磁碟架，每個磁碟架有 24 個 1.9TB NVMe 磁碟機。如架構部分所述，所有控制器的儲存容量使用FlexGroup磁碟區進行組合，並且所有用戶端的資料分佈在叢集中的所有控制器上。
+
+
+
+== 儲存系統規模指南
+
+NetApp已成功完成 DGX BasePOD 認證，經測試的兩個 A90 HA 對可以輕鬆支援由 16 個 DGX H100 系統組成的叢集。對於具有更高儲存效能需求的大型部署，可以將額外的AFF系統新增至NetApp ONTAP叢集中，單一叢集中最多可包含 12 個 HA 對（24 個節點）。使用本解決方案中所述的FlexGroup技術，24 節點叢集可以在單一命名空間中提供超過 79 PB 和高達 552 GBps 的吞吐量。其他NetApp儲存系統（例如AFF A400、A250 和 C800）以較低的成本為較小規模的部署提供較低的效能和/或更高的容量選項。由於ONTAP 9 支援混合模型集群，客戶可以從較小的初始佔用空間開始，並隨著容量和效能需求的增長向集群添加更多或更大的儲存系統。下表粗略估計了每個AFF型號支援的 A100 和 H100 GPU 的數量。
+
+NetApp 儲存系統規模調整指南
+
+image:aipod-nv-a90-sizing.png["此圖顯示輸入/輸出對話框或表示書面內容"]

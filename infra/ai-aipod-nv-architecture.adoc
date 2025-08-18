@@ -1,0 +1,67 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-aipod-nv-architecture.html 
+keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, NVIDIA AI Enterprise, NVIDIA BasePOD, NVIDIA DGX 
+summary: NetApp AIPod與NVIDIA DGX 系統 - 架構 
+---
+= NVA-1173 NetApp AIPod與NVIDIA DGX H100 系統 - 解決方案架構
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本節重點在於採用NVIDIA DGX 系統的NetApp AIPod的架構。
+
+
+
+== 搭載 DGX 系統的NetApp AIPod
+
+此參考架構利用單獨的結構進行計算叢集互連和儲存訪問，並在計算節點之間實現 400Gb/s InfiniBand (IB) 連接。下圖展示了NetApp AIPod與 DGX H100 系統的整體解決方案拓撲。
+
+NetApp AIpod 解決方案拓撲
+
+image:aipod-nv-a90-topo.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+
+
+== 網路設計
+
+在此配置中，計算叢集結構使用一對 QM9700 400Gb/s IB 交換機，它們連接在一起以實現高可用性。每個 DGX H100 系統使用八個連接連接到交換機，其中偶數連接埠連接到一個交換機，奇數連接埠連接到另一個交換器。
+
+對於儲存系統存取、帶內管理和用戶端訪問，使用一對 SN4600 乙太網路交換器。交換器之間透過交換器間連結連接，並配置多個VLAN來隔離各種流量類型。在特定 VLAN 之間啟用基本 L3 路由，以在同一交換器上的用戶端和儲存介面之間以及交換器之間啟用多條路徑，從而實現高可用性。對於更大的部署，可以透過根據需要為主幹交換器添加額外的交換器對以及為其他葉子交換器添加額外的交換器對，將以太網網路擴展為葉子-主幹配置。
+
+除了計算互連和高速乙太網路之外，所有實體設備還連接到一個或多個 SN2201 乙太網路交換機，以進行帶外管理。請參閱link:ai-aipod-nv-deploy.html["部署詳細信息"]頁面以取得有關網路配置的更多資訊。
+
+
+
+== DGX H100 系統的儲存存取概述
+
+每個 DGX H100 系統都配備了兩個雙埠 ConnectX-7 轉接器用於管理和儲存流量，並且對於此解決方案，每個卡上的兩個連接埠都連接到同一個交換器。然後將每個卡的一個連接埠配置為 LACP MLAG 綁定，並將一個連接埠連接到每個交換機，並且在帶內管理、用戶端存取和用戶級儲存存取的 VLAN 都託管在此綁定上。
+
+每張卡上的另一個連接埠用於連接AFF A90儲存系統，並且可以根據工作負載要求以多種配置使用。對於使用 NFS over RDMA 來支援NVIDIA Magnum IO GPUDirect Storage 的配置，連接埠單獨使用，且 IP 位址位於單獨的 VLAN 中。對於不需要 RDMA 的部署，儲存介面也可以配置 LACP 綁定，以提供高可用性和額外的頻寬。無論是否使用 RDMA，用戶端都可以使用 NFS v4.1 pNFS 和會話中繼掛載儲存系統，以實現對叢集中所有儲存節點的平行存取。請參閱link:ai-aipod-nv-deploy.html["部署詳細信息"]頁面以取得有關客戶端配置的更多資訊。
+
+有關 DGX H100 系統連接的詳細信息，請參閱link:https://nvdam.widen.net/s/nfnjflmzlj/nvidia-dgx-basepod-reference-architecture["NVIDIA BasePOD 文檔"]。
+
+
+
+== 儲存系統設計
+
+每個AFF A90儲存系統使用每個控制器的六個 200 GbE 連接埠進行連接。每個控制器的四個連接埠用於從 DGX 系統存取工作負載數據，每個控制器的兩個連接埠配置為 LACP 介面群組，以支援從管理平面伺服器存取叢集管理工件和使用者主目錄。儲存系統的所有資料存取均透過 NFS 提供，其中有一個專用於 AI 工作負載存取的儲存虛擬機器 (SVM) 和一個專用於叢集管理用途的單獨 SVM。
+
+管理 SVM 只需要一個 LIF，該 LIF 託管在每個控制器上配置的 2 連接埠介面組上。其他FlexGroup磁碟區在管理 SVM 上進行配置，以容納叢集管理構件，如叢集節點映像、系統監控歷史資料和最終使用者主目錄。下圖顯示了儲存系統的邏輯配置。
+
+NetApp A90 儲存叢集邏輯配置
+
+image:aipod-nv-a90-logical.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+
+
+== 管理平面伺服器
+
+此參考架構還包括五個基於 CPU 的伺服器，用於管理平面。其中兩個系統用作NVIDIA Base Command Manager 的頭節點，用於叢集部署和管理。其他三個系統用於提供額外的叢集服務，例如 Kubernetes 主節點或利用 Slurm 進行作業排程的部署的登入節點。利用 Kubernetes 的部署可以利用NetApp Trident CSI 驅動程式為AFF A900儲存系統上的管理和 AI 工作負載提供具有持久性儲存的自動設定和資料服務。
+
+每台伺服器都實體連接到 IB 交換器和乙太網路交換機，以實現叢集部署和管理，並透過管理 SVM 配置 NFS 掛載到儲存系統，以儲存前面所述的叢集管理工件。

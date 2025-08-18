@@ -1,0 +1,27 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-perf.html 
+keywords: performance, tests, scalability 
+summary: 我們使用NetApp StorageGRID設定對三到四個節點的生產和消費者工作負載進行了分層儲存測試。 
+---
+= 具有可擴展性的效能測試
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+我們使用NetApp StorageGRID設定對三到四個節點的生產者和消費者工作負載進行了分層儲存測試。根據我們的測試，完成時間和效能結果與StorageGRID節點的數量成正比。  StorageGRID設定至少需要三個節點。
+
+* 當儲存節點數量增加時，完成生產和消費作業的時間呈線性減少。
+
+
+image:confluent-kafka-009.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+* s3 檢索操作的效能根據StorageGRID節點的數量線性增加。  StorageGRID支援最多 200 個 StorgeGRID 節點。
+
+
+image:confluent-kafka-010.png["此圖顯示輸入/輸出對話框或表示書面內容"]

@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/hdcs-sh-hadoop-data-protection.html 
+keywords: distcp, copy, backup workflow, hdfs, mapreduce 
+summary: Hadoop DistCp 是一個用於大型叢集間和叢集內複製的本機工具。  Hadoop DistCp 基本流程是典型的備份工作流程，使用 Hadoop 原生工具（如 MapReduce）將 Hadoop 資料從 HDFS 來源複製到對應的目標。 
+---
+= Hadoop 資料保護與NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Hadoop DistCp 是一個用於大型叢集間和叢集內複製的本機工具。下圖所示的 Hadoop DistCp 基本流程是一個典型的備份工作流程，使用 MapReduce 等 Hadoop 原生工具將 Hadoop 資料從 HDFS 來源複製到對應的目標。
+
+NetApp NFS 直接存取使客戶能夠將 NFS 設定為 Hadoop DistCp 工具的目標位置，以便透過 MapReduce 將資料從 HDFS 來源複製到 NFS 共用中。  NetApp NFS 直接存取充當 DistCp 工具的 NFS 驅動程式。
+
+image:hdcs-sh-004.png["此圖顯示輸入/輸出對話框或表示書面內容"]

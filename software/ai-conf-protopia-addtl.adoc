@@ -1,0 +1,64 @@
+---
+sidebar: sidebar 
+permalink: software/ai-conf-protopia-addtl.html 
+keywords:  
+summary:  
+---
+= 在哪裡可以找到更多資訊和致謝
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+要了解有關本文檔中描述的信息的更多信息，請參閱以下文檔和/或網站：
+
+* NetApp ONTAP資料管理軟體 — ONTAP資訊庫
++
+http://mysupport.netapp.com/documentation/productlibrary/index.html?productID=62286["http://mysupport.netapp.com/documentation/productlibrary/index.html?productID=62286"^]
+
+* NetApp容器持久性儲存 — NetApp Trident
++
+https://netapp.io/persistent-storage-provisioner-for-kubernetes/["https://netapp.io/persistent-storage-provisioner-for-kubernetes/"^]
+
+* NetApp DataOps 工具包
++
+https://github.com/NetApp/netapp-dataops-toolkit["https://github.com/NetApp/netapp-dataops-toolkit"^]
+
+* NetApp容器持久性儲存 — NetApp Trident
++
+https://netapp.io/persistent-storage-provisioner-for-kubernetes/["https://netapp.io/persistent-storage-provisioner-for-kubernetes/"^]
+
+* Protopia AI—機密推理
++
+https://protopia.ai/blog/protopia-ai-takes-on-the-missing-link-in-ai-privacy-confidential-inference/["https://protopia.ai/blog/protopia-ai-takes-on-the-missing-link-in-ai-privacy-confidential-inference/"^]
+
+* NetApp BlueXP複製與同步
++
+https://docs.netapp.com/us-en/occm/concept_cloud_sync.html#how-cloud-sync-works["https://docs.netapp.com/us-en/occm/concept_cloud_sync.html#how-cloud-sync-works"^]
+
+* NVIDIA Triton 推理伺服器
++
+https://developer.nvidia.com/nvidia-triton-inference-server["https://developer.nvidia.com/nvidia-triton-inference-server"^]
+
+* NVIDIA Triton 推理伺服器文檔
++
+https://docs.nvidia.com/deeplearning/triton-inference-server/index.html["https://docs.nvidia.com/deeplearning/triton-inference-server/index.html"^]
+
+* PyTorch 中的 FaceBoxes
++
+https://github.com/zisianw/FaceBoxes.PyTorch["https://github.com/zisianw/FaceBoxes.PyTorch"^]
+
+
+
+
+
+== 致謝
+
+* NetApp首席產品經理 Mark Cates
+* Sufian Ahmad， NetApp技術行銷工程師
+* Protopia AI 技術長兼教授 Hadi Esmaeilzadeh
+

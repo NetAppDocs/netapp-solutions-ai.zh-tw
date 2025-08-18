@@ -1,0 +1,116 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-aipod-nv-sw.html 
+keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, NVIDIA AI Enterprise, NVIDIA BasePOD, NVIDIA DGX 
+summary: NetApp AIPod與NVIDIA DGX 系統 - 軟體元件 
+---
+= NVA-1173 NetApp AIPod與NVIDIA DGX 系統 - 軟體元件
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本節重點介紹具有NVIDIA DGX 系統的NetApp AIPod的軟體元件。
+
+
+
+== NVIDIA軟體
+
+
+
+=== NVIDIA基本指令
+
+NVIDIA Base Command™ 為每個 DGX BasePOD 提供支持，使組織能夠充分利用NVIDIA軟體創新的最佳成果。企業可以透過經過驗證的平台充分發揮其投資潛力，該平台包括企業級編排和叢集管理、加速運算、儲存和網路基礎設施的程式庫以及針對 AI 工作負載優化的作業系統 (OS)。
+
+_NVIDIA BaseCommand 解決方案_
+
+image:aipod-nv-basecommand-new.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+
+
+=== NVIDIA GPU 雲端 (NGC)
+
+NVIDIA NGC 提供的軟體可滿足具有不同 AI 專業水平的資料科學家、開發人員和研究人員的需求。 NGC 上託管的軟體會針對一組常見漏洞和暴露 (CVE)、加密和私鑰進行掃描。它經過測試和設計，可擴展到多個 GPU，在許多情況下，可擴展到多節點，確保用戶最大限度地利用其在 DGX 系統上的投資。
+
+_NVIDIA GPU 雲端_
+
+image:aipod-nv-ngc.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+
+
+=== NVIDIA AI 企業版
+
+NVIDIA AI Enterprise 是一個端對端軟體平台，可讓每個企業都能夠使用生成式 AI，為在NVIDIA DGX 平台上優化的生成式 AI 基礎模型提供最快、最高效的運行時。憑藉生產級的安全性、穩定性和可管理性，它簡化了生成式 AI 解決方案的開發。  NVIDIA AI Enterprise 包含在 DGX BasePOD 中，企業開發人員可以存取預訓練模型、最佳化框架、微服務、加速庫和企業支援。
+
+
+
+== NetApp軟體
+
+
+
+=== NetApp ONTAP
+
+ONTAP 9 是NetApp最新一代儲存管理軟體，它支援企業實現基礎架構現代化並過渡到雲端就緒資料中心。 ONTAP利用業界領先的數據管理功能，只需一套工具即可管理和保護數據，無論數據位於何處。您也可以將資料自由移動到任何需要的地方：邊緣、核心或雲端。  ONTAP 9 包含眾多功能，可簡化資料管理、加速和保護關鍵數據，並支援跨混合雲架構的下一代基礎架構功能。
+
+
+
+==== 加速並保護數據
+
+ONTAP提供卓越等級的效能和資料保護，並透過以下方式擴展這些功能：
+
+* 性能和更低的延遲。  ONTAP以最低的延遲提供最高的吞吐量，包括支援使用 NFS over RDMA、平行 NFS (pNFS) 和 NFS 會話中繼的NVIDIA GPUDirect Storage (GDS)。
+* 資料保護。  ONTAP提供內建資料保護功能和業界最強大的反勒索軟體保障，並在所有平台上實現通用管理。
+* NetApp磁碟區加密 (NVE)。  ONTAP提供原生磁碟區級加密，同時支援板載和外部金鑰管理。
+* 儲存多租戶和多因素身份驗證。  ONTAP支援以最高等級的安全性共用基礎架構資源。
+
+
+
+
+==== 簡化資料管理
+
+資料管理對於企業 IT 營運和資料科學家至關重要，以便將適當的資源用於 AI 應用程式和訓練 AI/ML 資料集。以下有關NetApp技術的附加資訊超出了本次驗證的範圍，但可能與您的部署相關。
+
+ONTAP資料管理軟體包括以下功能，可簡化操作並降低總營運成本：
+
+* 快照和複製支援 ML/DL 工作流程的協作、平行實驗和增強資料治理。
+* SnapMirror可在混合雲和多站點環境中實現無縫資料移動，並在所需的時間和地點提供資料。
+* 內聯資料壓縮和擴展重複資料刪除。資料壓縮減少了儲存區塊內部浪費的空間，重複資料刪除顯著增加了有效容量。這適用於本地儲存的資料和分層到雲端的資料。
+* 最小、最大和自適應服務品質 (AQoS)。細粒度的服務品質 (QoS) 控制有助於維持高度共享環境中關鍵應用程式的效能水準。
+* NetApp FlexGroups 支援在儲存叢集中的所有節點上分散數據，為超大資料集提供龐大的容量和更高的效能。
+* NetApp FabricPool。提供冷資料到公有和私有雲儲存選項的自動分層，包括 Amazon Web Services (AWS)、Azure 和NetApp StorageGRID儲存解決方案。有關FabricPool的更多信息，請參閱 https://www.netapp.com/pdf.html?item=/media/17239-tr4598pdf.pdf["TR-4598： FabricPool最佳實踐"^]。
+* NetApp FlexCache。提供遠端磁碟區快取功能，可簡化檔案分發、減少 WAN 延遲並降低 WAN 頻寬成本。  FlexCache支援跨多個站點的分散式產品開發，以及從遠端位置加速存取公司資料集。
+
+
+
+
+==== 面向未來的基礎設施
+
+ONTAP具有以下功能，可協助滿足嚴苛且不斷變化的業務需求：
+
+* 無縫擴展和無中斷操作。 ONTAP支援在線為現有控制器和橫向擴展叢集新增容量。客戶可以升級到最新技術，例如 NVMe 和 32Gb FC，而無需昂貴的資料遷移或中斷。
+* 雲端連線。  ONTAP是與雲端連接最緊密的儲存管理軟體，在所有公有雲中均提供軟體定義儲存（ONTAP Select）和Google Cloud NetApp Volumes Volumes ）的選項。
+* 與新興應用程式的整合。  ONTAP使用支援現有企業應用的相同基礎架構，為下一代平台和應用（如自動駕駛汽車、智慧城市和工業 4.0）提供企業級資料服務。
+
+
+
+
+=== NetApp DataOps 工具包
+
+NetApp DataOps Toolkit 是一款基於 Python 的工具，可簡化由高效能、橫向擴展NetApp儲存支援的開發/培訓工作區和推理伺服器的管理。 DataOps Toolkit 可以作為獨立實用程式運行，並且在利用NetApp Trident自動化儲存作業的 Kubernetes 環境中更有效。主要功能包括：
+
+* 快速配置由高效能、橫向擴充NetApp儲存支援的新的高容量 JupyterLab 工作區。
+* 快速配置由企業級NetApp儲存支援的全新NVIDIA Triton 推理伺服器實例。
+* 近乎即時地克隆高容量的 JupyterLab 工作區，以實現實驗或快速迭代。
+* 用於備份和/或可追溯性/基準的高容量 JupyterLab 工作區的近乎即時的快照。
+* 近乎即時地配置、複製和快照高容量、高效能資料磁碟區。
+
+
+
+
+=== NetApp Trident
+
+Trident是一個完全支援的開源儲存編排器，適用於容器和 Kubernetes 發行版（包括 Anthos）。Trident可與整個NetApp儲存產品組合搭配使用，包括NetApp ONTAP，並且還支援 NFS、NVMe/TCP 和 iSCSI 連線。Trident允許最終用戶從其NetApp儲存系統配置和管理存儲，而無需儲存管理員的干預，從而加速 DevOps 工作流程。

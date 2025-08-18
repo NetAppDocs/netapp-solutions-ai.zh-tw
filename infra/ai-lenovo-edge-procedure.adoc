@@ -1,0 +1,62 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-lenovo-edge-procedure.html 
+keywords: procedure, operating system, ubuntu, nvidia, docker, criteo, brats 
+summary: 本節介紹用於驗證該解決方案的測試程序。 
+---
+= 測試程式
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本節介紹用於驗證該解決方案的測試程序。
+
+
+
+== 作業系統和 AI 推理設置
+
+對於AFF C190，我們使用了具有NVIDIA驅動程式的 Ubuntu 18.04 和支援NVIDIA GPU 的 docker，並使用了 MLPerf https://github.com/mlperf/inference_results_v0.7/tree/master/closed/Lenovo["程式碼"^]作為聯想向 MLPerf Inference v0.7 提交的一部分提供。
+
+對於 EF280，我們使用了具有NVIDIA驅動程式的 Ubuntu 20.04 和支援NVIDIA GPU 和 MLPerf 的 docker https://github.com/mlcommons/inference_results_v1.1/tree/main/closed/Lenovo["程式碼"^]作為聯想向 MLPerf Inference v1.1 提交的一部分提供。
+
+若要設定 AI 推理，請依照下列步驟操作：
+
+. 下載需要註冊的資料集，ImageNet 2012 驗證集、Criteo Terabyte 資料集、BraTS 2019 訓練集，然後解壓縮檔案。
+. 建立至少 1TB 的工作目錄並定義環境變數 `MLPERF_SCRATCH_PATH`參考目錄。
++
+您應該在網路儲存用例的共用儲存體上共用此目錄，或在使用本機資料進行測試時在本機磁碟上共用此目錄。
+
+. 運行 make `prebuild`命令，該命令為所需的推理任務建置並啟動 docker 容器。
++
+
+NOTE: 以下命令均在正在執行的 docker 容器內執行：
+
++
+** 下載用於 MLPerf 推理任務的預訓練 AI 模型： `make download_model`
+** 下載可免費下載的其他資料集： `make download_data`
+** 預處理資料： `preprocess_data`
+** 跑步： `make build` 。
+** 建立針對計算伺服器中的 GPU 最佳化的推理引擎： `make generate_engines`
+** 若要執行推理工作負載，請執行以下命令（一個命令）：
+
+
+
+
+....
+make run_harness RUN_ARGS="--benchmarks=<BENCHMARKS> --scenarios=<SCENARIOS>"
+....
+
+
+== AI推理運行
+
+執行了三種類型的運行：
+
+* 使用本地儲存的單一伺服器 AI 推理
+* 使用網路儲存的單一伺服器 AI 推理
+* 使用網路儲存的多伺服器 AI 推理
+

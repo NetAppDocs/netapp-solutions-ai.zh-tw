@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-storagegrid-datalake-adas.html 
+keywords:  
+summary:  
+---
+= TR-4851：適用於自動駕駛工作負載的NetApp StorageGRID資料湖 - 解決方案設計
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+NetApp的 David Arnette
+
+[role="lead"]
+TR-4851 示範如何使用NetApp StorageGRID物件儲存作為機器學習 (ML) 和深度學習 (DL) 軟體開發的資料儲存庫和管理系統。本文介紹了自動駕駛汽車軟體開發中的資料流和要求以及簡化資料生命週期的StorageGRID功能。此解決方案適用於 ML 和 DL 開發過程中典型的任何多階段資料管道工作流程。
+
+link:https://www.netapp.com/pdf.html?item=/media/19399-tr-4851.pdf["TR-4851：適用於自動駕駛工作負載的NetApp StorageGRID資料湖 - 解決方案設計"^]

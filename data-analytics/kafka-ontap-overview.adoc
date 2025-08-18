@@ -1,0 +1,25 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-ontap-overview.html 
+keywords: tr4941, 4941, introduction 
+summary: 本文檔概述了使用分層儲存基準測試套件對NetApp ONTAP上的 Confluent 平台進行的效能基準測試。 
+---
+= TR-4941：與NetApp ONTAP儲存控制器融合
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Karthikeyan Nagalingam、Joe Scott、 NetApp Rankesh Kumar、Confluence
+
+[role="lead"]
+為了讓 Confluent 平台更具可擴充性和彈性，它必須能夠非常快速地擴展和平衡工作負載。分層儲存透過減少這種操作負擔，使得在 Confluent 中儲存大量資料變得易於管理。
+
+其基本思想是將資料儲存與資料處理分開，這使得獨立擴展變得更加容易。
+
+NetApp ONTAP資料管理軟體搭載業界領先的創新技術，無論資料位於何處，都能為 Confluent 帶來許多優勢。
+
+本文檔概述了使用分層儲存基準測試套件對NetApp ONTAP上的 Confluent 平台進行的效能基準測試。

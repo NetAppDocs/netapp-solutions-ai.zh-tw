@@ -1,0 +1,73 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/spark-additional-info.html 
+keywords:  
+summary:  
+---
+= 在哪裡可以找到更多信息
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本 TR 中使用了以下參考文獻：
+
+* Apache Spark 架構和元件
++
+http://spark.apache.org/docs/latest/cluster-overview.html["http://spark.apache.org/docs/latest/cluster-overview.html"^]
+
+* Apache Spark 用例
++
+https://www.qubole.com/blog/big-data/apache-spark-use-cases/["https://www.qubole.com/blog/big-data/apache-spark-use-cases/"^]
+
+* Spark NLP
++
+https://www.johnsnowlabs.com/spark-nlp/["https://www.johnsnowlabs.com/spark-nlp/"^]
+
+* BERT
++
+https://arxiv.org/abs/1810.04805["https://arxiv.org/abs/1810.04805"^]
+
+* 用於廣告點擊預測的深度和交叉網絡
++
+https://arxiv.org/abs/1708.05123["https://arxiv.org/abs/1708.05123"^]
+
+* FlexGroup
++
+https://www.netapp.com/pdf.html?item=/media/7337-tr4557pdf.pdf[]
+
+* 串流 ETL
++
+https://www.infoq.com/articles/apache-spark-streaming["https://www.infoq.com/articles/apache-spark-streaming"^]
+
+* NetApp E系列Hadoop解決方案
++
+https://www.netapp.com/media/16420-tr-3969.pdf["https://www.netapp.com/media/16420-tr-3969.pdf"^]
+
+
+
+* NetApp現代資料分析解決方案
++
+link:index.html["數據分析解決方案"]
+
+* SnapMirror
++
+https://docs.netapp.com/us-en/ontap/data-protection/snapmirror-replication-concept.html["https://docs.netapp.com/us-en/ontap/data-protection/snapmirror-replication-concept.html"^]
+
+* XCP
++
+https://mysupport.netapp.com/documentation/docweb/index.html?productID=63942&language=en-US["https://mysupport.netapp.com/documentation/docweb/index.html?productID=63942&language=en-US"^]
+
+* BlueXP複製和同步
++
+https://cloud.netapp.com/cloud-sync-service["https://cloud.netapp.com/cloud-sync-service"^]
+
+* DataOps 工具包
++
+https://github.com/NetApp/netapp-dataops-toolkit["https://github.com/NetApp/netapp-dataops-toolkit"^]
+
+

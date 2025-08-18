@@ -1,0 +1,129 @@
+---
+sidebar: sidebar 
+permalink: software/ai-conf-protopia-tech.html 
+keywords: protopia, netapp ontap, overview, dataops toolkit, nvidia triton inference server, pytorch 
+summary: 本節概述了完成此解決方案所需的各種技術組件。 
+---
+= 技術概述
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本節概述了完成此解決方案所需的各種技術組件。
+
+
+
+== 普羅托邦
+
+Protopia AI 為當今市場上的機密推理提供了一種不引人注目的純軟體解決方案。 Protopia 解決方案透過最大限度地減少敏感資訊的暴露，為推理服務提供了無與倫比的保護。人工智慧僅接收資料記錄中對於執行手頭任務真正必要的信息，僅此而已。大多數推理任務不會使用每個資料記錄中存在的所有資訊。無論您的 AI 使用的是圖像、語音、視訊還是結構化表格數據，Protopia 都只提供推理服務所需的內容。該專利核心技術使用數學策劃的雜訊來隨機轉換資料並混淆給定 ML 服務不需要的資訊。該解決方案不會掩蓋數據；相反，它通過使用精選的隨機噪聲來改變數據表示。
+
+Protopia 解決方案將改變表示的問題表述為基於梯度的擾動最大化方法，該方法仍然保留與模型功能相關的輸入特徵空間中的信息。此發現過程在訓練 ML 模型結束時作為微調過程運行。在傳遞過程自動產生一組機率分佈之後，低開銷數據轉換會將這些分佈中的雜訊樣本應用於數據，並在將其傳遞給模型進行推理之前對其進行混淆。
+
+
+
+== NetApp ONTAP AI
+
+NetApp ONTAP AI 參考架構由 DGX A100 系統和NetApp雲端連接儲存系統提供支持，由NetApp和NVIDIA開發和驗證。它為 IT 組織提供了一個具有以下優勢的架構：
+
+* 消除設計複雜性
+* 允許獨立擴展計算和存儲
+* 使客戶能夠從小規模開始並無縫擴展
+* 提供一系列適合各種效能和成本點的儲存選項
+
+
+ONTAP AI 將 DGX A100 系統和NetApp AFF A800儲存系統與最先進的網路緊密整合。 ONTAP AI 透過消除設計複雜性和猜測來簡化 AI 部署。客戶可以從小規模開始，然後無中斷地發展，同時智慧地管理從邊緣到核心到雲端再返回的資料。
+
+下圖顯示了採用 DGX A100 系統的ONTAP AI 系列解決方案的幾種變體。 AFF A800系統性能已通過最多八個 DGX A100 系統驗證。透過向ONTAP叢集添加儲存控制器對，該架構可以擴展到多個機架，以支援許多 DGX A100 系統和具有線性性能的 PB 級儲存容量。這種方法可以靈活地根據所使用的 DL 模型的大小和所需的效能指標獨立地改變計算與儲存的比率。
+
+image:ai-protopia-002.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+有關ONTAP AI 的更多信息，請參閱 https://www.netapp.com/pdf.html?item=/media/21793-nva-1153-design.pdf["NVA-1153：配備NVIDIA DGX A100 系統和 Mellanox Spectrum 乙太網路交換器的NetApp ONTAP AI。"^]
+
+
+
+== NetApp ONTAP
+
+ONTAP 9.11 是NetApp最新一代儲存管理軟體，它支援企業將基礎架構現代化並過渡到雲端就緒資料中心。 ONTAP利用業界領先的數據管理功能，只需一套工具即可管理和保護數據，無論數據位於何處。您也可以將資料自由移動到任何需要的地方：邊緣、核心或雲端。  ONTAP 9.11 包含許多功能，可簡化資料管理、加速和保護關鍵數據，並支援跨混合雲架構的下一代基礎架構功能。
+
+
+
+== NetApp DataOps 工具包
+
+NetApp DataOps Toolkit 是一個 Python 函式庫，可協助開發人員、資料科學家、DevOps 工程師和資料工程師輕鬆執行各種資料管理任務，例如近乎即時地配置新的資料磁碟區或 JupyterLab 工作區、近乎即時地複製資料磁碟區或 JupyterLab 工作區，以及近乎即時快照資料磁碟區或 JupyterLab 工作區的基準測試區以進行可測試區的基準測試區或 JupyterLab 工作區以測試區。這個 Python 庫可以作為命令列實用程式或函數庫，您可以將其匯入到任何 Python 程式或 Jupyter 筆記本中。
+
+
+
+== NVIDIA Triton 推理伺服器
+
+NVIDIA Triton 推理伺服器是一款開源推理服務軟體，可協助標準化模型部署和執行，以在生產中提供快速且可擴展的 AI。  Triton Inference Server 透過讓團隊能夠在任何基於 GPU 或 CPU 的基礎架構上從任何框架部署、運行和擴展經過訓練的 AI 模型，簡化了 AI 推理。  Triton Inference Server 支援所有主流框架，例如 TensorFlow、 NVIDIA TensorRT、PyTorch、MXNet、OpenVINO 等。 Triton 與 Kubernetes 集成，可進行編排和擴展，您可以在所有主要的公有雲 AI 和 Kubernetes 平台中使用它。它還與許多 MLOps 軟體解決方案整合。
+
+
+
+== PyTorch
+
+https://pytorch.org/["PyTorch"^]是一個開源的 ML 框架。它是一個針對使用 GPU 和 CPU 的深度學習而最佳化的張量庫。 PyTorch 套件包含多維張量的資料結構，它提供了許多實用程序，用於高效序列化張量以及其他有用的實用程式。它還有一個 CUDA 對應物，可讓您在具有運算能力的NVIDIA GPU 上執行張量運算。在本次驗證中，我們使用 OpenCV-Python (cv2) 函式庫來驗證我們的模型，同時利用 Python 最直覺的電腦視覺概念。
+
+
+
+=== 簡化資料管理
+
+資料管理對於企業 IT 營運和資料科學家至關重要，以便將適當的資源用於 AI 應用程式和訓練 AI/ML 資料集。以下有關NetApp技術的附加資訊超出了本次驗證的範圍，但可能與您的部署相關。
+
+ONTAP資料管理軟體包括以下功能，可簡化操作並降低總營運成本：
+
+* 內聯資料壓縮和擴展重複資料刪除。資料壓縮減少了儲存區塊內部浪費的空間，重複資料刪除顯著增加了有效容量。這適用於本地儲存的資料和分層到雲端的資料。
+* 最小、最大和自適應服務品質 (AQoS)。細粒度的服務品質 (QoS) 控制有助於維持高度共享環境中關鍵應用程式的效能水準。
+* NetApp FabricPool。提供冷資料到公有和私有雲儲存選項的自動分層，包括 Amazon Web Services (AWS)、Azure 和NetApp StorageGRID儲存解決方案。有關FabricPool的更多信息，請參閱 https://www.netapp.com/pdf.html?item=/media/17239-tr4598pdf.pdf["TR-4598： FabricPool最佳實踐"^]。
+
+
+
+
+=== 加速並保護數據
+
+ONTAP提供卓越等級的效能和資料保護，並透過以下方式擴展這些功能：
+
+* 性能和更低的延遲。  ONTAP以盡可能低的延遲提供盡可能高的吞吐量。
+* 資料保護。  ONTAP提供內建資料保護功能，並在所有平台上提供通用管理。
+* NetApp磁碟區加密 (NVE)。  ONTAP提供原生磁碟區級加密，同時支援板載和外部金鑰管理。
+* 多租戶和多因素身份驗證。  ONTAP支援以最高等級的安全性共用基礎架構資源。
+
+
+
+
+=== 面向未來的基礎設施
+
+ONTAP具有以下功能，可協助滿足嚴苛且不斷變化的業務需求：
+
+* 無縫擴展和無中斷運行。 ONTAP支援無中斷地向現有控制器和橫向擴展叢集添加容量。客戶可以升級到最新技術，例如 NVMe 和 32Gb FC，而無需昂貴的資料遷移或中斷。
+* 雲端連線。  ONTAP是與雲端連接最緊密的儲存管理軟體，在所有公有雲中均提供軟體定義儲存（ONTAP Select）和Google Cloud NetApp Volumes Volumes ）的選項。
+* 與新興應用程式的整合。  ONTAP使用支援現有企業應用的相同基礎架構，為下一代平台和應用（如自動駕駛汽車、智慧城市和工業 4.0）提供企業級資料服務。
+
+
+
+
+== NetApp Astra控制
+
+NetApp Astra產品系列由NetApp儲存和資料管理技術提供支持，為本地和公有雲中的 Kubernetes 應用程式提供儲存和應用程式感知資料管理服務。它使您能夠輕鬆備份 Kubernetes 應用程序，將資料遷移到不同的集群，並立即創建可運行的應用程式克隆。如果您需要管理在公有雲中運行的 Kubernetes 應用程序，請參閱 https://docs.netapp.com/us-en/astra-control-service/index.html["Astra控制服務"^]。  Astra Control Service 是一項NetApp託管服務，可為 Google Kubernetes Engine (GKE) 和 Azure Kubernetes Service (AKS) 中的 Kubernetes 叢集提供應用程式感知資料管理。
+
+
+
+== NetApp Trident
+
+Astra https://netapp.io/persistent-storage-provisioner-for-kubernetes/["Trident"^]NetApp推出的一款適用於 Docker 和 Kubernetes 的開源動態儲存編排器，可簡化持久性儲存的建立、管理和使用。  Trident是一個 Kubernetes 原生應用程序，直接在 Kubernetes 叢集中運作。  Trident讓客戶能夠將 DL 容器映像無縫部署到NetApp儲存體上，並為 AI 容器部署提供企業級體驗。  Kubernetes 使用者（ML 開發人員、資料科學家等）可以建立、管理和自動化編排和克隆，以利用NetApp技術提供支援的高階資料管理功能。
+
+
+
+== NetApp BlueXP複製與同步
+
+https://docs.netapp.com/us-en/occm/concept_cloud_sync.html["BlueXP複製和同步"^]是NetApp 的一項快速、安全的資料同步服務。無論您需要在本機 NFS 或 SMB 檔案共用、 NetApp StorageGRID、 NetApp ONTAP S3、 Google Cloud NetApp Volumes、 Azure NetApp Files、Amazon Simple Storage Service (Amazon S3)、Amazon Elastic File System (Amazon EFS)、Azure Blob、Google )傳輸都能快速安全地將文件移動到您需要的位置。資料傳輸完成後，可在來源端和目標端完全使用。  BlueXP Copy 和 Syncc 會根據您預先定義的計劃持續同步數據，僅移動增量，從而最大限度地減少數據複製所花費的時間和金錢。  BlueXP Copy and Sync 是一種軟體即服務 (SaaS) 工具，其設定和使用極為簡單。 BlueXP Copy 和 Sync 觸發的資料傳輸由資料代理執行。您可以在 AWS、Azure、Google Cloud Platform 或本機部署BlueXP Copy 和 Sync 資料代理程式。
+
+
+
+== NetApp BlueXP分類
+
+在強大的AI演算法驅動下， https://bluexp.netapp.com/netapp-cloud-data-sense["NetApp BlueXP分類"^]為您的整個資料資產提供自動化控制和資料治理。您可以輕鬆找到節省成本的方法、識別合規性和隱私問題並找到最佳化機會。  BlueXP分類儀表板可讓您洞察重複數據以消除冗餘，映射個人、非個人和敏感數據，並針對敏感數據和異常情況發出警報。

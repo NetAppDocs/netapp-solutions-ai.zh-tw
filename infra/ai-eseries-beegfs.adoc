@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-eseries-beegfs.html 
+keywords:  
+summary:  
+---
+= NetApp上的 BeeGFS 與 E 系列存儲
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetApp上具有 E 系列儲存的 BeeGFS 是一種經過驗證的整合解決方案，具有簡單、可靠、可擴展且經濟高效的 HPC 基礎架構，可滿足您最極端的工作負載的需求。
+
+link:https://docs.netapp.com/us-en/beegfs/index.html["NetApp上的 BeeGFS 與 E 系列存儲"^]

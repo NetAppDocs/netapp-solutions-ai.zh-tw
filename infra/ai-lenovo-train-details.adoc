@@ -1,0 +1,66 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-lenovo-train-details.html 
+keywords: data, graphs, image recognition, training, resnet, data read speed, 
+summary: 本節描述了詳細的測試過程結果。 
+---
+= 測試程序和詳細結果
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本節描述了詳細的測試過程結果。
+
+
+
+== 在ONTAP中使用 ResNet 進行影像辨識訓練
+
+我們使用一台和兩台 SR670 V2 伺服器執行 ResNet50 基準測試。本次測試使用MXNet 22.04-py3 NGC容器運行訓練。
+
+我們在本次驗證中使用了以下測試程序：
+
+. 我們在運行腳本之前清除了主機緩存，以確保資料尚未被緩存：
++
+....
+sync ; sudo /sbin/sysctl vm.drop_caches=3
+....
+. 我們在伺服器儲存（本機 SSD 儲存）以及NetApp AFF儲存系統上使用 ImageNet 資料集執行基準測試腳本。
+. 我們使用以下方法驗證了網路和本地儲存效能 `dd`命令。
+. 對於單節點運行，我們使用以下命令：
++
+....
+python train_imagenet.py --gpus 0,1,2,3,4,5,6,7 --batch-size 408 --kv-store horovod --lr 10.5 --mom 0.9 --lr-step-epochs pow2 --lars-eta 0.001 --label-smoothing 0.1 --wd 5.0e-05 --warmup-epochs 2 --eval-period 4 --eval-offset 2 --optimizer sgdwfastlars --network resnet-v1b-stats-fl --num-layers 50 --num-epochs 37 --accuracy-threshold 0.759 --seed 27081 --dtype float16 --disp-batches 20 --image-shape 4,224,224 --fuse-bn-relu 1 --fuse-bn-add-relu 1 --bn-group 1 --min-random-area 0.05 --max-random-area 1.0 --conv-algo 1 --force-tensor-core 1 --input-layout NHWC --conv-layout NHWC --batchnorm-layout NHWC --pooling-layout NHWC --batchnorm-mom 0.9 --batchnorm-eps 1e-5 --data-train /data/train.rec --data-train-idx /data/train.idx --data-val /data/val.rec --data-val-idx /data/val.idx --dali-dont-use-mmap 0 --dali-hw-decoder-load 0 --dali-prefetch-queue 5 --dali-nvjpeg-memory-padding 256 --input-batch-multiplier 1 --dali- threads 6 --dali-cache-size 0 --dali-roi-decode 1 --dali-preallocate-width 5980 --dali-preallocate-height 6430 --dali-tmp-buffer-hint 355568328 --dali-decoder-buffer-hint 1315942 --dali-crop-buffer-hint 165581 --dali-normalize-buffer-hint 441549 --profile 0 --e2e-cuda-graphs 0 --use-dali
+....
+. 對於分散式運行，我們使用了參數伺服器的並行化模型。我們每個節點使用兩個參數伺服器，並將 epoch 數設定為與單節點運行相同。我們這樣做是因為由於進程之間的同步不完善，分散式訓練通常需要更多的時期。不同的時期數可能會扭曲單節點和分佈式情況之間的比較。
+
+
+
+
+== 資料讀取速度：本地儲存與網路儲存
+
+讀取速度是透過 `dd`對 ImageNet 資料集的其中一個檔案執行指令。具體來說，我們對本地和網路資料運行以下命令：
+
+....
+sync ; sudo /sbin/sysctl vm.drop_caches=3dd if=/a400-100g/netapp-ra/resnet/data/preprocessed_data/train.rec of=/dev/null bs=512k count=2048Results (average of 5 runs):
+Local storage: 1.7 GB/s Network storage: 1.5 GB/s.
+....
+兩個值相似，表示網路儲存可以以與本地儲存相似的速率傳輸資料。
+
+
+
+== 共享用例：多個獨立、同時的作業
+
+該測試模擬了該解決方案的預期用例：多作業、多用戶 AI 訓練。每個節點在使用共享網路儲存的同時運行自己的訓練。結果如下圖所示，從圖中可以看出，該解決方案案例提供了出色的效能，所有作業的運行速度與單一作業基本相同。總吞吐量與節點數量成線性關係。
+
+image:a400-thinksystem-008.png["該圖顯示了每秒的聚合影像數。"]
+
+image:a400-thinksystem-009.png["此圖顯示了運行時間（以分鐘為單位）。"]
+
+這些圖表顯示了使用 100 GbE 用戶端網路上每個伺服器的八個 GPU 的運算節點的運行時間（以分鐘為單位）和每秒的聚合圖像數，結合了並發訓練模型和單一訓練模型。訓練模型的平均運作時間為35分9秒。個人成績分別為34分32秒、36分21秒、34分37秒、35分25秒、34分31秒。訓練模型每秒的平均影像數為 22,573 張，每秒的單一影像數為 21,764 張；23,438 張；22,556 張；22,564 張；22,547 張。
+
+根據我們的驗證，一個使用NetApp資料運行時間的獨立訓練模型的運行時間為 34 分 54 秒，每秒 22,231 張圖像。一個具有本地資料（DAS）的獨立訓練模型的運行時間為 34 分 21 秒，每秒 22,102 張影像。在這些運行期間，平均 GPU 利用率為 96%，如在 nvidia-smi 上觀察到的。請注意，此平均值包括測試階段，在此期間未使用 GPU，而 CPU 利用率為 40%（由 mpstat 測量）。這表明在每種情況下數據傳輸率都是足夠的。

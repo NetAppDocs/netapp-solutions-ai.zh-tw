@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: software/ai-osmlops-airflow-dotk.html 
+keywords: Apache Airflow 
+summary: NetApp的開源 MLOps - 將NetApp DataOps 工具包與 Airflow 結合使用 
+---
+= 將NetApp DataOps 工具包與 Airflow 結合使用
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+這 https://github.com/NetApp/netapp-dataops-toolkit/tree/main/netapp_dataops_k8s["適用於 Kubernetes 的NetApp DataOps 工具包"]可以與 Airflow 結合使用。將NetApp DataOps Toolkit 與 Airflow 結合使用，您可以將NetApp資料管理作業（例如建立快照和複製）合併到由 Airflow 協調的自動化工作流程中。
+
+請參閱 https://github.com/NetApp/netapp-dataops-toolkit/tree/main/netapp_dataops_k8s/Examples/Airflow["氣流範例"]有關將該工具包與 Airflow 結合使用的詳細信息，請參閱NetApp DataOps Toolkit GitHub 儲存庫中的部分。

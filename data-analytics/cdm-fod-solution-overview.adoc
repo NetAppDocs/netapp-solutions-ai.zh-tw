@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/cdm-fod-solution-overview.html 
+keywords: tr4967, 4967, introduction, overview 
+summary: 資料科學家和工程師經常需要存取以 NFS 格式儲存的數據，但直接從 AWS SageMaker 中的 S3 協定存取這些資料可能具有挑戰性，因為 AWS 僅支援 S3 儲存桶存取。但是， NetApp ONTAP透過為 NFS 和 S3 啟用雙協定存取提供了解決方案。透過此解決方案，資料科學家和工程師可以透過NetApp Cloud Volumes ONTAP的 S3 儲存桶存取來自 AWS SageMaker 筆記本的 NFS 資料。這種方法可以輕鬆存取和共享來自 NFS 和 S3 的相同數據，而無需額外的軟體。 
+---
+= TR-4967：使用NetApp檔案物件二元性和 AWS SageMaker 進行雲端資料管理
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Karthikeyan Nagalingam， NetApp
+
+[role="lead"]
+資料科學家和工程師經常需要存取以 NFS 格式儲存的數據，但直接從 AWS SageMaker 中的 S3 協定存取這些資料可能具有挑戰性，因為 AWS 僅支援 S3 儲存桶存取。但是， NetApp ONTAP透過為 NFS 和 S3 啟用雙協定存取提供了解決方案。透過此解決方案，資料科學家和工程師可以透過NetApp Cloud Volumes ONTAP的 S3 儲存桶存取來自 AWS SageMaker 筆記本的 NFS 資料。這種方法可以輕鬆存取和共享來自 NFS 和 S3 的相同數據，而無需額外的軟體。

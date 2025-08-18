@@ -1,0 +1,36 @@
+---
+sidebar: sidebar 
+permalink: vector-db/ai-vdb-intro.html 
+keywords: vector database 
+summary: NetApp向量資料庫解決方案介紹 
+---
+= 介紹
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本節介紹NetApp的向量資料庫解決方案。
+
+
+
+== 介紹
+
+向量資料庫有效地解決了旨在處理大型語言模型 (LLM) 和生成人工智慧 (AI) 中的語義搜尋複雜性的挑戰。與傳統的數據管理系統不同，向量資料庫能夠使用數據本身的內容而不是標籤或標記來處理和搜尋各種類型的數據，包括圖像、視訊、文字、音訊和其他形式的非結構化資料。
+
+關聯式資料庫管理系統 (RDBMS) 的限制是有據可查的，尤其是它們在處理人工智慧應用中常見的高維度資料表示和非結構化資料時遇到的困難。 RDBMS 通常需要將資料扁平化為更易於管理的結構，這個過程既耗時又容易出錯，從而導致搜尋延遲和效率低下。向量資料庫的出現解決了這些問題，為複雜高維資料的管理和搜尋提供了更有效率、更準確的解決方案，從而促進了人工智慧應用的發展。
+
+本文檔為目前正在使用或計劃使用向量資料庫的客戶提供全面的指南，詳細介紹了在NetApp ONTAP、 NetApp StorageGRID、 Amazon FSx ONTAP for NetApp ONTAP和SnapCenter等平台上使用向量資料庫的最佳實務。本文提供的內容涵蓋了一系列主題：
+
+* NetApp儲存透過NetApp ONTAP和StorageGRID物件儲存為 Milvus 等向量資料庫提供基礎設施指南。
+* 透過檔案和物件儲存驗證 AWS FSx ONTAP中的 Milvus 資料庫。
+* 深入研究 NetApp 的檔案物件二元性，展示其對向量資料庫以及其他應用程式中的資料的實用性。
+* NetApp 的資料保護管理產品SnapCenter如何為向量資料庫資料提供備份和復原功能。
+* NetApp 的混合雲如何在本機和雲端環境中提供資料複製和保護。
+* 提供有關NetApp ONTAP上 Milvus 和 pgvector 等向量資料庫的效能驗證的見解。
+* 兩個具體的用例：具有大型語言模型 (LLM) 的檢索增強生成 (RAG) 和NetApp IT 團隊的 ChatAI，從而提供所概述的概念和實踐的實際範例。
+

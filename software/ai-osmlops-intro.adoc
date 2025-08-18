@@ -1,0 +1,45 @@
+---
+sidebar: sidebar 
+permalink: software/ai-osmlops-intro.html 
+keywords: tr-4798, tr4798, 4798, MLOps, Trident, ONTAP, containers, AI, Kubernetes, Kubeflow, Jupyter, Airflow, MLflow, JupyterHub 
+summary: 此解決方案旨在展示可納入 MLOps 工作流程的幾種不同的開源工具和框架。根據需求和用例，這些不同的工具和框架可以一起使用或單獨使用。 
+---
+= NetApp的開源 MLOps
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Mike Oglesby， NetApp Sufian Ahmad， NetApp Rick Huang， NetApp Mohan Acharya， NetApp
+
+[role="lead"]
+各種規模和各行業的公司和組織都在轉向人工智慧 (AI) 來解決現實世界的問題、提供創新的產品和服務，並在競爭日益激烈的市場中佔據優勢。許多組織正在轉向開源 MLOps 工具，以跟上產業快速創新的步伐。這些開源工具提供了先進的功能和尖端的特性，但通常不考慮資料可用性和資料安全性。不幸的是，這意味著高技能的資料科學家被迫花費大量時間等待獲取資料或等待基本的資料相關操作完成。透過將流行的開源 MLOps 工具與NetApp的智慧資料基礎架構結合，組織可以加速其資料管道，從而加速其 AI 計劃。他們可以從資料中釋放價值，同時確保資料受到保護且安全。該解決方案展示了NetApp資料管理功能與幾種流行的開源工具和框架的配對，以應對這些挑戰。
+
+以下列表重點介紹了此解決方案支援的一些關鍵功能：
+
+* 使用者可以快速配置由高效能、橫向擴展的NetApp儲存支援的新的高容量資料磁碟區和開發工作區。
+* 使用者可以幾乎即時地克隆大容量資料磁碟區和開發工作區，以便進行實驗或快速迭代。
+* 使用者可以幾乎即時保存大容量資料磁碟區和開發工作區的快照，以進行備份和/或可追溯性/基準測試。
+
+
+image:aicp-001.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+典型的 MLOps 工作流程包含開發工作區，通常採用以下形式link:https://jupyter.org["Jupyter 筆記本"^]；實驗追蹤；自動化訓練管道；資料管道；以及推理/部署。該解決方案重點介紹了幾種不同的工具和框架，它們可以獨立使用或結合使用來解決工作流程的不同方面。我們也展示了NetApp資料管理功能與每種工具的配對。此解決方案旨在提供建置模組，組織可據此建置針對其用例和要求的客製化 MLOps 工作流程。
+
+此解決方案涵蓋以下工具/框架：
+
+* link:https://airflow.apache.org["Apache Airflow"^]
+* link:https://jupyter.org/hub["JupyterHub"^]
+* link:https://www.kubeflow.org["Kubeflow"^]
+* link:https://www.mlflow.org["機器學習流"^]
+
+
+以下列表描述了獨立或共同部署這些工具的常見模式。
+
+* 聯合部署 JupyterHub、MLflow 和 Apache Airflow - JupyterHublink:https://jupyter.org["Jupyter 筆記本"^] 、用於實驗追蹤的 MLflow 以及用於自動化訓練和資料管道的 Apache Airflow。
+* 聯合部署 Kubeflow 和 Apache Airflow - Kubeflowlink:https://jupyter.org["Jupyter 筆記本"^] 、實驗追蹤、自動化訓練管道和推理；以及用於資料管道的 Apache Airflow。
+* 將 Kubeflow 部署為一體化 MLOps 平台解決方案link:https://jupyter.org["Jupyter 筆記本"^]、實驗追蹤、自動化訓練和資料管道以及推理。
+

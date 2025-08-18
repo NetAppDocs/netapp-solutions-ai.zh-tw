@@ -1,0 +1,130 @@
+---
+sidebar: sidebar 
+permalink: software/ai-osmlops-train-singlenode.html 
+keywords: Single-Node, AI, Kubernetes, cluster, PVC 
+summary: NetApp開源 MLOps - 執行單節點 AI 工作負載 
+---
+= 執行單節點 AI 工作負載
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+若要在 Kubernetes 叢集中執行單節點 AI 和 ML 作業，請從部署跳轉主機執行下列任務。使用Trident，您可以快速輕鬆地建立可能包含 PB 級資料的資料卷，以供 Kubernetes 工作負載存取。為了讓此類資料卷可從 Kubernetes pod 內部訪問，只需在 pod 定義中指定 PVC。
+
+
+NOTE: 本節假設您已經將嘗試在 Kubernetes 叢集中執行的特定 AI 和 ML 工作負載容器化（以 Docker 容器格式）。
+
+. 以下範例指令展示如何為使用 ImageNet 資料集的 TensorFlow 基準工作負載建立 Kubernetes 作業。有關 ImageNet 資料集的更多信息，請參閱 http://www.image-net.org["ImageNet 網站"^]。
++
+此範例作業請求八個 GPU，因此可以在具有八個或更多 GPU 的單一 GPU 工作節點上執行。此範例作業可以在叢集中提交，該叢集中不存在具有八個或更多 GPU 的工作節點，或目前正被另一個工作負載佔用。如果是，那麼作業將保持待處理狀態，直到有這樣的工作節點可用。
+
++
+此外，為了最大限度地提高儲存頻寬，包含所需訓練資料的磁碟區在該作業建立的 pod 中被安裝了兩次。另一個卷也安裝在 pod 中。第二卷將用於儲存結果和指標。這些磁碟區在作業定義中透過使用 PVC 的名稱來引用。有關 Kubernetes 作業的更多信息，請參閱 https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/["Kubernetes 官方文檔"^]。
+
++
+一個 `emptyDir`音量 `medium`的價值 `Memory`安裝到 `/dev/shm`在此範例作業所建立的 pod 中。預設大小 `/dev/shm`Docker 容器運行時自動建立的虛擬磁碟區有時無法滿足 TensorFlow 的需求。安裝 `emptyDir`如下例所示，音量提供了足夠大的 `/dev/shm`虛擬卷。有關更多信息 `emptyDir`卷，參見 https://kubernetes.io/docs/concepts/storage/volumes/["Kubernetes 官方文檔"^]。
+
++
+此範例作業定義中指定的單一容器被賦予 `securityContext > privileged`的價值 `true`。該值意味著容器實際上在主機上具有 root 存取權限。在這種情況下使用此註釋，因為正在執行的特定工作負載需要 root 存取權。具體來說，工作負載執行的清除快取操作需要 root 存取權限。不管這是否 `privileged: true`註釋是否必要取決於您正在執行的特定工作負載的要求。
+
++
+....
+$ cat << EOF > ./netapp-tensorflow-single-imagenet.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: netapp-tensorflow-single-imagenet
+spec:
+  backoffLimit: 5
+  template:
+    spec:
+      volumes:
+      - name: dshm
+        emptyDir:
+          medium: Memory
+      - name: testdata-iface1
+        persistentVolumeClaim:
+          claimName: pb-fg-all-iface1
+      - name: testdata-iface2
+        persistentVolumeClaim:
+          claimName: pb-fg-all-iface2
+      - name: results
+        persistentVolumeClaim:
+          claimName: tensorflow-results
+      containers:
+      - name: netapp-tensorflow-py2
+        image: netapp/tensorflow-py2:19.03.0
+        command: ["python", "/netapp/scripts/run.py", "--dataset_dir=/mnt/mount_0/dataset/imagenet", "--dgx_version=dgx1", "--num_devices=8"]
+        resources:
+          limits:
+            nvidia.com/gpu: 8
+        volumeMounts:
+        - mountPath: /dev/shm
+          name: dshm
+        - mountPath: /mnt/mount_0
+          name: testdata-iface1
+        - mountPath: /mnt/mount_1
+          name: testdata-iface2
+        - mountPath: /tmp
+          name: results
+        securityContext:
+          privileged: true
+      restartPolicy: Never
+EOF
+$ kubectl create -f ./netapp-tensorflow-single-imagenet.yaml
+job.batch/netapp-tensorflow-single-imagenet created
+$ kubectl get jobs
+NAME                                       COMPLETIONS   DURATION   AGE
+netapp-tensorflow-single-imagenet          0/1           24s        24s
+....
+. 確認您在步驟 1 中建立的作業正在正確執行。下列範例命令確認已為該作業建立了一個 pod（如作業定義中所指定），並且該 pod 目前正在其中一個 GPU 工作節點上執行。
++
+....
+$ kubectl get pods -o wide
+NAME                                             READY   STATUS      RESTARTS   AGE
+IP              NODE            NOMINATED NODE
+netapp-tensorflow-single-imagenet-m7x92          1/1     Running     0          3m    10.233.68.61    10.61.218.154   <none>
+....
+. 確認您在步驟 1 中建立的作業已成功完成。以下範例指令確認作業已成功完成。
++
+....
+$ kubectl get jobs
+NAME                                             COMPLETIONS   DURATION   AGE
+netapp-tensorflow-single-imagenet                1/1           5m42s      10m
+$ kubectl get pods
+NAME                                                   READY   STATUS      RESTARTS   AGE
+netapp-tensorflow-single-imagenet-m7x92                0/1     Completed   0          11m
+$ kubectl logs netapp-tensorflow-single-imagenet-m7x92
+[netapp-tensorflow-single-imagenet-m7x92:00008] PMIX ERROR: NO-PERMISSIONS in file gds_dstore.c at line 702
+[netapp-tensorflow-single-imagenet-m7x92:00008] PMIX ERROR: NO-PERMISSIONS in file gds_dstore.c at line 711
+Total images/sec = 6530.59125
+================ Clean Cache !!! ==================
+mpirun -allow-run-as-root -np 1 -H localhost:1 bash -c 'sync; echo 1 > /proc/sys/vm/drop_caches'
+=========================================
+mpirun -allow-run-as-root -np 8 -H localhost:8 -bind-to none -map-by slot -x NCCL_DEBUG=INFO -x LD_LIBRARY_PATH -x PATH python /netapp/tensorflow/benchmarks_190205/scripts/tf_cnn_benchmarks/tf_cnn_benchmarks.py --model=resnet50 --batch_size=256 --device=gpu --force_gpu_compatible=True --num_intra_threads=1 --num_inter_threads=48 --variable_update=horovod --batch_group_size=20 --num_batches=500 --nodistortions --num_gpus=1 --data_format=NCHW --use_fp16=True --use_tf_layers=False --data_name=imagenet --use_datasets=True --data_dir=/mnt/mount_0/dataset/imagenet --datasets_parallel_interleave_cycle_length=10 --datasets_sloppy_parallel_interleave=False --num_mounts=2 --mount_prefix=/mnt/mount_%d --datasets_prefetch_buffer_size=2000 --datasets_use_prefetch=True --datasets_num_private_threads=4 --horovod_device=gpu > /tmp/20190814_105450_tensorflow_horovod_rdma_resnet50_gpu_8_256_b500_imagenet_nodistort_fp16_r10_m2_nockpt.txt 2>&1
+....
+. *可選：*清理工作成果。以下範例指令顯示刪除在步驟 1 中建立的作業物件。
++
+當您刪除作業物件時，Kubernetes 會自動刪除任何關聯的 pod。
+
++
+....
+$ kubectl get jobs
+NAME                                             COMPLETIONS   DURATION   AGE
+netapp-tensorflow-single-imagenet                1/1           5m42s      10m
+$ kubectl get pods
+NAME                                                   READY   STATUS      RESTARTS   AGE
+netapp-tensorflow-single-imagenet-m7x92                0/1     Completed   0          11m
+$ kubectl delete job netapp-tensorflow-single-imagenet
+job.batch "netapp-tensorflow-single-imagenet" deleted
+$ kubectl get jobs
+No resources found.
+$ kubectl get pods
+No resources found.
+....
+

@@ -1,0 +1,17 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/bda-ai-abstract.html 
+keywords:  
+summary:  
+---
+= 抽象的
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本文檔介紹如何從大數據分析和高效能運算 (HPC) 系統中移動數據，以便將其用於人工智慧 (AI) 工作流程。 AI 通常透過 NFS 導出來處理 NFS 資料。但是，您可能會將 AI 資料放在大數據分析和高效能運算 (HPC) 平台中。這可以是 Hadoop 分散式檔案系統 (HDFS)、二進位大物件 (Blob)、S3 儲存或 IBM 的通用平行檔案系統 (GPFS)。在本文檔中，我們介紹如何使用 Hadoop 原生命令、 NetApp就地分析模組 (NIPAM) 和NetApp XCP 將資料從大數據分析平台和 GPFS 移至 NFS。本文檔也討論了將資料從大數據和 HPC 轉移到 AI 所帶來的商業利益。

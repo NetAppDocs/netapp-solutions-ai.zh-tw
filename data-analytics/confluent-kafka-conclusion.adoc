@@ -1,0 +1,72 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/confluent-kafka-conclusion.html 
+keywords: conclusion 
+summary: 本文檔提供了將 Kafka 與NetApp儲存體結合使用的最佳實務指南，包括 Confluent Kafka 認證測試、效能結果、調整、Kafka 連接器和自我重新平衡功能。 
+---
+= 結論
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本文檔提供了將 Confluent 分層儲存與NetApp儲存體結合使用的最佳實務指南，包括驗證測試、分層儲存效能結果、調整、Confluent S3 連接器和自平衡功能。考慮到 ILM 策略、經過多項效能測試驗證的 Confluent 效能以及業界標準的 S3 API， NetApp StorageGRID物件儲存是 Confluent 分層儲存的最佳選擇。
+
+
+
+== 在哪裡可以找到更多信息
+
+要了解有關本文檔中描述的信息的更多信息，請查看以下文檔和/或網站：
+
+* 什麼是 Apache Kafka
++
+https://www.confluent.io/what-is-apache-kafka/["https://www.confluent.io/what-is-apache-kafka/"^]
+
+* NetApp產品文檔
++
+https://www.netapp.com/support-and-training/documentation/["https://www.netapp.com/support-and-training/documentation/"^]
+
+* S3-sink 參數詳情
++
+https://docs.confluent.io/kafka-connect-s3-sink/current/configuration_options.html["https://docs.confluent.io/kafka-connect-s3-sink/current/configuration_options.html#s3-configuration-options"^]
+
+* 阿帕契卡夫卡
++
+https://en.wikipedia.org/wiki/Apache_Kafka["https://en.wikipedia.org/wiki/Apache_Kafka"^]
+
+* Confluent 平台中的無限存儲
++
+https://www.confluent.io/blog/infinite-kafka-storage-in-confluent-platform/["https://www.confluent.io/blog/infinite-kafka-storage-in-confluent-platform/"^]
+
+* Confluent 分層儲存 - 最佳實踐與規模
++
+https://docs.confluent.io/platform/current/kafka/tiered-storage.html#best-practices-and-recommendations["https://docs.confluent.io/platform/current/kafka/tiered-storage.html#best-practices-and-recommendations"^]
+
+* Confluent 平台的 Amazon S3 接收器連接器
++
+https://docs.confluent.io/kafka-connect-s3-sink/current/overview.html["https://docs.confluent.io/kafka-connect-s3-sink/current/overview.html"^]
+
+* Kafka 大小
++
+https://eventsizer.io["https://eventsizer.io"]
+
+* StorageGRID大小調整
++
+https://fusion.netapp.com/["https://fusion.netapp.com/"^]
+
+* Kafka 用例
++
+https://kafka.apache.org/uses["https://kafka.apache.org/uses"^]
+
+* Confluence 平台 6.0 中的自平衡 Kafka 集群
++
+https://www.confluent.io/blog/self-balancing-kafka-clusters-in-confluent-platform-6-0/["https://www.confluent.io/blog/self-balancing-kafka-clusters-in-confluent-platform-6-0/"^]
+
++
+https://www.confluent.io/blog/confluent-platform-6-0-delivers-the-most-powerful-event-streaming-platform-to-date/["https://www.confluent.io/blog/confluent-platform-6-0-delivers-the-most-powerful-event-streaming-platform-to-date/"^]
+
+

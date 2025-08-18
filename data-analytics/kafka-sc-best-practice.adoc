@@ -1,0 +1,23 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-sc-best-practice.html 
+keywords: best practices, get size, s3 buckets, ethernet links, mtu 
+summary: 本頁介紹了提高此解決方案效能的最佳實踐。 
+---
+= 性能最佳實踐指南
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本頁介紹了提高此解決方案效能的最佳實踐。
+
+* 對於ONTAP，如果可能，請使用 >=1MB 的 GET 大小。
+* 增加 `num.network.threads`和 `num.io.threads`在 `server.properties`在代理節點上，您可以將增加的分層活動推送到 S3 層。這些結果與 `num.network.threads`和 `num.io.threads`設定為 32。
+* S3 儲存桶應該針對每個成員聚合的八個組成部分。
+* 驅動 S3 流量的乙太網路連結在儲存和用戶端上都應盡可能使用 9k 的 MTU。
+

@@ -1,0 +1,21 @@
+---
+sidebar: sidebar 
+permalink: videos.html 
+summary: 一系列影片和示範討論了 NetApp 眾多解決方案的功能 
+keywords: netapp, solutions, videos, demos 
+---
+= NetApp解決方案：影片與示範
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+概述影片和演示，重點介紹 NetApp 的許多解決方案的具體功能。
+
+* link:https://www.youtube.com/playlist?list=PLdXI3bZJEw7nSrRhuolRPYqvSlGLuTOAO["NetApp AI 解決方案"^]
+* link:https://www.youtube.com/playlist?list=PLdXI3bZJEw7n1sWK-QGq4QMI1VBJS-ZZW["MLOps"^]
+

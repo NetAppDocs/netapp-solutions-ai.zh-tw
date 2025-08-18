@@ -1,0 +1,102 @@
+---
+sidebar: sidebar 
+permalink: software/ai-osmlops-mlflow-deploy.html 
+keywords: AI, control plane, MLOps, MLflow 
+summary: NetApp開源 MLOps - MLflow 部署 
+---
+= MLflow部署
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本節介紹在 Kubernetes 叢集中部署 MLflow 必須完成的任務。
+
+
+NOTE: 可以在 Kubernetes 以外的平台上部署 MLflow。在 Kubernetes 以外的平台上部署 MLflow 超出了本解決方案的範圍。
+
+
+
+== 先決條件
+
+在執行本節概述的部署練習之前，我們假設您已經執行了以下任務：
+
+. 您已經有一個可以運行的 Kubernetes 叢集。
+. 您已經在 Kubernetes 叢集中安裝並設定了NetApp Trident 。有關Trident的更多詳細信息，請參閱link:https://docs.netapp.com/us-en/trident/index.html["Trident文檔"^]。
+
+
+
+
+== 安裝 Helm
+
+MLflow 使用 Helm（Kubernetes 的流行套件管理器）進行部署。在部署 MLflow 之前，必須在 Kubernetes 控制節點上安裝 Helm。要安裝 Helm，請按照 https://helm.sh/docs/intro/install/["安裝說明"^]在 Helm 官方文件中。
+
+
+
+== 設定預設 Kubernetes StorageClass
+
+在部署 MLflow 之前，您必須在 Kubernetes 叢集中指定一個預設 StorageClass。若要在叢集中指定預設 StorageClass，請依照link:ai-osmlops-kubeflow-deploy.html["Kubeflow部署"]部分。如果您已經在叢集中指定了預設 StorageClass，則可以跳過此步驟。
+
+
+
+== 部署 MLflow
+
+滿足先決條件後，您就可以使用 Helm Chart 開始 MLflow 部署。
+
+
+
+=== 設定 MLflow Helm Chart 部署。
+
+在使用 Helm 圖表部署 MLflow 之前，我們可以使用 *config.yaml* 檔案將部署配置為使用NetApp Trident儲存類別並更改其他參數以滿足我們的需求。您可以在以下位置找到 *config.yaml* 檔案的範例： https://github.com/bitnami/charts/blob/main/bitnami/mlflow/values.yaml[]
+
+
+NOTE: 您可以在 config.yaml 檔案中的 *global.defaultStorageClass* 參數下設定Trident storageClass（例如 storageClass：「ontap-flexvol」）。
+
+
+
+=== 安裝 Helm Chart
+
+可以使用以下命令將 Helm 圖表與 MLflow 的自訂 *config.yaml* 檔案一起安裝：
+
+[source, shell]
+----
+helm install oci://registry-1.docker.io/bitnamicharts/mlflow -f config.yaml --generate-name --namespace jupyterhub
+----
+
+NOTE: 該命令透過提供的*config.yaml*檔案在自訂配置中的 Kubernetes 叢集上部署 MLflow。  MLflow 部署在給定的命名空間中，並透過 kubernetes 為該版本提供一個隨機發布名稱。
+
+
+
+=== 檢查部署
+
+Helm 圖表部署完成後，您可以使用以下命令檢查服務是否可存取：
+
+[source, shell]
+----
+kubectl get service -n jupyterhub
+----
+
+NOTE: 將 *jupyterhub* 替換為您在部署期間使用的命名空間。
+
+您應該會看到以下服務：
+
+[source, shell]
+----
+NAME                              TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)           AGE
+mlflow-1719843029-minio           ClusterIP   10.233.22.4     <none>        80/TCP,9001/TCP   25d
+mlflow-1719843029-postgresql      ClusterIP   10.233.5.141    <none>        5432/TCP          25d
+mlflow-1719843029-postgresql-hl   ClusterIP   None            <none>        5432/TCP          25d
+mlflow-1719843029-tracking        NodePort    10.233.2.158    <none>        30002:30002/TCP   25d
+----
+
+NOTE: 我們編輯了 config.yaml 檔案以使用 NodePort 服務存取連接埠 30002 上的 MLflow。
+
+
+
+=== 存取 MLflow
+
+一旦與 MLflow 相關的所有服務都啟動並運行，您就可以使用給定的 NodePort 或 LoadBalancer IP 位址存取它（例如 `http://10.61.181.109:30002`)

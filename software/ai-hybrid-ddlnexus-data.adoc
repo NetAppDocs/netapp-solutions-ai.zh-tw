@@ -1,0 +1,128 @@
+---
+sidebar: sidebar 
+permalink: software/ai-hybrid-ddlnexus-data.html 
+keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, Hybrid, Hybrid Cloud, Hybrid Multicloud, Cloud, AWS, Amazon, Amazon Web Services, FSx ONTAP, FSx, NetApp ONTAP, FlexCache, SnapMirror, BlueXP 
+summary: Domino Data Lab 和NetApp的混合多雲 MLOps - 跨不同環境存取相同數據 
+---
+= 跨不同環境存取相同數據
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本節描述了為了跨不同的運算環境存取相同資料而需要執行的任務。在 Domino MLOps 平台中，運算環境被稱為「資料平面」。如果您的資料駐留在一個資料平面的NetApp區上，但您需要在另一個資料平面中存取它，請按照本節中概述的任務進行操作。這種場景通常被稱為“爆發”，或者當目標環境是雲時，被稱為“雲爆發”。在處理受限或超額訂閱的運算資源時通常需要此功能。例如，如果您的本機運算叢集超額訂閱，您可能想要將工作負載安排到雲端，以便立即啟動它們。
+
+有兩種建議的選項可用於存取位於不同資料平面的NetApp磁碟區。這些選項在下面的小節中概述。根據您的特定要求選擇其中一個選項。下表描述了這兩個選項的優點和缺點。
+
+|===
+| 選項 | 好處 | 缺點 
+
+
+| 選項 1 - 快取 | - 更簡單的工作流程 - 能夠根據需要快取資料子集 - 能夠將資料寫回來源 - 無需管理遠端副本 | - 由於快取被水化，初始資料存取的延遲增加。 
+
+
+| 選項 2 - 鏡像 | - 來源磁碟區的完整副本 - 不會因快取混合而增加延遲（鏡像操作完成後） | - 必須等待鏡像操作完成後才能存取資料 - 必須管理遠端副本 - 無法寫回來源 
+|===
+
+
+== 選項 1 - 建立位於不同資料平面的磁碟區的緩存
+
+和link:https://docs.netapp.com/us-en/ontap/flexcache/accelerate-data-access-concept.html["NetApp FlexCache技術"]，您可以建立位於不同資料平面的NetApp磁碟區的快取。例如，如果您的本機資料平面中有NetApp卷，並且您需要在 AWS 資料平面中存取該卷，則可以在 AWS 中建立該磁碟區的快取。本節概述了建立位於不同資料平面的NetApp磁碟區的快取所需執行的任務。
+
+
+
+=== 在目標環境中建立FlexCache卷
+
+
+NOTE: 如果目標環境是您的本機資料中心，您將在本機ONTAP系統上建立FlexCache磁碟區。如果目標環境是 AWS，您將在Amazon FSx ONTAP實例上建立FlexCache磁碟區。
+
+首先，您必須在目標環境中建立一個FlexCache磁碟區。
+
+我們建議使用BlueXP來建立FlexCache磁碟區。若要使用BlueXP建立FlexCache卷，請依照link:https://docs.netapp.com/us-en/bluexp-volume-caching/["BlueXP volume caching文檔"]。
+
+如果您不想使用BlueXP，則可以使用ONTAP System Manager 或ONTAP CLI 來建立FlexCache磁碟區。若要使用 System Manager 建立FlexCache卷，請參閱link:https://docs.netapp.com/us-en/ontap/task_nas_flexcache.html["ONTAP 文件"]。若要使用ONTAP CLI 建立FlexCache卷，請參閱link:https://docs.netapp.com/us-en/ontap/flexcache/index.html["ONTAP 文件"]。
+
+如果您希望自動執行此過程，您可以使用link:https://docs.netapp.com/us-en/bluexp-automation/["BlueXP API"]， 這link:https://devnet.netapp.com/restapi.php["ONTAP REST API"]或link:https://docs.ansible.com/ansible/latest/collections/netapp/ontap/index.html["ONTAP Ansible 集合"]。
+
+
+NOTE: 系統管理員在Amazon FSx ONTAP中不可用。
+
+
+
+=== 將FlexCache磁碟區公開給 Domino
+
+接下來，您必須將FlexCache磁碟區公開給 Domino MLOps 平台。若要將FlexCache磁碟區公開給 Domino，請依照「公開未由Trident提供的現有 NFS 磁碟區」子部分中概述的說明進行操作link:ai-hybrid-ddlnexus-vols.html["「將現有NetApp卷公開給 Domino」部分"]此解決方案。
+
+現在，您將能夠在目標資料平面啟動作業和工作區時掛載FlexCache卷，如以下螢幕截圖所示。
+
+
+
+==== 在建立FlexCache磁碟區之前
+
+image:ddlnexus-004.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+
+
+==== 將FlexCache磁碟區暴露給 Domino 之後
+
+image:ddlnexus-005.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+
+
+== 選項 2 - 複製位於不同資料平面的捲
+
+和link:https://www.netapp.com/cyber-resilience/data-protection/data-backup-recovery/snapmirror-data-replication/["NetApp SnapMirror資料複製技術"]，您可以建立位於不同資料平面的NetApp磁碟區的副本。例如，如果您的本機資料平面中有一個NetApp卷，並且您需要在 AWS 資料平面中存取該卷，則可以在 AWS 中建立該磁碟區的副本。本節概述了建立位於不同資料平面的NetApp磁碟區副本所需執行的任務。
+
+
+
+=== 創建SnapMirror關係
+
+首先，您必須在來源磁碟區和目標環境中的新目標磁碟區之間建立SnapMirror關係。請注意，目標磁碟區將作為創建SnapMirror關係過程的一部分進行建立。
+
+我們建議使用BlueXP來創建SnapMirror關係。若要與BlueXP建立SnapMirror關係，請依照link:https://docs.netapp.com/us-en/bluexp-replication/["BlueXP replication文檔"]。
+
+如果您不想使用BlueXP，則可以使用ONTAP System Manager 或ONTAP CLI 來建立SnapMirror關係。若要與 System Manager 建立SnapMirror關係，請參閱link:https://docs.netapp.com/us-en/ontap/task_dp_configure_mirror.html["ONTAP 文件"]。若要使用ONTAP CLI 建立SnapMirror關係，請參閱link:https://docs.netapp.com/us-en/ontap/data-protection/snapmirror-replication-workflow-concept.html["ONTAP 文件"]。
+
+如果您希望自動執行此過程，您可以使用link:https://docs.netapp.com/us-en/bluexp-automation/["BlueXP API"]， 這link:https://devnet.netapp.com/restapi.php["ONTAP REST API"]或link:https://docs.ansible.com/ansible/latest/collections/netapp/ontap/index.html["ONTAP Ansible 集合"]。
+
+
+NOTE: 系統管理員在Amazon FSx ONTAP中不可用。
+
+
+
+=== 中斷SnapMirror關係
+
+接下來，您必須中斷SnapMirror關係才能啟動目標磁碟區進行資料存取。等到初始複製完成後再執行此步驟。
+
+
+NOTE: 您可以透過檢查BlueXP、 ONTAP系統管理員或ONTAP CLI 中的鏡像狀態來確定複製是否已完成。複製完成後，鏡像狀態將為「snapmirrored」。
+
+我們建議使用BlueXP來中斷SnapMirror關係。若要中斷與BlueXP 的SnapMirror關係，請依照link:https://docs.netapp.com/us-en/bluexp-replication/task-managing-replication.html["BlueXP replication文檔"]。
+
+如果您不想使用BlueXP，則可以使用ONTAP System Manager 或ONTAP CLI 來中斷SnapMirror關係。若要中斷與 System Manager 的SnapMirror關係，請參閱link:https://docs.netapp.com/us-en/ontap/task_dp_serve_data_from_destination.html["ONTAP 文件"]。若要使用ONTAP CLI 來中斷SnapMirror關係，請參閱link:https://docs.netapp.com/us-en/ontap/data-protection/make-destination-volume-writeable-task.html["ONTAP 文件"]。
+
+如果您希望自動執行此過程，您可以使用link:https://docs.netapp.com/us-en/bluexp-automation/["BlueXP API"]， 這link:https://devnet.netapp.com/restapi.php["ONTAP REST API"]或link:https://docs.ansible.com/ansible/latest/collections/netapp/ontap/index.html["ONTAP Ansible 集合"]。
+
+
+
+=== 將目標卷公開給 Domino
+
+接下來，您必須將目標磁碟區公開給 Domino MLOps 平台。若要將目標磁碟區公開給 Domino，請依照「公開未由Trident提供的現有 NFS 磁碟區」子部分中概述的說明進行操作link:ai-hybrid-ddlnexus-vols.html["「將現有NetApp卷公開給 Domino」部分"]此解決方案。
+
+現在，您將能夠在目標資料平面啟動作業和工作區時掛載目標卷，如下面的螢幕截圖所示。
+
+
+
+==== 在創建SnapMirror關係之前
+
+image:ddlnexus-004.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+
+
+==== 將目標卷暴露給 Domino 後
+
+image:ddlnexus-005.png["此圖顯示輸入/輸出對話框或表示書面內容"]

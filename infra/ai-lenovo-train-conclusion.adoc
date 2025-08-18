@@ -1,0 +1,65 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-lenovo-train-conclusion.html 
+keywords: acknowledgements, additional information 
+summary: NetApp和聯想的解決方案是一種靈活的橫向擴展架構，非常適合進入中型企業 AI。  NetApp儲存提供與本地 SSD 儲存相同或更好的效能，並為資料科學家、資料工程師和 IT 決策者提供以下優勢。 
+---
+= 結論
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+這裡驗證的NetApp和聯想解決方案是一種靈活的橫向擴展架構，非常適合進入中型企業 AI。
+
+NetApp儲存提供與本地 SSD 儲存相同或更好的效能，並為資料科學家、資料工程師和 IT 決策者提供以下優勢：
+
+* 在人工智慧系統、分析系統和其他關鍵業務系統之間輕鬆共享資料。這種資料共享減少了基礎設施開銷，提高了效能，並簡化了整個企業的資料管理。
+* 獨立可擴展的計算和存儲，以最大限度地降低成本並提高資源利用率。
+* 使用整合快照和複製來簡化開發和部署工作流程，以實現即時且節省空間的使用者工作區、整合版本控制和自動部署。
+* 用於災難復原和業務連續性的企業級資料保護。
+
+
+
+
+== 致謝
+
+* Karthikeyan Nagalingam， NetApp技術行銷工程師
+* Jarrett Upton，聯想人工智慧實驗室系統管理員
+
+
+
+
+== 在哪裡可以找到更多信息
+
+要了解有關本文檔中描述的信息的更多信息，請參閱以下文檔和/或網站：
+
+* NetApp全快閃陣列產品頁面
++
+https://www.netapp.com/us/products/storage-systems/all-flash-array/aff-a-series.aspx["https://www.netapp.com/us/products/storage-systems/all-flash-array/aff-a-series.aspx"^]
+
+* NetApp AFF A400頁面
++
+https://docs.netapp.com/us-en/ontap-systems/a400/index.html["https://docs.netapp.com/us-en/ontap-systems/a400/index.html"]
+
+* NetApp ONTAP資料管理軟體產品頁面
++
+http://www.netapp.com/us/products/data-management-software/ontap.aspx["http://www.netapp.com/us/products/data-management-software/ontap.aspx"^]
+
+* MLPerf
++
+https://mlperf.org/["https://mlperf.org"^]
+
+* TensorFlow 基準測試
++
+https://github.com/tensorflow/benchmarks["https://github.com/tensorflow/benchmarks"^]
+
+* NVIDIA SMI（nvidia-smi）
++
+https://developer.nvidia.com/nvidia-system-management-interface["https://developer.nvidia.com/nvidia-system-management-interface"]
+
+

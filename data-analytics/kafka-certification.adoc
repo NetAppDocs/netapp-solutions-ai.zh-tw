@@ -1,0 +1,95 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-certification.html 
+keywords: certification, setup, configuration, benchmark 
+summary: 我們已經對帶有 Kafka 的 Confluent Platform 進行了認證，用於NetApp StorageGRID中的分層儲存。 
+---
+= 匯合驗證
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+我們使用NetApp StorageGRID中的 Confluent Platform 6.2 Tiered Storage 進行了驗證。  NetApp和 Confluent 團隊共同進行了此次驗證，並運行了驗證所需的測試案例。
+
+
+
+== Confluent 平台設置
+
+我們使用以下設定進行驗證。
+
+為了驗證，我們使用了三個 zookeeper、五個 broker、五個測試腳本執行伺服器、命名工具伺服器（配備 256GB RAM 和 16 個 CPU）。對於NetApp存儲，我們使用了具有四個 SGF6024 的 SG1000 負載平衡器的StorageGRID 。儲存和代理程式透過 100GbE 連線進行連線。
+
+下圖顯示了用於 Confluent 驗證的配置的網路拓撲。
+
+image:confluent-kafka-007.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+工具伺服器充當向 Confluent 節點發送請求的應用程式用戶端。
+
+
+
+== Confluent 分層儲存配置
+
+分層儲存配置在Kafka中需要以下參數：
+
+....
+Confluent.tier.archiver.num.threads=16
+confluent.tier.fetcher.num.threads=32
+confluent.tier.enable=true
+confluent.tier.feature=true
+confluent.tier.backend=S3
+confluent.tier.s3.bucket=kafkasgdbucket1-2
+confluent.tier.s3.region=us-west-2
+confluent.tier.s3.cred.file.path=/data/kafka/.ssh/credentials
+confluent.tier.s3.aws.endpoint.override=http://kafkasgd.rtpppe.netapp.com:10444/
+confluent.tier.s3.force.path.style.access=true
+....
+為了驗證，我們使用了具有 HTTP 協定的StorageGRID ，但 HTTPS 也可以使用。存取密鑰和密鑰儲存在 `confluent.tier.s3.cred.file.path`範圍。
+
+
+
+== NetApp物件儲存 - StorageGRID
+
+我們在StorageGRID中配置了單一站點配置以進行驗證。
+
+image:confluent-kafka-008.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+
+
+== 驗證測試
+
+我們完成了以下五個測試案例進行驗證。這些測試在 Trogdor 框架上執行。前兩個是功能測試，其餘三個是效能測試。
+
+
+
+=== 物件儲存正確性測試
+
+此測試確定物件儲存 API 上的所有基本操作（例如，取得/放置/刪除）是否根據分層儲存的需求正常運作。這是每個物件儲存服務都應該在後續測試之前通過的基本測試。這是一個要么通過要么失敗的斷言測試。
+
+
+
+=== 分層功能正確性測試
+
+此測試通過或失敗的斷言測試來確定端到端分層儲存功能是否運作良好。該測試創建了一個測試主題，該主題預設配置為啟用分層，並且熱集大小大大減少。它為新建立的測試主題產生一個事件流，等待代理將段存檔到物件存儲，然後使用事件流並驗證所消耗的流是否與產生的流相符。向事件流產生的訊息數量是可配置的，這使得使用者可以根據測試的需要產生足夠大的工作量。減少的熱集大小可確保活動段之外的消費者提取僅從物件儲存中提供；這有助於測試物件儲存讀取的正確性。我們已經在有和沒有物件儲存故障注入的情況下執行了此測試。我們透過停止StorageGRID中某個節點的服務管理器服務來模擬節點故障，並驗證端對端功能是否與物件儲存相容。
+
+
+
+=== 層級獲取基準
+
+此測試驗證了分層物件儲存的讀取效能，並檢查了基準測試產生的段在高負載下的範圍提取讀取請求。在這個基準測試中，Confluent 開發了自訂客戶端來滿足層級取得請求。
+
+
+
+=== 生產-消費性工作負載基準測試
+
+此測試透過段歸檔間接產生物件儲存上的寫入工作負載。當消費者群體取得段時，從物件儲存產生讀取工作負載（讀取的段）。此工作負載由測試腳本產生。該測試檢查了並行執行緒對物件儲存的讀寫效能。我們對分層功能正確性測試進行了測試，測試了有和沒有物件儲存故障注入的情況。
+
+
+
+=== 保留工作量基準
+
+此測試檢查了物件儲存在繁重的主題保留工作負載下的刪除效能。保留工作負載是使用測試腳本產生的，該腳本與測試主題並行產生許多訊息。測試主題是使用基於大小和基於時間的激進保留設定進行配置，這會導致事件流不斷從物件儲存中清除。然後將這些片段存檔。這導致代理在物件儲存中執行大量刪除操作，並收集物件儲存刪除操作的效能。

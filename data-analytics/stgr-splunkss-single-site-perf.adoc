@@ -1,0 +1,188 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/stgr-splunkss-single-site-perf.html 
+keywords: configuration, warm data, cold data, cache storage, indexer, event, generator 
+summary: 本頁介紹了NetApp StorageGRID控制器上的 Splunk SmartStore 效能。 
+---
+= 單站點 SmartStore 效能
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本節介紹 Splunk SmartStore 在NetApp StorageGRID控制器上的效能。  Splunk SmartStore 將熱資料移至遠端存儲，在本例中是效能驗證中的StorageGRID物件儲存。
+
+image:stgr-splunkss-010.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+我們使用 EF600 作為熱/快取存儲，使用StorageGRID 6060 作為遠端儲存。我們使用以下架構進行效能驗證。我們使用了兩個搜尋頭、四個重型轉發器將數據轉發到索引器、七個 Splunk 事件產生器（Eventgens）來產生即時數據，以及 18 個索引器來儲存數據。
+
+image:stgr-splunkss-011.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+
+
+== 配置
+
+下表列出了用於 SmartStorage 效能驗證的硬體。
+
+|===
+| Splunk 元件 | 任務 | 數量 | 核心 | 記憶 | 作業系統 
+
+
+| 重型貨運代理 | 負責提取資料並將資料轉發給索引器 | 4 | 16 核 | 32 GB 內存 | SLED 15 SP2 
+
+
+| 索引器 | 管理用戶數據 | 18 | 16 核 | 32 GB 內存 | SLED 15 SP2 
+
+
+| 搜尋頭 | 用戶前端在索引器中搜尋數據 | 2 | 16 核 | 32 GB 內存 | SLED 15 SP2 
+
+
+| 搜尋頭部署器 | 處理搜尋頭集群的更新 | 1 | 16 核 | 32 GB 內存 | SLED 15 SP2 
+
+
+| 叢集主節點 | 管理 Splunk 安裝和索引器 | 1 | 16 核 | 32 GB 內存 | SLED 15 SP2 
+
+
+| 監控控制台和許可證主控器 | 對整個 Splunk 部署進行集中監控並管理 Splunk 許可證 | 1 | 16 核 | 32 GB 內存 | SLED 15 SP2 
+|===
+
+
+== SmartStore遠端商店效能驗證
+
+在本次效能驗證中，我們在所有索引器的本機儲存中配置了 SmartStore 緩存，以保存 10 天的資料。我們啟用了 `maxDataSize=auto`（750MB 儲存桶大小）在 Splunk 叢集管理器中並將變更推送到所有索引器。為了測量上傳效能，我們在 10 天內每天攝取 10TB 的數據，並同時將所有熱儲存桶轉為熱儲存桶，並從 SmartStore 監控控制台儀表板擷取每個實例和整個部署的峰值和平均吞吐量。
+
+此圖顯示了一天內攝取的數據。
+
+image:stgr-splunkss-012.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+我們從叢集主節點執行以下命令（索引名稱是 `eventgen-test`）。然後，我們透過 SmartStore 監控控制台儀表板捕獲每個實例和整個部署的峰值和平均上傳吞吐量。
+
+....
+for i in rtp-idx0001 rtp-idx0002 rtp-idx0003 rtp-idx0004 rtp-idx0005 rtp-idx0006 rtp-idx0007 rtp-idx0008 rtp-idx0009 rtp-idx0010 rtp-idx0011 rtp-idx0012 rtp-idx0013011 rtdx0014 rtp-idx0015 rtp-idx0016 rtp-idx0017 rtp-idx0018 ; do  ssh $i "hostname;  date; /opt/splunk/bin/splunk _internal call /data/indexes/eventgen-test/roll-hot-buckets -auth admin:12345678; sleep 1  "; done
+....
+
+NOTE: 群集主機對所有索引器（rtp-idx0001…rtp-idx0018）均採用無密碼身份驗證。
+
+為了測量下載效能，我們使用以下命令執行兩次 evict CLI，從快取中逐出所有資料。
+
+
+NOTE: 我們從叢集主機執行以下命令，並從搜尋頭基於來自StorageGRID的遠端儲存的 10 天資料運行搜尋。然後，我們透過 SmartStore 監控控制台儀表板捕獲每個實例和整個部署的峰值和平均上傳吞吐量。
+
+....
+for i in rtp-idx0001 rtp-idx0002 rtp-idx0003 rtp-idx0004 rtp-idx0005 rtp-idx0006 rtp-idx0007 rtp-idx0008 rtp-idx0009 rtp-idx0010 rtp-idx0011 rtp-idx0012 rtp-idx0013 rtp-idx0014 rtp-idx0015 rtp-idx0016 rtp-idx0017 rtp-idx0018 ; do  ssh $i " hostname;  date; /opt/splunk/bin/splunk _internal call /services/admin/cacheman/_evict -post:mb 1000000000 -post:path /mnt/EF600 -method POST  -auth admin:12345678;   "; done
+....
+索引器配置是從 SmartStore 叢集主機推送的。群集主機對索引器有以下配置。
+
+....
+Rtp-cm01:~ # cat /opt/splunk/etc/master-apps/_cluster/local/indexes.conf
+[default]
+maxDataSize = auto
+#defaultDatabase = eventgen-basic
+defaultDatabase = eventgen-test
+hotlist_recency_secs = 864000
+repFactor = auto
+[volume:remote_store]
+storageType = remote
+path = s3://smartstore2
+remote.s3.access_key = U64TUHONBNC98GQGL60R
+remote.s3.secret_key = UBoXNE0jmECie05Z7iCYVzbSB6WJFckiYLcdm2yg
+remote.s3.endpoint = 3.sddc.netapp.com:10443
+remote.s3.signature_version = v2
+remote.s3.clientCert =
+[eventgen-basic]
+homePath = $SPLUNK_DB/eventgen-basic/db
+coldPath = $SPLUNK_DB/eventgen-basic/colddb
+thawedPath = $SPLUNK_DB/eventgen-basic/thawed
+[eventgen-migration]
+homePath = $SPLUNK_DB/eventgen-scale/db
+coldPath = $SPLUNK_DB/eventgen-scale/colddb
+thawedPath = $SPLUNK_DB/eventgen-scale/thaweddb
+[main]
+homePath = $SPLUNK_DB/$_index_name/db
+coldPath = $SPLUNK_DB/$_index_name/colddb
+thawedPath = $SPLUNK_DB/$_index_name/thaweddb
+[history]
+homePath = $SPLUNK_DB/$_index_name/db
+coldPath = $SPLUNK_DB/$_index_name/colddb
+thawedPath = $SPLUNK_DB/$_index_name/thaweddb
+[summary]
+homePath = $SPLUNK_DB/$_index_name/db
+coldPath = $SPLUNK_DB/$_index_name/colddb
+thawedPath = $SPLUNK_DB/$_index_name/thaweddb
+[remote-test]
+homePath = $SPLUNK_DB/$_index_name/db
+coldPath = $SPLUNK_DB/$_index_name/colddb
+#for storagegrid config
+remotePath = volume:remote_store/$_index_name
+thawedPath = $SPLUNK_DB/$_index_name/thaweddb
+[eventgen-test]
+homePath = $SPLUNK_DB/$_index_name/db
+maxDataSize=auto
+maxHotBuckets=1
+maxWarmDBCount=2
+coldPath = $SPLUNK_DB/$_index_name/colddb
+#for storagegrid config
+remotePath = volume:remote_store/$_index_name
+thawedPath = $SPLUNK_DB/$_index_name/thaweddb
+[eventgen-evict-test]
+homePath = $SPLUNK_DB/$_index_name/db
+coldPath = $SPLUNK_DB/$_index_name/colddb
+#for storagegrid config
+remotePath = volume:remote_store/$_index_name
+thawedPath = $SPLUNK_DB/$_index_name/thaweddb
+maxDataSize = auto_high_volume
+maxWarmDBCount = 5000
+rtp-cm01:~ #
+....
+我們在搜尋頭上執行了以下搜尋查詢來收集效能矩陣。
+
+image:stgr-splunkss-013.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+我們從叢集主機收集了效能資訊。峰值性能為61.34GBps。
+
+image:stgr-splunkss-014.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+平均效能約 29GBps。
+
+image:stgr-splunkss-015.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+
+
+== StorageGRID性能
+
+SmartStore 的效能是基於從大量資料中搜尋特定的模式和字串。在此驗證中，事件是使用 https://github.com/splunk/eventgen["事件生成"^]透過搜尋頭在特定的 Splunk 索引（eventgen-test）上進行搜索，並且請求對於大多數查詢轉到StorageGRID 。下圖顯示了查詢資料的命中和未命中情況。命中資料來自本機磁碟，未命中資料來自StorageGRID控制器。
+
+
+NOTE: 綠色顯示命中數據，橘色顯示未命中數據。
+
+image:stgr-splunkss-016.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+當在StorageGRID上執行搜尋查詢時， StorageGRID的 S3 擷取率的時間如下圖所示。
+
+image:stgr-splunkss-017.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+
+
+== StorageGRID硬體使用量
+
+StorageGRID實例有一個負載平衡器和三個StorageGRID控制器。所有三個控制器的 CPU 使用率均為 75% 至 100%。
+
+image:stgr-splunkss-018.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+
+
+== 採用NetApp儲存控制器的 SmartStore - 為客戶帶來好處
+
+* *將計算和存儲分離。 *  Splunk SmartStore 將運算和儲存分離，幫助您獨立擴展它們。
+* *按需提供資料。 *  SmartStore 使資料接近按需運算，並提供運算和儲存彈性和成本效率，以實現更長時間的大規模資料保留。
+* *符合 AWS S3 API。 *  SmartStore 使用 AWS S3 API 與復原儲存進行通信，恢復儲存是符合 AWS S3 和 S3 API 的物件存儲，例如StorageGRID。
+* *減少儲存需求和成本。 * SmartStore 減少了老化資料（暖/冷）的儲存要求。它只需要一份資料副本，因為NetApp儲存提供資料保護並處理故障和高可用性。
+* *硬體故障。 *  SmartStore 部署中的節點故障不會導致資料無法訪問，並且索引器從硬體故障或資料不平衡中恢復的速度更快。
+* 應用程式和資料感知快取。
+* 按需新增或刪除索引器以及設定或拆除叢集。
+* 儲存層不再與硬體相關。
+

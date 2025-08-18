@@ -1,0 +1,73 @@
+---
+sidebar: sidebar 
+permalink: software/ai-hybrid-ddlnexus-vols.html 
+keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, Hybrid, Hybrid Cloud, Hybrid Multicloud, Cloud, AWS, Amazon, Amazon Web Services, FSx ONTAP, FSx, NetApp ONTAP, FlexCache, SnapMirror, BlueXP 
+summary: Domino Data Lab 和NetApp的混合多雲 MLOps - 將現有NetApp卷暴露給 Domino 
+---
+= 將現有NetApp卷公開給 Domino
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本節介紹將現有NetApp ONTAP NFS 磁碟區公開給 Domino MLOps 平台所需執行的任務。這些相同的步驟適用於本機和 AWS。
+
+
+
+== 為什麼要將NetApp ONTAP磁碟區公開給 Domino？
+
+將NetApp磁碟區與 Domino 結合使用可帶來以下好處：
+
+* 您可以利用NetApp ONTAP 的橫向擴充功能針對極大資料集執行工作負載。
+* 您可以在多個運算節點上執行工作負載，而無需將資料複製到各個節點。
+* 您可以利用 NetApp 的混合多雲資料移動和同步功能來跨多個資料中心和/或雲端存取您的資料。
+* 您希望能夠快速輕鬆地在不同的資料中心或雲端中建立資料快取。
+
+
+
+
+== 公開未由Trident配置的現有 NFS 卷
+
+如果您現有的NetApp ONTAP NFS 磁碟區不是由Trident配置的，請依照本小節所概述的步驟進行。
+
+
+
+=== 在 Kubernetes 中建立 PV 和 PVC
+
+
+NOTE: 對於本機磁碟區，在本機 Kubernetes 叢集中建立 PV 和 PVC。對於Amazon FSx ONTAP磁碟區，在 Amazon EKS 中建立 PV 和 PVC。
+
+首先，您必須在 Kubernetes 叢集中建立持久性磁碟區 (PV) 和持久磁碟區宣告 (PVC)。若要建立 PV 和 PVC，請使用link:https://docs.dominodatalab.com/en/latest/admin_guide/4cdae9/set-up-kubernetes-pv-and-pvc/#_nfs_pvpvc_example["NFS PV/PVC 範例"]從 Domino 管理指南中更新值以反映您的環境。確保為 `namespace`， `nfs.path` ， 和 `nfs.server`字段。此外，我們建議為您的 PV 和 PVC 提供唯一的名稱，以代表儲存在對應ONTAP NFS 磁碟區上的資料的性質。例如，如果磁碟區包含製造缺陷的影像，您可以將 PV 命名為 `pv-mfg-defect-images`以及 PVC， `pvc-mfg-defect-images` 。
+
+
+
+=== 在 Domino 中註冊外部資料卷
+
+接下來，您必須在 Domino 中註冊一個外部資料磁碟區。若要註冊外部資料卷，請參閱link:https://docs.dominodatalab.com/en/latest/admin_guide/9c3564/register-external-data-volumes/["指示"]在 Domino 管理指南中。註冊卷時，請確保從“卷類型”下拉式選單中選擇“NFS”。選擇“NFS”後，您應該會在“可用磁碟區”清單中看到您的 PVC。
+
+image:ddlnexus-003.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+
+
+== 公開由Trident提供的現有捲
+
+如果您現有的磁碟區是由Trident配置的，請按照本小節中概述的步驟進行操作。
+
+
+
+=== 編輯現有 PVC
+
+如果您的磁碟區是由Trident配置的，那麼您已經擁有與您的磁碟區相對應的持久磁碟區聲明 (PVC)。為了將此磁碟區公開給 Domino，您必須編輯 PVC 並將以下標籤新增至 `metadata.labels`場地：
+
+....
+"dominodatalab.com/external-data-volume": "Generic"
+....
+
+
+=== 在 Domino 中註冊外部資料卷
+
+接下來，您必須在 Domino 中註冊一個外部資料磁碟區。若要註冊外部資料卷，請參閱link:https://docs.dominodatalab.com/en/latest/admin_guide/9c3564/register-external-data-volumes/["指示"]在 Domino 管理指南中。註冊卷時，請務必從「磁碟區類型」下拉式選單中選擇「通用」。選擇“通用”後，您應該會在“可用磁碟區”清單中看到您的 PVC。

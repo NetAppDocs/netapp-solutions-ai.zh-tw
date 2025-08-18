@@ -1,0 +1,71 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-lenovo-train-config.html 
+keywords: solution architecture, storage controller 
+summary: 本節介紹測試的配置、網路基礎架構、SR670 V2 伺服器和儲存配置詳細資訊。 
+---
+= 測試配置
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本節介紹測試的配置、網路基礎架構、SR670 V2 伺服器和NetApp儲存配置詳細資訊。
+
+
+
+== 解決方案架構
+
+我們使用下表列出的解決方案元件進行此驗證。
+
+|===
+| 解決方案組件 | 細節 
+
+
+| 聯想 ThinkSystem 伺服器  a| 
+* 兩台 SR670 V2 伺服器，每台配備八張NVIDIA A100 80GB GPU 卡
+* 每台伺服器包含 2 個 Intel Xeon Platinum 8360Y CPU（28 個實體核心）和 1TB RAM
+
+
+
+
+| Linux（Ubuntu - 20.04，附 CUDA 11.8） |  
+
+
+| NetApp AFF儲存系統（HA 對）  a| 
+* NetApp ONTAP 9.10.1軟體
+* 24個960GB SSD
+* NFS 協定
+* 每個控制器 1 個介面組 (ifgrp)，具有四個用於掛載點的邏輯 IP 位址
+
+
+|===
+在本次驗證中，我們使用了 ResNet v2.0 和 MLPerf v2.0 指定的 ImageNet 基底集。資料集儲存在具有 NFS 協定的NetApp AFF儲存系統中。  SR670 透過 100GbE 交換器連接到NetApp AFF A400儲存系統。
+
+ImageNet 是一個經常使用的影像資料集。它包含近 130 萬張圖片，總大小為 144GB。平均影像大小為 108KB。
+
+下圖描述了測試配置的網路拓撲。
+
+image:a400-thinksystem-007.png["此圖描繪了運算層（聯想 ThinkSystem SR670 V2）、網路層（聯想乙太網路交換器）和儲存層（ NetApp AFF A400儲存控制器）。包括所有網路連線。"]
+
+
+
+== 儲存控制器
+
+下表列出了儲存配置。
+
+|===
+| 控制器 | 總計的 | FlexGroup卷 | 骨材大小 | 卷大小 | 作業系統掛載點 
+
+
+| Controller1 | Aggr1 | /a400-100克 | 9.9TB | 19TB | /a400-100克 
+
+
+| Controller2 | Aggr2 | /a400-100克 | 9.9TB |  | /a400-100克 
+|===
+
+NOTE: /a400-100g 資料夾包含用於 ResNet 驗證的資料集。

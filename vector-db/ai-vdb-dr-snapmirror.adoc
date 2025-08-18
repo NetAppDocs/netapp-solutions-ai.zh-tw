@@ -1,0 +1,36 @@
+---
+sidebar: sidebar 
+permalink: vector-db/ai-vdb-dr-snapmirror.html 
+keywords: vector database 
+summary: 使用NetApp SnapMirror進行災難復原 - NetApp 的向量資料庫解決方案 
+---
+= 使用NetApp SnapMirror進行災難復原
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本節討論使用SnapMirror為NetApp實現向量資料庫解決方案的 DR（災難復原）。
+
+
+
+== 使用NetApp SnapMirror進行災難復原
+
+image:vector-database-dr-fsxn-gcnv.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+災難復原對於維護向量資料庫的完整性和可用性至關重要，尤其是考慮到其在管理高維度資料和執行複雜相似性搜尋中的作用。精心規劃和實施的災難復原策略可確保在發生硬體故障、自然災害或網路攻擊等不可預見的事件時資料不會遺失或受到損害。這對於依賴向量資料庫的應用程式尤其重要，因為資料的遺失或損壞可能導致嚴重的營運中斷和財務損失。此外，強大的災難復原計劃還可以最大限度地減少停機時間並允許快速恢復服務，從而確保業務連續性。這是透過NetApp資料複製產品 SnapMirror 跨不同地理位置、定期備份和故障轉移機制實現的。因此，災難復原不僅僅是一種保護措施，而且是負責任、有效率的向量資料庫管理的重要組成部分。
+
+NetApp 的SnapMirror提供從一個NetApp ONTAP儲存控制器到另一個儲存控制器的資料複製，主要用於災難復原 (DR) 和混合解決方案。在向量資料庫的背景下，該工具有助於實現資料在本地和雲端環境之間的平穩過渡。這種轉變無需任何資料轉換或應用程式重構即可實現，從而提高了跨多個平台資料管理的效率和靈活性。
+
+NetApp Hybrid解決方案在向量資料庫場景下可以帶來更多優勢：
+
+. 可擴展性：NetApp 的混合雲解決方案能夠根據您的需求擴展您的資源。您可以利用本機資源來處理常規、可預測的工作負載，並利用雲端資源（例如Amazon FSx ONTAP for NetApp ONTAP和 Google Cloud NetApp Volume（NetApp Volumes））來應對尖峰時段或意外負載。
+. 成本效益：NetApp 的混合雲模型可讓您透過使用內部資源來處理常規工作負載並僅在需要時支付雲端資源費用來優化成本。這種按需付費模式透過NetApp instaclustr 服務產品可以實現相當高的成本效益。對於本地和主要雲端服務供應商，instaclustr 提供支援和諮詢。
+. 靈活性：NetApp 的混合雲讓您可以靈活地選擇在何處處理資料。例如，您可能選擇在擁有更強大硬體的本地執行複雜的向量操作，而在雲端中執行不太密集的操作。
+. 業務連續性：如果發生災難，將資料保存在NetApp混合雲中可以確保業務連續性。如果您的本地資源受到影響，您可以快速切換到雲端。我們可以利用NetApp SnapMirror將資料從本地端移動到雲端，反之亦然。
+. 創新：NetApp 的混合雲解決方案還可以透過提供對尖端雲端服務和技術的存取來實現更快的創新。  NetApp在雲端領域的創新，例如Amazon FSx ONTAP for NetApp ONTAP、 Azure NetApp Files和Google Cloud NetApp Volumes都是雲端服務供應商的創新產品和首選 NAS。
+

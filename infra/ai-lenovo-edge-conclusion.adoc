@@ -1,0 +1,86 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-lenovo-edge-conclusion.html 
+keywords: acknowledgements, additional information 
+summary: 人工智慧驅動的自動化和邊緣運算是幫助商業組織實現數位轉型並最大限度提高營運效率和安全性的領先方法。透過邊緣運算，資料處理速度更快，因為它不必往返於資料中心。因此，與資料中心或雲端來回發送資料相關的成本就會降低。 
+---
+= 結論
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+人工智慧驅動的自動化和邊緣運算是幫助商業組織實現數位轉型並最大限度提高營運效率和安全性的領先方法。透過邊緣運算，資料處理速度更快，因為它不必往返於資料中心。因此，與資料中心或雲端來回發送資料相關的成本就會降低。當企業必須使用部署在邊緣的人工智慧推理模型近乎即時地做出決策時，更低的延遲和更高的速度會很有幫助。
+
+NetApp儲存系統提供與本機 SSD 儲存相同或更好的效能，並為資料科學家、資料工程師、AI/ML 開發人員以及業務或 IT 決策者提供以下優勢：
+
+* 在人工智慧系統、分析系統和其他關鍵業務系統之間輕鬆共享資料。這種資料共享減少了基礎設施開銷，提高了效能，並簡化了整個企業的資料管理。
+* 獨立可擴展的計算和存儲，以最大限度地降低成本並提高資源利用率。
+* 使用整合的 Snapshot 副本和複製來簡化開發和部署工作流程，以實現即時且節省空間的使用者工作區、整合版本控制和自動部署。
+* 實現災難復原和業務連續性的企業級資料保護。本文檔中介紹的NetApp和聯想解決方案是一種靈活的橫向擴展架構，非常適合邊緣企業級 AI 推理部署。
+
+
+
+
+== 致謝
+
+* 俊傑Falkanger，聯想 HPC 和人工智慧解決方案高級經理
+* NetApp技術行銷工程師 Dave Arnette
+* Joey Parnell， NetApp E 系列 AI 解決方案技術主管
+* Cody Harryman， NetApp品質保證工程師
+
+
+
+
+== 在哪裡可以找到更多信息
+
+要了解有關本文檔中描述的信息的更多信息，請參閱以下文檔和/或網站：
+
+* NetApp AFF A系列陣列產品頁面
++
+https://www.netapp.com/data-storage/aff-a-series/["https://www.netapp.com/data-storage/aff-a-series/"^]
+
+* NetApp ONTAP資料管理軟體 - ONTAP 9 資訊庫
++
+http://mysupport.netapp.com/documentation/productlibrary/index.html?productID=62286["http://mysupport.netapp.com/documentation/productlibrary/index.html?productID=62286"^]
+
+* TR-4727： NetApp EF系列簡介
++
+https://www.netapp.com/pdf.html?item=/media/17179-tr4727pdf.pdf["https://www.netapp.com/pdf.html?item=/media/17179-tr4727pdf.pdf"^]
+
+* NetApp E系列SANtricity軟體資料表
++
+https://www.netapp.com/pdf.html?item=/media/19775-ds-3171-66862.pdf["https://www.netapp.com/pdf.html?item=/media/19775-ds-3171-66862.pdf"^]
+
+* NetApp容器持久性儲存 — NetApp Trident
++
+https://netapp.io/persistent-storage-provisioner-for-kubernetes/["https://netapp.io/persistent-storage-provisioner-for-kubernetes/"^]
+
+* MLPerf
++
+** https://mlcommons.org/en/["https://mlcommons.org/en/"^]
+** http://www.image-net.org/["http://www.image-net.org/"^]
+** https://mlcommons.org/en/news/mlperf-inference-v11/["https://mlcommons.org/en/news/mlperf-inference-v11/"^]
+
+
+* NetApp BlueXP複製與同步
++
+https://docs.netapp.com/us-en/occm/concept_cloud_sync.html#how-cloud-sync-works["https://docs.netapp.com/us-en/occm/concept_cloud_sync.html#how-cloud-sync-works"^]
+
+* TensorFlow 基準測試
++
+https://github.com/tensorflow/benchmarks["https://github.com/tensorflow/benchmarks"^]
+
+* 聯想 ThinkSystem SE350 邊緣伺服器
++
+https://lenovopress.com/lp1168["https://lenovopress.com/lp1168"^]
+
+* 聯想 ThinkSystem DM5100F 統一快閃儲存陣列
++
+https://lenovopress.com/lp1365-thinksystem-dm5100f-unified-flash-storage-array["https://lenovopress.com/lp1365-thinksystem-dm5100f-unified-flash-storage-array"]
+
+

@@ -1,0 +1,153 @@
+---
+section: ai-data-pipelines
+title: MLOps 與資料管理
+url: "/ai-data-pipelines/index.html"
+entries:
+- title: NetApp的開源 MLOps
+  pdf-filename: NetApp的開源 MLOps
+  entries:
+  - title: 介紹
+    url: "/software/ai-osmlops-intro.html"
+  - title: 技術概述
+    url: "/software/ai-osmlops-concepts.html"
+  - title: 架構
+    url: "/software/ai-osmlops-architecture.html"
+  - title: NetApp Trident配置
+    entries:
+    - title: 用於AIPod部署的Trident後端
+      url: "/software/ai-osmlops-trident-backend.html"
+    - title: 用於AIPod部署的 Kubernetes StorageClasses
+      url: "/software/ai-osmlops-trident-sc.html"
+  - title: Apache Airflow
+    entries:
+    - title: Apache Airflow 部署
+      url: "/software/ai-osmlops-airflow-deploy.html"
+    - title: 將NetApp DataOps 工具包與 Airflow 結合使用
+      url: "/software/ai-osmlops-airflow-dotk.html"
+  - title: JupyterHub
+    entries:
+    - title: JupyterHub 部署
+      url: "/software/ai-osmlops-jhub-deploy.html"
+    - title: 將NetApp DataOps 工具包與 JupyterHub 結合使用
+      url: "/software/ai-osmlops-jhub-dotk.html"
+    - title: 使用NetApp SnapMirror擷取數據
+      url: "/software/ai-osmlops-jhub-ingest.html"
+  - title: 機器學習流
+    entries:
+    - title: MLflow 部署
+      url: "/software/ai-osmlops-mlflow-deploy.html"
+    - title: 使用NetApp和 MLflow 實現資料集到模型的可追溯性
+      url: "/software/ai-osmlops-mlflow-trace.html"
+  - title: Kubeflow
+    entries:
+    - title: Kubeflow 部署
+      url: "/software/ai-osmlops-kubeflow-deploy.html"
+    - title: 預配 Jupyter Notebook 工作區
+      url: "/software/ai-osmlops-kubeflow-notebook.html"
+    - title: 將NetApp DataOps 工具包與 Kubeflow 結合使用
+      url: "/software/ai-osmlops-kubeflow-dotk.html"
+    - title: 訓練圖像辨識模型 - 範例工作流程
+      url: "/software/ai-osmlops-kubeflow-train.html"
+  - title: Trident操作範例
+    url: "/software/ai-osmlops-trident-ops.html"
+  - title: AIPod部署的高效能作業範例
+    entries:
+    - title: 執行單節點 AI 工作負載
+      url: "/software/ai-osmlops-train-singlenode.html"
+    - title: 執行同步分散式 AI 工作負載
+      url: "/software/ai-osmlops-train-distributed.html"
+- title: Domino Data Lab 和NetApp的混合 MLOps
+  pdf-filename: Domino Data Lab 和NetApp的混合多雲 MLOps
+  entries:
+  - title: 介紹
+    url: "/software/ai-hybrid-ddlnexus-intro.html"
+  - title: 技術概述
+    url: "/software/ai-hybrid-ddlnexus-tech.html"
+  - title: 架構
+    url: "/software/ai-hybrid-ddlnexus-arch.html"
+  - title: 初始設定
+    url: "/software/ai-hybrid-ddlnexus-setup.html"
+  - title: 將現有的NetApp卷公開給 Domino
+    url: "/software/ai-hybrid-ddlnexus-vols.html"
+  - title: 跨不同環境存取相同數據
+    url: "/software/ai-hybrid-ddlnexus-data.html"
+  - title: 附加資訊
+    url: "/software/ai-hybrid-ddlnexus-addtl.html"
+- title: NVIDIA AI Enterprise 與NetApp和 VMware 合作
+  pdf-filename: NVIDIA AI Enterprise 與NetApp和 VMware 合作
+  entries:
+  - title: 介紹
+    url: "/software/ai-nvaie-vmw-intro.html"
+  - title: 技術概述
+    url: "/software/ai-nvaie-vmw-tech.html"
+  - title: 架構
+    url: "/software/ai-nvaie-vmw-arch.html"
+  - title: 初始設定
+    url: "/software/ai-nvaie-vmw-setup.html"
+  - title: 使用NVIDIA NGC 軟體
+    entries:
+    - title: 設定
+      url: "/software/ai-nvaie-vmw-ngcsetup.html"
+    - title: 使用案例範例 - TensorFlow 訓練作業
+      url: "/software/ai-nvaie-vmw-tensorflow.html"
+  - title: 附加資訊
+    url: "/software/ai-nvaie-vmw-addtl.html"
+- title: 適用於 MLOps 的 FSx ONTAP
+  pdf-filename: 適用於 MLOps 的Amazon FSx for NetApp ONTAP (FSx ONTAP)
+  entries:
+  - title: 概況
+    url: "/cloud/ai-mlops-fsxn-intro.html"
+  - title: 第 1 部分 - 將Amazon FSx for NetApp ONTAP作為私有 S3 儲存桶整合到 AWS SageMaker
+    url: "/cloud/ai-mlops-fsxn-s3.html"
+  - title: 第 2 部分 - 利用Amazon FSx for NetApp ONTAP作為 SageMaker 中模型訓練的資料來源
+    url: "/cloud/ai-mlops-fsxn-sagemaker.html"
+  - title: 第 3 部分 - 建立簡化的 MLOps 管道
+    url: "/cloud/ai-mlops-fsxn-cictcd.html"
+- title: 用於自動駕駛的StorageGRID資料湖
+  pdf-filename: 適用於自動駕駛工作負載的NetApp StorageGRID資料湖
+  url: "/infra/ai-storagegrid-datalake-adas.html"
+- title: NetApp DataOps 工具包
+  url: "/software/dataops-toolkit.html"
+- title: NetApp的向量資料庫解決方案
+  pdf-filename: NetApp的向量資料庫解決方案
+  entries:
+  - title: 概況
+    url: "/vector-db/ai-vdb-solution-with-netapp.html"
+  - title: 介紹
+    url: "/vector-db/ai-vdb-intro.html"
+  - title: 解決方案概述
+    url: "/vector-db/ai-vdb-overview.html"
+  - title: 向量資料庫
+    url: "/vector-db/ai-vdb-landscape.html"
+  - title: 技術要求
+    url: "/vector-db/ai-vdb-tech.html"
+  - title: 部署流程
+    url: "/vector-db/ai-vdb-deploy.html"
+  - title: 解決方案驗證
+    entries:
+    - title: 概況
+      url: "/vector-db/ai-vdb-verification.html"
+    - title: 在本地使用 Kubernetes 設定 Milvus 集群
+      url: "/vector-db/ai-vdb-milvus-setup.html"
+    - title: Milvus 與Amazon FSx ONTAP for NetApp ONTAP – 檔案與物件二元性
+      url: "/vector-db/ai-vdb-milvus-fsxn.html"
+    - title: 使用SnapCenter進行向量資料庫保護
+      url: "/vector-db/ai-vdb-dp-snapcenter.html"
+    - title: 使用SnapMirror進行災難復原
+      url: "/vector-db/ai-vdb-dr-snapmirror.html"
+    - title: 性能驗證
+      url: "/vector-db/ai-vdb-perf-validation.html"
+  - title: 使用 PostGreSQL 的 Instaclustr 向量資料庫：pgvector
+    url: "/vector-db/ai-vdb-instaclustr-pgvector.html"
+  - title: 向量資料庫用例
+    url: "/vector-db/ai-vdb-usecases.html"
+  - title: 結論
+    url: "/vector-db/ai-vdb-conclusion.html"
+  - title: 附錄 A：values.yaml
+    url: "/vector-db/ai-vdb-values.html"
+  - title: 附錄 B：prepare_data_netapp_new_py
+    url: "/vector-db/ai-vdb-dataprep.html"
+  - title: 附錄C：verify_data_netapp.py
+    url: "/vector-db/ai-vdb-verifydata.html"
+  - title: 附錄 D：docker_compose.yml
+    url: "/vector-db/ai-vdb-docker-compose.html"

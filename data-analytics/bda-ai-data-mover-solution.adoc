@@ -1,0 +1,26 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/bda-ai-data-mover-solution.html 
+keywords: data, mover, hdfs, mapr-fs, s3, spark 
+summary: 在大數據叢集中，資料儲存在 HDFS 或 HCFS 中，例如 MapR-FS、Windows Azure Storage Blob、S3 或 Google 檔案系統。我們使用 HDFS、MapR-FS 和 S3 作為來源進行測試，在 NIPAM 的幫助下，使用來源中的 hadoop distcp 命令將資料複製到NetApp ONTAP NFS 匯出。 
+---
+= 數據移動器解決方案
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+在大數據叢集中，資料儲存在 HDFS 或 HCFS 中，例如 MapR-FS、Windows Azure Storage Blob、S3 或 Google 檔案系統。我們以 HDFS、MapR-FS 和 S3 作為來源，在 NIPAM 的幫助下將資料複製到NetApp ONTAP NFS 匯出，使用 `hadoop distcp`來自源的命令。
+
+下圖說明了從使用 HDFS 儲存運行的 Spark 叢集到NetApp ONTAP NFS 磁碟區的典型資料移動，以便NVIDIA可以處理 AI 操作。
+
+image:bda-ai-003.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+這 `hadoop distcp`命令使用 MapReduce 程式複製資料。  NIPAM 與 MapReduce 協同工作，在複製資料時充當 Hadoop 叢集的驅動程式。 NIPAM 可以將負載分佈到單一匯出的多個網路介面上。當您將資料從 HDFS 或 HCFS 複製到 NFS 時，此程序會透過將資料分佈在多個網路介面上來最大化網路吞吐量。
+
+
+NOTE: MapR 不支援或認證 NIPAM。

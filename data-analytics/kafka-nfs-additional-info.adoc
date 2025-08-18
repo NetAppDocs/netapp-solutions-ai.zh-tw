@@ -1,0 +1,67 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-nfs-additional-info.html 
+keywords:  
+summary:  
+---
+= 在哪裡可以找到更多信息
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+要了解有關本文檔中描述的信息的更多信息，請查看以下文檔和/或網站：
+
+* 什麼是 Apache Kafka？
++
+https://www.confluent.io/what-is-apache-kafka/["https://www.confluent.io/what-is-apache-kafka/"^]
+
+* 什麼是愚蠢的重命名？
++
+https://linux-nfs.org/wiki/index.php/Server-side_silly_rename["https://linux-nfs.org/wiki/index.php/Server-side_silly_rename"^]
+
+* ONATP 用於串流應用程式。
++
+https://www.netapp.com/blog/ontap-ready-for-streaming-applications/["https://www.netapp.com/blog/ontap-ready-for-streaming-applications/"^]
+
+* NetApp產品文檔
++
+https://www.netapp.com/support-and-training/documentation/["https://www.netapp.com/support-and-training/documentation/"^]
+
+* 什麼是 NFS？
++
+https://en.wikipedia.org/wiki/Network_File_System["https://en.wikipedia.org/wiki/Network_File_System"^]
+
+* 什麼是 Kafka 分區重新分配？
++
+https://docs.cloudera.com/runtime/7.2.10/kafka-managing/topics/kafka-manage-cli-reassign-overview.html["https://docs.cloudera.com/runtime/7.2.10/kafka-managing/topics/kafka-manage-cli-reassign-overview.html"^]
+
+* 什麼是 OpenMessaging 基準？
++
+https://openmessaging.cloud/["https://openmessaging.cloud/"^]
+
+* 如何遷移 Kafka 代理？
++
+https://medium.com/@sanchitbansal26/how-to-migrate-kafka-cluster-with-no-downtime-58c216129058["https://medium.com/@sanchitbansal26/how-to-migrate-kafka-cluster-with-no-downtime-58c216129058"^]
+
+* 如何使用 Prometheus 監控 Kafka 代理程式？
++
+https://www.confluent.io/blog/monitor-kafka-clusters-with-prometheus-grafana-and-confluent/[]
+
+* Apache Kafka 託管平台
++
+https://www.instaclustr.com/platform/managed-apache-kafka/[]
+
+* 支援 Apache Kafka
++
+https://www.instaclustr.com/support-solutions/kafka-support/[]
+
+* Apache Kafka 諮詢服務
++
+https://www.instaclustr.com/services/consulting/[]
+
+

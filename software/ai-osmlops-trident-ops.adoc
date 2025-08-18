@@ -1,0 +1,96 @@
+---
+sidebar: sidebar 
+permalink: software/ai-osmlops-trident-ops.html 
+keywords: Trident 
+summary: NetApp的開源 MLOps - Trident作業範例 
+---
+= Trident操作範例
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本節包含您可能想要使用Trident執行的各種操作的範例。
+
+
+
+== 導入現有磁碟區
+
+如果您的NetApp儲存系統/平台上存在現有磁碟區，並且您想要將其安裝在 Kubernetes 叢集內的容器上，但這些磁碟區未與叢集中的 PVC 綁定，則必須匯入這些磁碟區。您可以使用Trident磁碟區匯入功能來匯入這些磁碟區。
+
+以下範例指令顯示導入名為 `pb_fg_all`。有關 PVC 的更多信息，請參閱 https://kubernetes.io/docs/concepts/storage/persistent-volumes/["Kubernetes 官方文檔"^]。有關卷宗導入功能的更多信息，請參閱 https://docs.netapp.com/us-en/trident/index.html["Trident文檔"^]。
+
+一個 `accessModes`的價值 `ReadOnlyMany`在範例 PVC 規格檔中指定。有關 `accessMode`字段，請參閱 https://kubernetes.io/docs/concepts/storage/persistent-volumes/["Kubernetes 官方文檔"^]。
+
+....
+$ cat << EOF > ./pvc-import-pb_fg_all-iface1.yaml
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pb-fg-all-iface1
+  namespace: default
+spec:
+  accessModes:
+    - ReadOnlyMany
+  storageClassName: ontap-ai-flexgroups-retain-iface1
+EOF
+$ tridentctl import volume ontap-ai-flexgroups-iface1 pb_fg_all -f ./pvc-import-pb_fg_all-iface1.yaml -n trident
++--------------------------------+--------+-----------------------------------+----------+--------------------------------------------+--------+---------+
+|          NAME                  |  SIZE  |       STORAGE CLASS               | PROTOCOL |             BACKEND UUID                         | STATE  | MANAGED |
++--------------------------------+--------+-----------------------------------+----------+------------------------------------------+--------+---------+
+| default-pb-fg-all-iface1-7d9f1 | 10 TiB | ontap-ai-flexgroups-retain-iface1 | file     | b74cbddb-e0b8-40b7-b263-b6da6dec0bdd | online | true    |
++--------------------------------+--------+-----------------------------------+----------+--------------------------------------------+--------+---------+
+$ tridentctl get volume -n trident
++----------------------------------+---------+-----------------------------------+----------+--------------------------------------+--------+---------+
+|               NAME               |  SIZE   |           STORAGE CLASS           | PROTOCOL |             BACKEND UUID             | STATE  | MANAGED |
++----------------------------------+---------+-----------------------------------+----------+--------------------------------------+--------+---------+
+| default-pb-fg-all-iface1-7d9f1   | 10 TiB  | ontap-ai-flexgroups-retain-iface1 | file     | b74cbddb-e0b8-40b7-b263-b6da6dec0bdd | online | true    |
++----------------------------------+---------+-----------------------------------+----------+--------------------------------------+--------+---------+
+$ kubectl get pvc
+NAME                 STATUS   VOLUME                             CAPACITY         ACCESS MODES   STORAGECLASS                        AGE
+pb-fg-all-iface1     Bound    default-pb-fg-all-iface1-7d9f1     10995116277760   ROX            ontap-ai-flexgroups-retain-iface1   25h
+....
+
+
+== 提供新卷
+
+您可以使用Trident在NetApp儲存系統或平台上設定新磁碟區。
+
+
+
+=== 使用 kubectl 設定新卷
+
+以下範例指令顯示使用 kubectl 設定新的FlexVol volume。
+
+一個 `accessModes`的價值 `ReadWriteMany`在下面的範例 PVC 定義檔中指定。有關 `accessMode`字段，請參閱 https://kubernetes.io/docs/concepts/storage/persistent-volumes/["Kubernetes 官方文檔"^]。
+
+....
+$ cat << EOF > ./pvc-tensorflow-results.yaml
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: tensorflow-results
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: ontap-ai-flexvols-retain
+EOF
+$ kubectl create -f ./pvc-tensorflow-results.yaml
+persistentvolumeclaim/tensorflow-results created
+$ kubectl get pvc
+NAME                              STATUS    VOLUME                             CAPACITY         ACCESS MODES   STORAGECLASS                        AGE
+pb-fg-all-iface1                  Bound     default-pb-fg-all-iface1-7d9f1     10995116277760   ROX            ontap-ai-flexgroups-retain-iface1   26h
+tensorflow-results                Bound     default-tensorflow-results-2fd60   1073741824       RWX            ontap-ai-flexvols-retain            25h
+....
+
+
+=== 使用NetApp DataOps 工具包配置新磁碟區
+
+您也可以使用NetApp DataOps Toolkit for Kubernetes 在NetApp儲存系統或平台上設定新磁碟區。 NetApp DataOps Toolkit for Kubernetes 利用Trident來設定磁碟區，但簡化了使用者的流程。請參閱link:https://github.com/NetApp/netapp-dataops-toolkit/blob/main/netapp_dataops_k8s/docs/volume_management.md["文件"]了解詳情。

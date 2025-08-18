@@ -1,0 +1,34 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-sc-performance.html 
+keywords: data graphs, kafka throughput, s3 tiering traffic, aff a900, resource utilization 
+summary: 我們在生產-消費性工作負載期間使用一個AFF A900 HA 對NetApp儲存控制器對五個或八個代理節點執行了分層儲存測試。根據我們的測試，完成時間和效能結果隨著代理節點的數量而變化，直到AFF A900資源利用率達到百分之百。  ONTAP儲存控制器設定至少需要一個 HA 對。 
+---
+= 使用生產-消費性工作負載產生器進行效能測試
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+我們在生產-消費性工作負載期間使用一個AFF A900 HA 對NetApp儲存控制器對五個或八個代理節點執行了分層儲存測試。根據我們的測試，完成時間和效能結果隨著代理節點的數量而變化，直到AFF A900資源利用率達到百分之百。  ONTAP儲存控制器設定至少需要一個 HA 對。
+
+S3 檢索操作的效能根據 Confluent 代理節點的數量線性增加。  ONTAP儲存控制器在單一部署中支援最多 12 個 HA 對。
+
+下圖顯示了具有五個或八個代理節點的組合 S3 分層流量。我們最大限度地提高了AFF A900單 HA 對的性能。
+
+image:kafka-sc-009.png["此資料圖顯示了具有五個或八個代理節點的組合 S3 分層流量。"]
+
+下圖顯示 Kafka 吞吐量約為 31.74GBps。
+
+image:kafka-sc-010.png["此數據圖顯示 Kafka 吞吐量約為 31.74GBps。"]
+
+我們也觀察到ONTAP儲存控制器的吞吐量也類似 `perfstat`報告。
+
+....
+object_store_server:wle-mendocino-07-08:get_data:34080805907b/ s
+object_store_server:wle-mendocino-07-08:put_data:484236974b/ s
+....

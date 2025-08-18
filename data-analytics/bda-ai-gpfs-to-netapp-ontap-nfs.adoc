@@ -1,0 +1,87 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/bda-ai-gpfs-to-netapp-ontap-nfs.html 
+keywords: GPFS, nfs, nsd, admin node, quorum node, manager node, nsd server, protocol node 
+summary: 在本次驗證中，我們使用了四台伺服器作為網路共享磁碟（NSD）伺服器，為GPFS提供實體磁碟。 GPFS 建立於 NSD 磁碟之上，以將其匯出為 NFS 匯出，以便 NFS 用戶端可以存取它們，如下圖所示。我們使用 XCP 將資料從 GPFS 匯出的 NFS 複製到NetApp NFS 磁碟區。 
+---
+= GPFS 到NetApp ONTAP NFS
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+在本次驗證中，我們使用了四台伺服器作為網路共享磁碟（NSD）伺服器，為GPFS提供實體磁碟。 GPFS 建立於 NSD 磁碟之上，以將其匯出為 NFS 匯出，以便 NFS 用戶端可以存取它們，如下圖所示。我們使用 XCP 將資料從 GPFS 匯出的 NFS 複製到NetApp NFS 磁碟區。
+
+image:bda-ai-005.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+
+
+== GPFS 基礎知識
+
+GPFS 中使用下列節點類型：
+
+* *管理節點。 *指定一個可選字段，其中包含管理命令用於在節點之間進行通訊的節點名稱。例如，管理節點 `mastr-51.netapp.com`可以將網路檢查傳遞給叢集中的所有其他節點。
+* *仲裁節點。 *確定節點是否包含在派生仲裁的節點池中。您至少需要一個節點作為仲裁節點。
+* *管理節點*指示節點是否屬於節點池的一部分，可以從中選擇檔案系統管理員和令牌管理器。將多個節點定義為管理節點是一個好主意。您指定為管理器的節點數取決於工作負載和您擁有的 GPFS 伺服器許可證數量。如果您正在執行大型平行作業，則可能需要比支援 Web 應用程式的四節點叢集更多的管理器節點。
+* *NSD 伺服器。 *準備每個實體磁碟以供 GPFS 使用的伺服器。
+* *協定節點。 *透過任何安全外殼 (SSH) 協定直接與 NFS 共用 GPFS 資料的節點。此節點需要 GPFS 伺服器許可證。
+
+
+
+
+== GPFS、NFS 和 XCP 的操作列表
+
+本節提供了建立 GPFS、將 GPFS 匯出為 NFS 匯出以及使用 XCP 傳輸資料的操作清單。
+
+
+
+=== 建立GPFS
+
+若要建立 GPFS，請完成以下步驟：
+
+. 在其中一台伺服器上下載並安裝 Linux 版本的頻譜規模資料存取。
+. 在所有節點上安裝必備套件（例如 chef），並在所有節點上停用安全增強 Linux（SELinux）。
+. 設定安裝節點並將管理節點和 GPFS 節點新增至叢集定義檔。
+. 新增管理器節點、仲裁節點、NSD 伺服器和 GPFS 節點。
+. 新增 GUI、管理和 GPFS 節點，並根據需要新增額外的 GUI 伺服器。
+. 新增另一個 GPFS 節點並檢查所有節點的清單。
+. 在叢集定義檔中的所有 GPFS 節點上指定叢集名稱、設定檔、遠端 shell 二進位檔案、遠端檔案複製二進位檔案和連接埠範圍。
+. 查看 GPFS 配置設定並新增額外的管理節點。
+. 停用資料收集並將資料包上傳至 IBM 支援中心。
+. 啟用 NTP 並在安裝前預先檢查配置。
+. 配置、建立和檢查 NSD 磁碟。
+. 建立 GPFS。
+. 掛載 GPFS。
+. 驗證並提供 GPFS 所需的權限。
+. 透過執行以下命令驗證 GPFS 讀寫 `dd`命令。
+
+
+
+
+=== 將 GPFS 匯出到 NFS
+
+若要將 GPFS 匯出至 NFS，請完成下列步驟：
+
+. 透過以下方式將 GPFS 匯出為 NFS `/etc/exports`文件。
+. 安裝所需的 NFS 伺服器套件。
+. 啟動 NFS 服務。
+. 列出 GPFS 中的檔案以驗證 NFS 用戶端。
+
+
+
+
+=== 配置 NFS 用戶端
+
+若要設定 NFS 用戶端，請完成下列步驟：
+
+. 透過 `/etc/exports`文件。
+. 啟動 NFS 用戶端服務。
+. 在NFS客戶端上透過NFS協定掛載GPFS。
+. 驗證 NFS 掛載資料夾中的 GPFS 檔案清單。
+. 使用 XCP 將資料從 GPFS 匯出的 NFS 移至NetApp NFS。
+. 驗證 NFS 用戶端上的 GPFS 檔案。
+

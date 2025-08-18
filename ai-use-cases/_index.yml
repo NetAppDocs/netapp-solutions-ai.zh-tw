@@ -1,0 +1,32 @@
+---
+indexpage:
+  title: NetApp AI 用例和應用程式
+  summary: 使用NetApp解決方案探索現實世界的 AI 實施，從企業 RAG 系統和邊緣推理到負責任的 AI 實踐和資料遷移策略。這些用例展示了NetApp如何在保持安全性、效能和可擴展性的同時，在不同環境中支援
+    AI 應用程式。
+  lead: 使用NetApp解決方案探索現實世界的 AI 實施，從企業 RAG 系統和邊緣推理到負責任的 AI 實踐和資料遷移策略。這些用例展示了NetApp如何幫助組織在不同環境中部署
+    AI 應用程序，同時保持安全性、效能和可擴展性。
+  tiles:
+  - title: 企業 AI 應用程式和用例
+    links:
+    - title: 適用於企業 RAG 的NetApp AIPod Mini
+      url: "../infra/ai-minipod.html"
+    - title: 生成式人工智慧和NetApp價值
+      url: "../gen-ai/ai-wp-genai.html"
+    - title: NetApp和聯想合作的邊緣 AI 推理
+      url: "../infra/ai-lenovo-edge-intro.html"
+    - title: 大數據分析向人工智慧遷移
+      url: "../data-analytics/bda-ai-introduction.html"
+  - title: 負責任的人工智慧
+    links:
+    - title: Protopia 影像轉換的負責任的 AI
+      url: "../software/ai-conf-protopia-overview.html"
+    - title: 解決方案領域
+      url: "../software/ai-conf-protopia-usecases.html"
+    - title: 技術概述
+      url: "../software/ai-conf-protopia-tech.html"
+  - title: AI儲存和基礎設施解決方案
+    links:
+    - title: 採用 E 系列系統設計 Quantum StorNext
+      url: "../infra/ai-eseries-nva1150-design.html"
+    - title: 使用 E 系列系統部署 Quantum StorNext
+      url: "../infra/ai-eseries-nva1150-deploy.html"

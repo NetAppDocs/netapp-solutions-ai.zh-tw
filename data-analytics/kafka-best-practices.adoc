@@ -1,0 +1,42 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/kafka-best-practices.html 
+keywords: best practices, guidelines, nfs, san 
+summary: 本節介紹了從此次認證中獲得的經驗教訓。 
+---
+= 最佳實踐指南
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本節介紹了從此次認證中獲得的經驗教訓。
+
+* 根據我們的驗證，S3 物件儲存最適合 Confluent 保存資料。
+* 我們可以使用高吞吐量 SAN（特別是 FC）來保存代理熱資料或本機磁碟，因為在 Confluent 分層儲存配置中，代理資料目錄中儲存的資料大小取決於資料移至物件儲存時的段大小和保留時間。
+* 當segment.bytes較高時，物件儲存提供更好的效能；我們測試了512MB。
+* 在 Kafka 中，主題中產生的每個記錄的鍵或值的長度（以位元組為單位）由 `length.key.value`範圍。對於StorageGRID，S3 物件提取和檢索效能提升到更高的值。例如，512 位元組提供 5.8GBps 的檢索，1024 位元組提供 7.5GBps 的 s3 檢索，而 2048 位元組提供接近 10GBps 的檢索。
+
+
+下圖展示了基於 `length.key.value`。
+
+image:confluent-kafka-011.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+* Kafka 調優。為了提高分層儲存的效能，可以增加 TierFetcherNumThreads 和 TierArchiverNumThreads。作為一般準則，您需要增加 TierFetcherNumThreads 以匹配實體 CPU 核心的數量，並將 TierArchiverNumThreads 增加到 CPU 核心數量的一半。例如，在伺服器屬性中，如果您有一台具有八個實體核心的機器，請設定 confluent.tier.fetcher.num.threads = 8 和 confluent.tier.archiver.num.threads = 4。
+* *主題刪除的時間間隔*當主題被刪除時，物件儲存中的日誌段檔案的刪除不會立即開始。相反，在刪除這些文件之前有一個預設值為 3 小時的時間間隔。您可以修改配置 confluent.tier.topic.delete.check.interval.ms 來變更此間隔的值。如果刪除主題或集群，您也可以手動刪除相應儲存桶中的物件。
+* *分層儲存內部主題的 ACL。 *對於內部部署，建議的最佳實踐是在用於分層儲存的內部主題上啟用 ACL 授權器。設定 ACL 規則以限制只有代理使用者才能存取此資料。這可以保護內部主題並防止未經授權存取分層儲存資料和元資料。
+
+
+[listing]
+----
+kafka-acls --bootstrap-server localhost:9092 --command-config adminclient-configs.conf \
+--add --allow-principal User:<kafka> --operation All --topic "_confluent-tier-state"
+----
+
+NOTE: 替換用戶 `<kafka>`與您部署中的實際代理主體一起。
+
+例如，命令 `confluent-tier-state`設定內部主題的 ACL 以進行分層儲存。目前，只有一個與分層儲存相關的內部主題。此範例建立了一個 ACL，為內部主題上的所有操作提供主要的 Kafka 權限。

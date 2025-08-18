@@ -1,0 +1,23 @@
+---
+sidebar: sidebar 
+permalink: software/ai-nvaie-vmw-intro.html 
+keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, NVIDIA AI Enterprise, NVAIE, VMware 
+summary: NVIDIA AI Enterprise 是一款端到端、雲端原生的 AI 和資料分析軟體套件，經過最佳化，每個組織都可以藉助 AI 取得成功。 
+---
+= NVIDIA AI Enterprise 與NetApp和 VMware 合作
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+NetApp的 Mike Oglesby
+
+[role="lead"]
+對於 IT 架構師和管理員來說，AI 工具可能很複雜且陌生。此外，許多人工智慧平台尚未為企業做好準備。  NVIDIA AI Enterprise 由NetApp和 VMware 提供支持，旨在提供精簡的企業級 AI 架構。
+
+NVIDIA AI Enterprise 是一款端到端、雲端原生的 AI 和資料分析軟體套件，經過NVIDIA優化、認證和支持，可在具有NVIDIA認證系統的 VMware vSphere 上運行。該軟體有助於在現代混合雲環境中簡單、快速地部署、管理和擴展 AI 工作負載。由NetApp和 VMware 提供支援的NVIDIA AI Enterprise 以簡化、熟悉的軟體包提供企業級 AI 工作負載和資料管理。
+
+image:nvaie-001.png["此圖顯示輸入/輸出對話框或表示書面內容"]

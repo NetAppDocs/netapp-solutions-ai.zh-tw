@@ -1,0 +1,44 @@
+---
+sidebar: sidebar 
+permalink: vector-db/ai-vdb-solution-with-netapp.html 
+keywords: vector database, milvus, usecases 
+summary: 這是 Netapp 向量資料庫解決方案的摘要頁面。 
+---
+= NetApp的向量資料庫解決方案
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Karthikeyan Nagalingam 與 Rodrigo Nascimento， NetApp
+
+[role="lead"]
+本文檔深入探討了使用 NetApp 儲存解決方案部署和管理向量資料庫（例如 Milvus 和開源 PostgreSQL 擴充 pgvecto）的方法。詳細介紹了使用NetApp ONTAP和StorageGRID物件儲存的基礎設施指南，並驗證了 Milvus 資料庫在 AWS FSx ONTAP中的應用。該文件闡明了 NetApp 的文件物件二元性及其對支援向量嵌入的向量資料庫和應用程式的實用性。它強調了 NetApp 企業管理產品SnapCenter的功能，為向量資料庫提供備份和復原功能，確保資料的完整性和可用性。該文件進一步深入探討了 NetApp 的混合雲解決方案，討論了其在本機和雲端環境中的資料複製和保護中的作用。它包括對NetApp ONTAP上向量資料庫效能驗證的見解，並總結了生成 AI 的兩個實際用例：帶有 LLM 的 RAG 和 NetApp 的內部 ChatAI。本文檔是利用 NetApp 儲存解決方案管理向量資料庫的綜合指南。
+
+參考架構重點在於以下內容：
+
+. link:ai-vdb-intro.html["介紹"]
+. link:ai-vdb-overview.html["解決方案概述"]
+. link:ai-vdb-landscape.html["向量資料庫"]
+. link:ai-vdb-tech.html["技術要求"]
+. link:ai-vdb-deploy.html["部署流程"]
+. link:ai-vdb-verification.html["解決方案驗證概述"]
++
+** link:ai-vdb-milvus-setup.html["在本地使用 Kubernetes 設定 Milvus 集群"]
+** Milvus 與Amazon FSx FSx ONTAP for NetApp ONTAP –ONTAP與物件二元NetApp
+** link:ai-vdb-dp-snapcenter.html["使用NetApp SnapCenter進行向量資料庫保護。"]
+** link:ai-vdb-dr-snapmirror.html["使用NetApp SnapMirror進行災難復原"]
+** link:ai-vdb-perf-validation.html["性能驗證"]
+
+
+. link:ai-vdb-instaclustr-pgvector.html["使用 PostgreSQL 的 Instaclustr 向量資料庫：pgvector"]
+. link:ai-vdb-usecases.html["向量資料庫用例"]
+. link:ai-vdb-conclusion.html["結論"]
+. link:ai-vdb-values.html["附錄 A：values.yaml"]
+. link:ai-vdb-dataprep.html["附錄 B：prepare_data_netapp_new.py"]
+. link:ai-vdb-verifydata.html["附錄C：verify_data_netapp.py"]
+. link:ai-vdb-docker-compose.html["附錄 D：docker-compose.yml"]
+

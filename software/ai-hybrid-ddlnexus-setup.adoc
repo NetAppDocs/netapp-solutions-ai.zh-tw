@@ -1,0 +1,56 @@
+---
+sidebar: sidebar 
+permalink: software/ai-hybrid-ddlnexus-setup.html 
+keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, Hybrid, Hybrid Cloud, Hybrid Multicloud, Cloud, AWS, Amazon, Amazon Web Services, FSx ONTAP, FSx, NetApp ONTAP, FlexCache, SnapMirror, BlueXP 
+summary: 採用 Domino Data Lab 和NetApp 的混合多雲 MLOps - 初始設置 
+---
+= 初始設定
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本節介紹在包含本機資料中心和 AWS 的混合環境中使用 Domino Nexus 和NetApp資料服務所需執行的初始設定任務。
+
+
+
+== 先決條件
+
+在執行本節中概述的步驟之前，我們假設您已經執行了以下任務：
+
+* 您已經部署並配置了內部部署NetApp ONTAP儲存平台。欲了解更多信息，請參閱link:https://www.netapp.com/support-and-training/documentation/["NetApp產品文檔"] 。
+* 您已在 AWS 中設定了Amazon FSx ONTAP實例。欲了解更多信息，請參閱link:https://aws.amazon.com/fsx/netapp-ontap/["Amazon FSx ONTAP產品頁面"] 。
+* 您已經在本機資料中心配置了 Kubernetes 叢集。欲了解更多信息，請參閱link:https://docs.dominodatalab.com/en/latest/admin_guide/b35e66/admin-guide/["Domino 管理指南"] 。
+* 您已在 AWS 中配置了 Amazon EKS 叢集。欲了解更多信息，請參閱link:https://docs.dominodatalab.com/en/latest/admin_guide/b35e66/admin-guide/["Domino 管理指南"] 。
+* 您已在本機 Kubernetes 叢集中安裝了NetApp Trident 。此外，您已設定此Trident實例以在配置和管理儲存資源時使用您的內部NetApp ONTAP儲存平台。欲了解更多信息，請參閱link:https://docs.netapp.com/us-en/trident/index.html["NetApp Trident文檔"] 。
+* 您已在 Amazon EKS 叢集中安裝了NetApp Trident 。此外，您已設定此Trident實例以在配置和管理儲存資源時使用您的Amazon FSx ONTAP實例。欲了解更多信息，請參閱link:https://docs.netapp.com/us-en/trident/index.html["NetApp Trident文檔"] 。
+* 您的本機資料中心和 AWS 中的虛擬私有雲 (VPC) 之間必須具有雙向網路連線。有關實現此目的的各種選項的更多詳細信息，請參閱link:https://docs.aws.amazon.com/vpc/latest/userguide/vpn-connections.html["Amazon 虛擬私人網路 (VPN) 文檔"]。
+
+
+
+
+== 在 AWS 中安裝 Domino Enterprise AI 平台
+
+若要在 AWS 中安裝 Domino Enterprise MLOps 平台，請依照link:https://docs.dominodatalab.com/en/latest/admin_guide/c1eec3/deploy-domino/["Domino 管理指南"]。您必須在先前設定的相同 Amazon EKS 叢集中部署 Domino。此外，必須已在此 EKS 叢集中安裝和設定NetApp Trident ，並且您必須在 domino.yml 安裝設定檔中指定 Trident 管理的儲存類別作為共用儲存類別。
+
+
+NOTE: 請參閱link:https://docs.dominodatalab.com/en/latest/admin_guide/7f4331/install-configuration-reference/#storage-classes["Domino 安裝設定參考指南"]有關如何在 domino.yml 安裝設定檔中指定共用儲存類別的詳細資訊。
+
+
+NOTE: link:https://www.netapp.com/media/79922-tr-4952.pdf["技術報告 TR-4952"]介紹如何使用Amazon FSx ONTAP在 AWS 中部署 Domino，這可以作為解決出現的任何問題的有用參考。
+
+
+
+== 啟用 Domino Nexus
+
+接下來，您必須啟用 Domino Nexus。請參閱link:https://docs.dominodatalab.com/en/latest/admin_guide/c65074/nexus-hybrid-architecture/["Domino 管理指南"]了解詳情。
+
+
+
+== 在本地資料中心部署 Domino 資料平面
+
+接下來，您必須在本機資料中心部署 Domino 資料平面。您必須在先前設定的本機 Kubernetes 叢集中部署此資料平面。此外，必須已在此 Kubernetes 叢集中安裝並設定了NetApp Trident 。請參閱link:https://docs.dominodatalab.com/en/latest/admin_guide/5781ea/data-planes/["Domino 管理指南"]了解詳情。

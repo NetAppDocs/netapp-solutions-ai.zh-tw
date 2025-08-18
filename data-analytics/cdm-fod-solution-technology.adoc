@@ -1,0 +1,38 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/cdm-fod-solution-technology.html 
+keywords: use case, summary, cvo, cloud volumes ontap, ml, dl 
+summary: NFS 和 S3 雙協定存取的潛在用例是在機器學習和資料科學領域。例如，一個資料科學家團隊可能正在使用 AWS SageMaker 進行機器學習項目，這需要存取以 NFS 格式儲存的資料。但是，可能還需要透過 S3 儲存桶存取和共享數據，以便與其他團隊成員合作或與使用 S3 的其他應用程式整合。 
+---
+= 解決方案技術
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+此解決方案採用以下技術：
+
+* AWS SageMaker 筆電。為開發人員和資料科學家提供機器學習功能，以有效地建立、訓練和部署高品質的 ML 模型。
+* * NetApp BlueXP。 *支援在本機以及 AWS、Azure 和 Google Cloud 上發現、部署和操作儲存。它提供資料保護，防止資料遺失、網路威脅和意外中斷，並優化資料儲存和基礎設施。
+* * NetApp Cloud Volumes ONTAP。 *在 AWS、Azure 和 Google Cloud 上提供具有 NFS、SMB/CIFS、iSCSI 和 S3 協定的企業級儲存卷，讓使用者在存取和管理雲端中的資料時擁有更大的靈活性。
+
+
+NetApp Cloud Volumes ONTAP由BlueXP創建，用於儲存 ML 資料。
+
+下圖展示了該解決方案的技術組件。
+
+image:cdm-fod-001.png["該圖顯示了該解決方案的技術組件。"]
+
+
+
+== 用例摘要
+
+NFS 和 S3 雙協定存取的潛在用例是在機器學習和資料科學領域。例如，一個資料科學家團隊可能正在使用 AWS SageMaker 進行機器學習項目，這需要存取以 NFS 格式儲存的資料。但是，可能還需要透過 S3 儲存桶存取和共享數據，以便與其他團隊成員合作或與使用 S3 的其他應用程式整合。
+
+透過利用NetApp Cloud Volumes ONTAP，團隊可以將其資料儲存在單一位置，並可透過 NFS 和 S3 協定存取。資料科學家可以直接從 AWS SageMaker 存取 NFS 格式的數據，而其他團隊成員或應用程式可以透過 S3 儲存桶存取相同的資料。
+
+這種方法可以輕鬆且有效率地存取和共享數據，而無需額外的軟體或不同儲存解決方案之間的資料遷移。它還允許團隊成員之間更簡化的工作流程和協作，從而更快、更有效地開發機器學習模型。

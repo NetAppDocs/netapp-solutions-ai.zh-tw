@@ -1,0 +1,47 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/hdcs-sh-use-cases.html 
+keywords: summary, overview, backup, devtest, data protection 
+summary: 本節對資料保護用例進行了高層描述，這是本文的重點。其餘部分為每個用例提供了更多詳細信息，例如客戶問題（場景）、要求和挑戰以及解決方案。 
+---
+= Hadoop 資料保護案例概述
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本節對資料保護用例進行了高層描述，這是本文的重點。其餘部分為每個用例提供了更多詳細信息，例如客戶問題（場景）、要求和挑戰以及解決方案。
+
+
+
+== 用例 1：備份 Hadoop 數據
+
+對於此用例， NetApp NFS 磁碟區可協助一家大型金融機構將長備份視窗時間從 24 多個小時縮短至數小時。
+
+
+
+== 用例 2：從雲端到本地的備份和災難恢復
+
+透過使用NetApp支援的資料結構作為建置模組，一家大型廣播公司能夠根據不同的資料傳輸模式（例如按需、即時或基於 Hadoop/Spark 叢集負載）滿足將雲端資料備份到其內部資料中心的需求。
+
+
+
+== 用例 3：在現有 Hadoop 資料上啟用 DevTest
+
+NetApp解決方案可協助線上音樂經銷商在不同分支機構快速建立多個節省空間的 Hadoop 集群，以建立報告並透過使用規劃策略運行日常 DevTest 任務。
+
+
+
+== 用例 4：資料保護和多雲連接
+
+一家大型服務供應商使用由NetApp支援的資料結構從不同的雲端實例為其客戶提供多雲分析。
+
+
+
+== 用例 5：加速分析工作負載
+
+一家最大的金融服務和投資銀行使用NetApp網路附加儲存解決方案來減少 I/O 等待時間並加速其定量金融分析平台。

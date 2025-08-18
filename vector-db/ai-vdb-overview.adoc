@@ -1,0 +1,33 @@
+---
+sidebar: sidebar 
+permalink: vector-db/ai-vdb-overview.html 
+keywords: Solution Overview vector database 
+summary: NetApp 向量資料庫解決方案概述 
+---
+= 解決方案概述
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本節概述了NetApp向量資料庫解決方案。
+
+
+
+== 解決方案概述
+
+該解決方案展示了NetApp為應對向量資料庫客戶面臨的挑戰所提供的獨特優勢和功能。透過利用NetApp ONTAP、 StorageGRID、NetApp 的雲端解決方案和SnapCenter，客戶可以為其業務營運增加顯著的價值。這些工具不僅解決了現有的問題，還提高了效率和生產力，從而促進了整體業務成長。
+
+
+
+=== 為什麼選擇NetApp？
+
+* NetApp 的產品（例如ONTAP和StorageGRID）允許分離儲存和運算，從而能夠根據特定需求實現最佳資源利用率。這種靈活性使客戶能夠使用NetApp儲存解決方案獨立擴展其儲存。
+* 透過利用 NetApp 的儲存控制器，客戶可以使用 NFS 和 S3 協定有效地向其向量資料庫提供資料。這些協定方便了客戶資料儲存和管理向量資料庫索引，從而無需透過檔案和物件方法存取多個資料副本。
+* NetApp ONTAP為 AWS、Azure 和 Google Cloud 等領先的雲端服務供應商提供對 NAS 和物件儲存的原生支援。這種廣泛的兼容性確保了無縫集成，實現了客戶資料移動性、全球可訪問性、災難復原、動態可擴展性和高效能。
+* 借助 NetApp 強大的資料管理功能，客戶可以放心，因為他們的資料受到良好的保護，不會受到潛在風險和威脅。  NetApp優先考慮資料安全，讓客戶對其寶貴資訊的安全性和完整性感到放心。
+

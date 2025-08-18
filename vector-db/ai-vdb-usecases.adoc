@@ -1,0 +1,81 @@
+---
+sidebar: sidebar 
+permalink: vector-db/ai-vdb-usecases.html 
+keywords: vector database 
+summary: 用例 - NetApp 的向量資料庫解決方案 
+---
+= 向量資料庫用例
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本節概述了NetApp向量資料庫解決方案的用例。
+
+
+
+== 向量資料庫用例
+
+在本節中，我們討論兩個用例，例如使用大型語言模型的檢索增強生成和NetApp IT 聊天機器人。
+
+
+
+=== 使用大型語言模型 (LLM) 進行檢索增強生成 (RAG)
+
+....
+Retrieval-augmented generation, or RAG, is a technique for enhancing the accuracy and reliability of Large Language Models, or LLMs, by augmenting prompts with facts fetched from external sources. In a traditional RAG deployment, vector embeddings are generated from an existing dataset and then stored in a vector database, often referred to as a knowledgebase. Whenever a user submits a prompt to the LLM, a vector embedding representation of the prompt is generated, and the vector database is searched using that embedding as the search query. This search operation returns similar vectors from the knowledgebase, which are then fed to the LLM as context alongside the original user prompt. In this way, an LLM can be augmented with additional information that was not part of its original training dataset.
+....
+NVIDIA Enterprise RAG LLM Operator 是企業中實施 RAG 的實用工具。此操作員可用於部署完整的 RAG 管道。 RAG 管道可以客製化為使用 Milvus 或 pgvecto 作為儲存知識庫嵌入的向量資料庫。有關詳細信息，請參閱文件。
+
+....
+NetApp has validated an enterprise RAG architecture powered by the NVIDIA Enterprise RAG LLM Operator alongside NetApp storage. Refer to our blog post for more information and to see a demo. Figure 1 provides an overview of this architecture.
+....
+圖 1) 由NVIDIA NeMo 微服務和NetApp支援的企業 RAG
+
+image:rag-nvidia-nemo.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+
+
+=== NetApp IT 聊天機器人用例
+
+NetApp 的聊天機器人是向量資料庫的另一個即時用例。在這種情況下， NetApp Private OpenAI Sandbox 為管理來自 NetApp 內部使用者的查詢提供了一個有效、安全且高效的平台。透過結合嚴格的安全協議、高效的資料管理系統和複雜的人工智慧處理能力，它保證透過 SSO 身份驗證根據組織中使用者的角色和職責為他們提供高品質、精確的回應。這種架構凸顯了融合先進技術以創建以使用者為中心的智慧系統的潛力。
+
+image:netapp-chatbot.png["此圖顯示輸入/輸出對話框或表示書面內容"]
+
+用例可以分為四個主要部分。
+
+
+
+==== 使用者身份驗證和驗證：
+
+* 使用者查詢首先經過NetApp單一登入 (SSO) 流程確認使用者的身分。
+* 身份驗證成功後，系統會檢查VPN連線以確保資料傳輸的安全。
+
+
+
+
+==== 資料傳輸和處理：
+
+* 一旦 VPN 驗證通過，資料就會透過 NetAIChat 或 NetAICreate Web 應用程式傳送到 MariaDB。  MariaDB 是一個快速且有效率的資料庫系統，用於管理和儲存使用者資料。
+* 然後，MariaDB 將資訊傳送到NetApp Azure 實例，該實例將使用者資料連接到 AI 處理單元。
+
+
+
+
+==== 與 OpenAI 和內容過濾的交互作用：
+
+* Azure 執行個體將使用者的問題傳送至內容過濾系統。系統清理查詢並準備處理。
+* 清理後的輸入隨後被傳送到 Azure OpenAI 基礎模型，該模型根據輸入產生回應。
+
+
+
+
+==== 回應生成和審核：
+
+* 首先檢查基礎模型的回應，以確保其準確性並符合內容標準。
+* 檢查通過後，將回應傳回使用者。此流程可確保使用者收到對其查詢的清晰、準確和適當的答案。
+

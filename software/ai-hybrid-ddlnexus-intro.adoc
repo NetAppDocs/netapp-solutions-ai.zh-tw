@@ -1,0 +1,25 @@
+---
+sidebar: sidebar 
+permalink: software/ai-hybrid-ddlnexus-intro.html 
+keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, Hybrid, Hybrid Cloud, Hybrid Multicloud, Cloud, AWS, Amazon, Amazon Web Services, FSx ONTAP, FSx, NetApp ONTAP, FlexCache, SnapMirror, BlueXP 
+summary: Domino Nexus 是一個單一玻璃窗格，可讓您在任何運算叢集（任何雲端、區域或本機）運行資料科學和機器學習工作負載。 
+---
+= Domino Data Lab 和NetApp的混合多雲 MLOps
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+NetApp的 Mike Oglesby
+
+[role="lead"]
+目前，世界各地的組織都在採用人工智慧來轉變其業務和流程。因此，支援人工智慧的運算基礎設施通常供不應求。企業正在採用混合多雲 MLOps 架構，以便利用不同區域、資料中心和雲端中的可用運算環境，平衡成本、可用性和效能。
+
+Domino Data Lab 的 Domino Nexus 是一個統一的 MLOps 控制平面，可讓您在任何運算叢集（任何雲端、區域或本地）運行資料科學和機器學習工作負載。它統一了整個企業的資料科學孤島，因此您可以在一個地方建立、部署和監控模型。同樣，NetApp 的混合雲資料管理功能使您能夠將資料帶到您的作業和工作區，無論它們在何處運行。將 Domino Nexus 與NetApp配對後，您可以靈活地跨環境安排工作負載，而不必擔心資料可用性。換句話說，您可以將工作負載和資料傳送到適當的運算環境，從而加速您的 AI 部署，同時遵守有關資料隱私和主權的法規。
+
+此解決方案示範了統一 MLOps 控制平面的部署，該控制平面結合了本機 Kubernetes 叢集和在 Amazon Web Services (AWS) 中執行的 Elastic Kubernetes Service (EKS) 叢集。
+
+image:ddlnexus-001.png["此圖顯示輸入/輸出對話框或表示書面內容"]

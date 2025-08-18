@@ -1,0 +1,23 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/bda-ai-customer-challenges.html 
+keywords: customer, challenge, data lake, repository, syncing, moving data 
+summary: 本頁討論了客戶在嘗試存取大數據分析資料以進行 AI 操作時可能面臨的挑戰。 
+---
+= 客戶挑戰
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+客戶在嘗試存取大數據分析資料以進行 AI 操作時可能會面臨以下挑戰：
+
+* 客戶資料位於資料湖儲存庫。資料湖可以包含不同類型的數據，例如結構化、非結構化、半結構化、日誌和機器對機器資料。所有這些資料類型都必須在人工智慧系統中處理。
+* AI 與 Hadoop 檔案系統不相容。典型的 AI 架構無法直接存取 HDFS 和 HCFS 數據，必須將這些數據移至 AI 可理解的檔案系統 (NFS)。
+* 將資料湖資料遷移至 AI 通常需要專門的流程。資料湖中的資料量可能非常大。客戶必須擁有一種高效、高吞吐量且經濟實惠的方式將資料移至 AI 系統。
+* 正在同步資料。如果客戶希望大數據平台和AI之間同步數據，有時候經過AI處理的數據可以和大數據一起進行分析處理。
+

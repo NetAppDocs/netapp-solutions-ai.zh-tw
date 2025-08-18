@@ -1,0 +1,33 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/stgr-splunkss-conclusion.html 
+keywords: conclusion, references 
+summary: Splunk Enterprise 是市場領先的 SIEM 解決方案，可推動安全、IT 和 DevOps 團隊取得成果。 
+---
+= 結論
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Splunk Enterprise 是市場領先的 SIEM 解決方案，可推動安全、IT 和 DevOps 團隊取得成果。我們客戶組織中 Splunk 的使用量已顯著增加。因此，需要增加更多資料來源，同時保留更長的數據，從而給 Splunk 基礎設施帶來壓力。
+
+Splunk SmartStore 和NetApp StorageGRID的結合旨在為組織提供可擴展的架構，以透過 SmartStore 和StorageGRID物件儲存實現更高的攝取效能，並提高跨多個地理區域的 Splunk 環境的可擴展性。
+
+
+
+== 在哪裡可以找到更多信息
+
+要了解有關本文檔中描述的信息的更多信息，請查看以下文檔和/或網站：
+
+* https://docs.netapp.com/us-en/storagegrid-family/["NetApp StorageGRID文件資源"^]
+* https://docs.netapp.com["NetApp產品文檔"^]
+* https://docs.splunk.com/Documentation/Splunk["Splunk Enterprise 文檔"^]
+* https://docs.splunk.com/Documentation/Splunk/8.0.6/Indexer/AboutSmartStore["Splunk Enterprise 關於 SmartStore"^]
+* https://docs.splunk.com/Documentation/Splunk/8.0.6/Deploy/Distributedoverview["Splunk Enterprise 分散式部署手冊"^]
+* https://docs.splunk.com/Documentation/Splunk/8.0.6/Indexer/Aboutindexesandindexers["Splunk Enterprise 管理索引器和索引器集群"^]
+

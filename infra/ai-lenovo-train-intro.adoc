@@ -1,0 +1,49 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-lenovo-train-intro.html 
+keywords: tr4810, 4810, introduction, cluster architecture, lenovo, ai 
+summary: 該解決方案專注於入門級和中端叢集架構，使用針對人工智慧工作負載優化的NetApp儲存和聯想伺服器。它適用於大多數運算作業是單節點（單或多 GPU）或分佈在幾個運算節點上的中小型團隊。這不是一個主要的限制，因為大多數日常的人工智慧訓練工作都是單節點的。 
+---
+= TR-4810： NetApp AFF A400與聯想 ThinkSystem SR670 V2 搭配用於 AI 與 ML 模型訓練
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Sathish Thyagarajan、David Arnette、 NetApp Mircea Troaca、聯想
+
+[role="lead"]
+該解決方案採用了NetApp儲存和針對人工智慧 (AI) 工作負載優化的聯想伺服器的中階叢集架構。它適用於大多數運算作業是單節點（單 GPU 或多 GPU）或分佈在幾個運算節點上的中小型企業。該解決方案與許多企業的大多數日常 AI 培訓工作一致。
+
+本文檔涵蓋由八 GPU 聯想 SR670V2 伺服器、中階NetApp AFF A400儲存系統和 100GbE 互連交換器組成的運算和儲存配置的測試和驗證。為了衡量效能，我們使用了 ResNet50 和 ImageNet 資料集、批次大小為 408、半精度、CUDA 和 cuDNN。該架構為剛開始 AI 計劃且需要NetApp ONTAP雲端連接資料儲存的企業級功能的中小型組織提供了高效且經濟的解決方案。
+
+
+
+== 目標受眾
+
+本文檔適用於以下受眾：
+
+* 資料科學家、資料工程師、資料管理員和人工智慧系統開發人員
+* 為 AI 模型開發設計解決方案的企業架構師
+* 尋求有效方法實現深度學習 (DL) 和機器學習 (ML) 開發目標的資料科學家和資料工程師
+* 希望盡快實現 AI 計畫上市的企業領導者和 OT/IT 決策者
+
+
+
+
+== 解決方案架構
+
+此解決方案採用聯想 ThinkSystem 伺服器和具有AFF儲存的NetApp ONTAP，旨在利用 GPU 和傳統 CPU 的處理能力來處理大型資料集的 AI 訓練。此驗證展示了採用橫向擴展架構的高效能和最佳資料管理，該架構使用一台、兩台或四台 Lenovo SR670 V2 伺服器以及一台NetApp AFF A400儲存系統。下圖提供了架構概覽。
+
+image:a400-thinksystem-002.png["該圖描繪了一個乙太網路交換機，周圍是管理伺服器、四個 SR670 V2（每個有八個 GPU）和一個NetApp ONTAP儲存系統。"]
+
+NetApp和聯想的解決方案有以下主要優勢：
+
+* 並行執行多個訓練作業時具有高效且經濟的性能
+* 根據不同數量的聯想伺服器和不同型號的NetApp儲存控制器擴充效能
+* 強大的資料保護，滿足低復原點目標 (RPO) 和復原時間目標 (RTO)，且不會遺失資料
+* 透過快照和克隆優化資料管理，簡化開發工作流程
+

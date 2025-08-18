@@ -1,0 +1,46 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/spark-solutions-overview.html 
+keywords: fas, aff, e-series, cloud volumes ontap, nfs, direct access, snapmirror, paas, 
+summary: NetApp有三個儲存產品組合： FAS/ AFF、E 系列和Cloud Volumes ONTAP。我們已經透過 Apache Spark 驗證了適用於 Hadoop 解決方案的AFF和具有ONTAP儲存系統的 E 系列。  NetApp支援的資料結構整合了資料管理服務和應用程式（構建塊），用於資料存取、控制、保護和安全。 
+---
+= NetApp Spark 解決方案概述
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetApp有三個儲存產品組合： FAS/ AFF、E 系列和Cloud Volumes ONTAP。我們已經透過 Apache Spark 驗證了適用於 Hadoop 解決方案的AFF和具有ONTAP儲存系統的 E 系列。
+
+NetApp提供支援的資料結構整合了資料管理服務和應用程式（構建塊），用於資料存取、控制、保護和安全，如下圖所示。
+
+image:apache-spark-004.png["資料結構提供資料管理服務和應用程式。"]
+
+上圖中的構建塊包括：
+
+* * NetApp NFS 直接存取。 *為最新的 Hadoop 和 Spark 叢集提供對NetApp NFS 磁碟區的直接訪問，無需額外的軟體或驅動程式要求。
+* * NetApp Cloud Volumes ONTAP和Google Cloud NetApp Volumes 。 *基於在 Amazon Web Services (AWS) 或 Microsoft Azure 雲端服務中的Azure NetApp Files (ANF) 中執行的ONTAP的軟體定義連線儲存。
+* * NetApp SnapMirror技術。 *在本機和ONTAP Cloud 或 NPS 實例之間提供資料保護功能。
+* *雲端服務提供者。 *這些供應商包括 AWS、Microsoft Azure、Google Cloud 和 IBM Cloud。
+* *平台即服務*。基於雲端的分析服務，例如 AWS 中的 Amazon Elastic MapReduce (EMR) 和 Databricks 以及 Microsoft Azure HDInsight 和 Azure Databricks。
+
+
+下圖描述了採用NetApp儲存的 Spark 解決方案。
+
+image:apache-spark-005.png["採用NetApp儲存的 Spark 解決方案。"]
+
+ONTAP Spark 解決方案使用NetApp NFS 直接存取協定進行就地分析以及透過存取現有生產資料來實現 AI、ML 和 DL 工作流程。 Hadoop 節點可用的生產資料被匯出以執行就地分析和 AI、ML 和 DL 作業。您可以使用NetApp NFS 直接存取或不使用 NetApp NFS 直接存取來存取 Hadoop 節點中要處理的資料。在 Spark 中，使用獨立或 `yarn`叢集管理器，您可以使用設定 NFS 卷 `\file://<target_volume>`。我們用不同的資料集驗證了三個用例。這些驗證的詳細資訊在「測試結果」部分中介紹。  （外部參照）
+
+下圖描述了NetApp Apache Spark/Hadoop 儲存定位。
+
+image:apache-spark-007.png["NetApp Apache Spark/Hadoop儲存定位。"]
+
+我們確定了 E 系列 Spark 解決方案、 AFF/ FAS ONTAP Spark 解決方案和StorageGRID Spark 解決方案的獨特功能，並進行了詳細的驗證和測試。根據我們的觀察， NetApp建議對於綠地安裝和新的可擴展部署使用 E 系列解決方案，對於使用現有 NFS 資料的就地分析、AI、ML 和 DL 工作負載使用AFF/ FAS解決方案，對於需要物件儲存時的 AI、ML、DL 和現代資料分析使用StorageGRID 。
+
+image:apache-spark-009.png["推薦用於 Spark 的NetApp解決方案。"]
+
+資料湖是原生形式的大型資料集的儲存庫，可用於分析、AI、ML 和 DL 作業。我們為 E 系列、 AFF/ FAS和StorageGRID SG6060 Spark 解決方案建置了一個資料湖儲存庫。 E 系列系統提供對 Hadoop Spark 叢集的 HDFS 訪問，而現有生產資料則透過 NFS 直接存取協定存取 Hadoop 叢集。對於駐留在物件儲存中的資料集， NetApp StorageGRID提供 S3 和 S3a 安全存取。

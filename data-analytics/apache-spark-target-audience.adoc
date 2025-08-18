@@ -1,0 +1,26 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/apache-spark-target-audience.html 
+keywords: audience, data scientist, engineer, devops, cloud administrator, architect 
+summary: 本節介紹誰可能對該解決方案的內容感興趣。 
+---
+= 目標受眾
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+分析和數據科學領域涉及 IT 和商業的多個學科：
+
+* 資料科學家需要靈活地使用他們選擇的工具和函式庫。
+* 資料工程師需要知道資料如何流動以及位於何處。
+* DevOps 工程師需要工具將新的 AI 和 ML 應用程式整合到他們的 CI 和 CD 管道中。
+* 雲端管理員和架構師必須能夠設定和管理混合雲資源。
+* 商業用戶希望能夠存取分析、AI、ML 和 DL 應用程式。
+
+
+在本技術報告中，我們描述了NetApp AFF、E 系列、 StorageGRID、NFS 直接存取、Apache Spark、Horovod 和 Keras 如何幫助這些角色為企業帶來價值。

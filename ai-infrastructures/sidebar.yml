@@ -1,0 +1,37 @@
+---
+section: ai-infrastructures
+title: 人工智慧融合基礎設施
+url: "/ai-infrastructures/index.html"
+entries:
+- title: 搭載NVIDIA DGX 系統的NetApp AIPod
+  pdf-filename: 搭載NVIDIA DGX 系統的 NVA-1173 NetApp AIPod
+  entries:
+  - title: 介紹
+    url: "/infra/ai-aipod-nv-intro.html"
+  - title: 硬體組件
+    url: "/infra/ai-aipod-nv-hw.html"
+  - title: 軟體元件
+    url: "/infra/ai-aipod-nv-sw.html"
+  - title: 架構
+    url: "/infra/ai-aipod-nv-architecture.html"
+  - title: 範例部署詳細信息
+    url: "/infra/ai-aipod-nv-deploy.html"
+  - title: 驗證和尺寸指導
+    url: "/infra/ai-aipod-nv-validation.html"
+  - title: 結論和補充信息
+    url: "/infra/ai-aipod-nv-conclusion.html"
+- title: NetApp AIPod與聯想攜手為NVIDIA OVX 提供支持
+  pdf-filename: NVA-1172-DESIGN： NetApp AIPod與聯想合作，支援NVIDIA OVX
+  url: "/infra/ai-aipod-lenovo-nva1172.html"
+- title: 搭載 EF 系列的NVIDIA DGX SuperPOD
+  pdf-filename: 搭載NetApp EF 系列的NVIDIA DGX SuperPOD
+  url: "/infra/ai-eseries-superpod.html"
+- title: NetApp上的 BeeGFS 與 E 系列存儲
+  pdf-filename: NetApp上的 BeeGFS 與 E 系列存儲
+  url: "/infra/ai-eseries-beegfs.html"
+- title: 使用 E 系列儲存部署 IBM Spectrum Scale
+  pdf-filename: 使用 E 系列儲存部署 IBM Spectrum Scale
+  url: "/infra/ai-eseries-spectrumscale.html"
+- title: ONTAP和聯想 ThinkSystem 的 AI 解決方案
+  pdf-filename: NetApp ONTAP與聯想 ThinkSystem SR670 輔助 AI
+  url: "/infra/ai-lenovo-train-intro.html"

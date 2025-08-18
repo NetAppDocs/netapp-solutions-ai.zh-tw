@@ -1,0 +1,228 @@
+---
+sidebar: sidebar 
+permalink: vector-db/ai-vdb-milvus-setup.html 
+keywords: vector database 
+summary: milvus 叢集設定 - NetApp 的向量資料庫解決方案 
+---
+= 在本地使用 Kubernetes 設定 Milvus 集群
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本節討論針對NetApp的向量資料庫解決方案的 milvus 叢集設定。
+
+
+
+== 在本地使用 Kubernetes 設定 Milvus 集群
+
+客戶面臨的挑戰是在儲存和運算上獨立擴展、有效的基礎設施管理和資料管理，Kubernetes 和向量資料庫共同構成了管理大數據操作的強大、可擴展的解決方案。 Kubernetes 最佳化資源並管理容器，而向量資料庫則有效率地處理高維度資料和相似性搜尋。這種組合能夠快速處理大型資料集上的複雜查詢，並隨著資料量的增加而無縫擴展，使其成為大數據應用程式和人工智慧工作負載的理想選擇。
+
+. 在本節中，我們詳細介紹了在 Kubernetes 上安裝 Milvus 叢集的過程，並利用NetApp儲存控制器儲存叢集資料和客戶資料。
+. 要安裝 Milvus 集群，需要持久卷 (PV) 來儲存來自各個 Milvus 集群組件的資料。這些元件包括 etcd（三個實例）、pulsar-bookie-journal（三個實例）、pulsar-bookie-ledgers（三個實例）和 pulsar-zookeeper-data（三個實例）。
++
+
+NOTE: 在 milvus 叢集中，我們可以使用 pulsar 或 kafka 作為支撐 Milvus 叢集可靠儲存以及訊息流發布/訂閱的底層引擎。對於使用 NFS 的 Kafka， NetApp在ONTAP 9.12.1 及更高版本中做出了改進，這些增強功能以及 RHEL 8.7 或 9.1 及更高版本中包含的 NFSv4.1 和 Linux 更改解決了在 NFS 上運行 Kafka 時可能出現的“愚蠢重命名”問題。如果您對使用 NetApp NFS 解決方案運行 Kafka 主題的更多深入資訊感興趣，請查看 -link:../data-analytics/kafka-nfs-introduction.html["此連結"] 。
+
+. 我們從NetApp ONTAP建立了一個 NFS 卷，並建立了 12 個持久性卷，每個卷具有 250GB 的儲存空間。儲存大小可能因集群大小而異；例如，我們有另一個集群，其中每個 PV 有 50GB。請參閱下面的 PV YAML 文件之一以了解更多詳細資訊；我們總共有 12 個這樣的文件。在每個檔案中，storageClassName 設定為“default”，並且儲存和路徑對於每個 PV 都是唯一的。
++
+[source, yaml]
+----
+root@node2:~# cat sai_nfs_to_default_pv1.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: karthik-pv1
+spec:
+  capacity:
+    storage: 250Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: default
+  local:
+    path: /vectordbsc/milvus/milvus1
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - node2
+          - node3
+          - node4
+          - node5
+          - node6
+root@node2:~#
+----
+. 對每個 PV YAML 檔案執行「kubectl apply」命令來建立持久卷，然後使用「kubectl get pv」驗證其建立
++
+[source, bash]
+----
+root@node2:~# for i in $( seq 1 12 ); do kubectl apply -f sai_nfs_to_default_pv$i.yaml; done
+persistentvolume/karthik-pv1 created
+persistentvolume/karthik-pv2 created
+persistentvolume/karthik-pv3 created
+persistentvolume/karthik-pv4 created
+persistentvolume/karthik-pv5 created
+persistentvolume/karthik-pv6 created
+persistentvolume/karthik-pv7 created
+persistentvolume/karthik-pv8 created
+persistentvolume/karthik-pv9 created
+persistentvolume/karthik-pv10 created
+persistentvolume/karthik-pv11 created
+persistentvolume/karthik-pv12 created
+root@node2:~#
+----
+. 為了儲存客戶數據，Milvus 支援物件儲存解決方案，例如 MinIO、Azure Blob 和 S3。在本指南中，我們使用 S3。以下步驟適用於ONTAP S3 和StorageGRID物件儲存。我們使用 Helm 來部署 Milvus 叢集。從 Milvus 下載位置下載設定檔 values.yaml。有關我們在本文檔中使用的 values.yaml 文件，請參閱附錄。
+. 確保每個部分中的“storageClass”設定為“default”，包括日誌、etcd、zookeeper 和 bookkeeper。
+. 在 MinIO 部分，停用 MinIO。
+. 從ONTAP或StorageGRID物件儲存建立 NAS 儲存桶，並使用物件儲存憑證將其包含在外部 S3 中。
++
+[source, yaml]
+----
+###################################
+# External S3
+# - these configs are only used when `externalS3.enabled` is true
+###################################
+externalS3:
+  enabled: true
+  host: "192.168.150.167"
+  port: "80"
+  accessKey: "24G4C1316APP2BIPDE5S"
+  secretKey: "Zd28p43rgZaU44PX_ftT279z9nt4jBSro97j87Bx"
+  useSSL: false
+  bucketName: "milvusdbvol1"
+  rootPath: ""
+  useIAM: false
+  cloudProvider: "aws"
+  iamEndpoint: ""
+  region: ""
+  useVirtualHost: false
+
+----
+. 在建立 Milvus 叢集之前，請確保 PersistentVolumeClaim（PVC）沒有任何預先存在的資源。
++
+[source, bash]
+----
+root@node2:~# kubectl get pvc
+No resources found in default namespace.
+root@node2:~#
+----
+. 利用 Helm 和 values.yaml 設定檔安裝並啟動 Milvus 叢集。
++
+[source, bash]
+----
+root@node2:~# helm upgrade --install my-release milvus/milvus --set global.storageClass=default  -f values.yaml
+Release "my-release" does not exist. Installing it now.
+NAME: my-release
+LAST DEPLOYED: Thu Mar 14 15:00:07 2024
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+root@node2:~#
+----
+. 驗證 PersistentVolumeClaims (PVC) 的狀態。
++
+[source, bash]
+----
+root@node2:~# kubectl get pvc
+NAME                                                             STATUS   VOLUME         CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+data-my-release-etcd-0                                           Bound    karthik-pv8    250Gi      RWO            default        3s
+data-my-release-etcd-1                                           Bound    karthik-pv5    250Gi      RWO            default        2s
+data-my-release-etcd-2                                           Bound    karthik-pv4    250Gi      RWO            default        3s
+my-release-pulsar-bookie-journal-my-release-pulsar-bookie-0      Bound    karthik-pv10   250Gi      RWO            default        3s
+my-release-pulsar-bookie-journal-my-release-pulsar-bookie-1      Bound    karthik-pv3    250Gi      RWO            default        3s
+my-release-pulsar-bookie-journal-my-release-pulsar-bookie-2      Bound    karthik-pv1    250Gi      RWO            default        3s
+my-release-pulsar-bookie-ledgers-my-release-pulsar-bookie-0      Bound    karthik-pv2    250Gi      RWO            default        3s
+my-release-pulsar-bookie-ledgers-my-release-pulsar-bookie-1      Bound    karthik-pv9    250Gi      RWO            default        3s
+my-release-pulsar-bookie-ledgers-my-release-pulsar-bookie-2      Bound    karthik-pv11   250Gi      RWO            default        3s
+my-release-pulsar-zookeeper-data-my-release-pulsar-zookeeper-0   Bound    karthik-pv7    250Gi      RWO            default        3s
+root@node2:~#
+----
+. 檢查 pod 的狀態。
++
+[source, bash]
+----
+root@node2:~# kubectl get pods -o wide
+NAME                                            READY   STATUS      RESTARTS        AGE    IP              NODE    NOMINATED NODE   READINESS GATES
+<content removed to save page space>
+----
++
+請確保 Pod 狀態為「正在運作」且如預期運作
+
+. 測試在 Milvus 和NetApp物件儲存中寫入和讀取資料。
++
+** 使用“prepare_data_netapp_new.py”Python 程式寫入資料。
++
+[source, python]
+----
+root@node2:~# date;python3 prepare_data_netapp_new.py ;date
+Thu Apr  4 04:15:35 PM UTC 2024
+=== start connecting to Milvus     ===
+=== Milvus host: localhost         ===
+Does collection hello_milvus_ntapnew_update2_sc exist in Milvus: False
+=== Drop collection - hello_milvus_ntapnew_update2_sc ===
+=== Drop collection - hello_milvus_ntapnew_update2_sc2 ===
+=== Create collection `hello_milvus_ntapnew_update2_sc` ===
+=== Start inserting entities       ===
+Number of entities in hello_milvus_ntapnew_update2_sc: 3000
+Thu Apr  4 04:18:01 PM UTC 2024
+root@node2:~#
+----
+** 使用“verify_data_netapp.py”Python 檔案讀取資料。
++
+....
+root@node2:~# python3 verify_data_netapp.py
+=== start connecting to Milvus     ===
+=== Milvus host: localhost         ===
+
+Does collection hello_milvus_ntapnew_update2_sc exist in Milvus: True
+{'auto_id': False, 'description': 'hello_milvus_ntapnew_update2_sc', 'fields': [{'name': 'pk', 'description': '', 'type': <DataType.INT64: 5>, 'is_primary': True, 'auto_id': False}, {'name': 'random', 'description': '', 'type': <DataType.DOUBLE: 11>}, {'name': 'var', 'description': '', 'type': <DataType.VARCHAR: 21>, 'params': {'max_length': 65535}}, {'name': 'embeddings', 'description': '', 'type': <DataType.FLOAT_VECTOR: 101>, 'params': {'dim': 16}}]}
+Number of entities in Milvus: hello_milvus_ntapnew_update2_sc : 3000
+
+=== Start Creating index IVF_FLAT  ===
+
+=== Start loading                  ===
+
+=== Start searching based on vector similarity ===
+
+hit: id: 2998, distance: 0.0, entity: {'random': 0.9728033590489911}, random field: 0.9728033590489911
+hit: id: 2600, distance: 0.602496862411499, entity: {'random': 0.3098157043984633}, random field: 0.3098157043984633
+hit: id: 1831, distance: 0.6797959804534912, entity: {'random': 0.6331477114129169}, random field: 0.6331477114129169
+hit: id: 2999, distance: 0.0, entity: {'random': 0.02316334456872482}, random field: 0.02316334456872482
+hit: id: 2524, distance: 0.5918987989425659, entity: {'random': 0.285283165889066}, random field: 0.285283165889066
+hit: id: 264, distance: 0.7254047393798828, entity: {'random': 0.3329096143562196}, random field: 0.3329096143562196
+search latency = 0.4533s
+
+=== Start querying with `random > 0.5` ===
+
+query result:
+-{'random': 0.6378742006852851, 'embeddings': [0.20963514, 0.39746657, 0.12019053, 0.6947492, 0.9535575, 0.5454552, 0.82360446, 0.21096309, 0.52323616, 0.8035404, 0.77824664, 0.80369574, 0.4914803, 0.8265614, 0.6145269, 0.80234545], 'pk': 0}
+search latency = 0.4476s
+
+=== Start hybrid searching with `random > 0.5` ===
+
+hit: id: 2998, distance: 0.0, entity: {'random': 0.9728033590489911}, random field: 0.9728033590489911
+hit: id: 1831, distance: 0.6797959804534912, entity: {'random': 0.6331477114129169}, random field: 0.6331477114129169
+hit: id: 678, distance: 0.7351570129394531, entity: {'random': 0.5195484662306603}, random field: 0.5195484662306603
+hit: id: 2644, distance: 0.8620758056640625, entity: {'random': 0.9785952878381153}, random field: 0.9785952878381153
+hit: id: 1960, distance: 0.9083120226860046, entity: {'random': 0.6376039340439571}, random field: 0.6376039340439571
+hit: id: 106, distance: 0.9792704582214355, entity: {'random': 0.9679994241326673}, random field: 0.9679994241326673
+search latency = 0.1232s
+Does collection hello_milvus_ntapnew_update2_sc2 exist in Milvus: True
+{'auto_id': True, 'description': 'hello_milvus_ntapnew_update2_sc2', 'fields': [{'name': 'pk', 'description': '', 'type': <DataType.INT64: 5>, 'is_primary': True, 'auto_id': True}, {'name': 'random', 'description': '', 'type': <DataType.DOUBLE: 11>}, {'name': 'var', 'description': '', 'type': <DataType.VARCHAR: 21>, 'params': {'max_length': 65535}}, {'name': 'embeddings', 'description': '', 'type': <DataType.FLOAT_VECTOR: 101>, 'params': {'dim': 16}}]}
+....
++
+基於上述驗證，Kubernetes 與向量資料庫的集成，透過使用NetApp儲存控制器在 Kubernetes 上部署 Milvus 集群，為客戶提供了強大、可擴展且高效的大規模資料操作管理解決方案。此設定為客戶提供了處理高維度資料和快速且有效率地執行複雜查詢的能力，使其成為大數據應用和人工智慧工作負載的理想解決方案。對各種叢集元件使用持久性磁碟區 (PV)，並從NetApp ONTAP建立單一 NFS 卷，可確保最佳資源利用率和資料管理。驗證 PersistentVolumeClaims (PVC) 和 pod 的狀態以及測試資料寫入和讀取的過程為客戶提供了可靠且一致的資料操作的保證。使用ONTAP或StorageGRID物件儲存客戶資料進一步增強了資料的可存取性和安全性。總體而言，這種設定為客戶提供了一種有彈性且高效能的資料管理解決方案，可隨著客戶不斷增長的資料需求而無縫擴展。
+
+
+
+

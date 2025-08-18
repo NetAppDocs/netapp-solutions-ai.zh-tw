@@ -1,0 +1,26 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/bda-ai-business-benefits.html 
+keywords: business, benefits 
+summary: 本節介紹此解決方案的業務優勢。 
+---
+= 商業利益
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+將數據從大數據分析轉移到人工智慧有以下好處：
+
+* 能夠將資料從不同的 Hadoop 檔案系統和 GPFS 提取到統一的 NFS 儲存系統
+* 一種與 Hadoop 整合的自動化資料傳輸方式
+* 降低從 Hadoop 檔案系統移動資料的庫開發成本
+* 透過使用 NIPAM，透過從單一資料來源聚合多個網路介面的吞吐量實現最高效能
+* 預定和按需傳輸資料的方法
+* 使用ONTAP資料管理軟體實現統一 NFS 資料的儲存效率和企業管理能力
+* 使用 Hadoop 方法進行資料傳輸，實現零成本
+

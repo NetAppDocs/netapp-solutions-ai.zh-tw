@@ -1,0 +1,298 @@
+---
+sidebar: sidebar 
+permalink: data-analytics/dremio-lakehouse-deployment.html 
+keywords: certification, setup, configuration, benchmark 
+summary: 我們已經通過 Dremio 平台認證並在NetApp物件儲存中進行了 Lakehouse 驗證。 
+---
+= 部署流程
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+在此參考架構驗證中，我們使用了由一個協調器和四個執行器組成的 Dremio 配置image:dremio-lakehouse-architecture.png["此圖展示了採用NetApp儲存控制器的 dremio 架構"]
+
+
+
+=== NetApp設定
+
+* 儲存系統初始化
+* 儲存虛擬機器 (SVM) 創建
+* 邏輯網路介面的分配
+* NFS、S3 配置和許可
+
+
+對於 NFS（網路檔案系統），請依照下列步驟操作：1.為 NFSv4 或 NFSv3 建立 Flex Group 磁碟區。在我們為此驗證設定的設定中，我們使用了 48 個 SSD，其中 1 個 SSD 專用於控制器的根卷，另外 47 個 SSD 分佈在 NFSv4]]。驗證 Flex Group 磁碟區的 NFS 匯出策略是否對 Dremio 伺服器網路具有讀取/寫入權限。
+
+. 在所有 Dremio 伺服器上，建立一個資料夾，並透過每個 Dremio 伺服器上的邏輯介面 (LIF) 將 Flex Group 磁碟區掛載到該資料夾上。
+
+
+對於 S3（簡單儲存服務），請依照下列步驟操作：
+
+. 使用「vserver object-store-server create」指令設定一個啟用 HTTP 的物件儲存伺服器，並將管理狀態設為「up」。您可以選擇啟用 HTTPS 並設定自訂偵聽器連接埠。
+. 使用「vserver object-store-server user create -user <username>」指令建立 object-store-server 使用者。
+. 若要取得存取金鑰和金鑰，可以執行下列指令：「set diag; vserver object-store-server user show -user <username>」。但是，今後這些金鑰將在使用者建立過程中提供，或者可以使用 REST API 呼叫來檢索。
+. 使用步驟 2 中建立的使用者建立物件儲存伺服器群組並授予存取權限。在這個例子中，我們提供了「FullAccess」。
+. 透過將其類型設為「S3」來建立兩個 S3 儲存桶。一個用於 Dremio 配置，一個用於客戶資料。
+
+
+
+
+=== Zookeeper 設定
+
+您可以使用 Dremio 提供的 zookeeper 配置。在此驗證中，我們使用了單獨的 Zookeeper。我們遵循了此網頁連結中提到的步驟 https://medium.com/@ahmetfurkandemir/distributed-hadoop-cluster-1-spark-with-all-dependincies-03c8ec616166[]
+
+
+
+=== Dremio 設定
+
+我們按照此網頁連結透過 tar ball 安裝 Dremio。
+
+. 建立一個 Dremio 群組。
++
+....
+sudo groupadd -r dremio
+....
+. 建立一個 dremio 使用者。
++
+....
+sudo useradd -r -g dremio -d /var/lib/dremio -s /sbin/nologin dremio
+....
+. 建立 Dremio 目錄。
++
+....
+sudo mkdir /opt/dremio
+sudo mkdir /var/run/dremio && sudo chown dremio:dremio /var/run/dremio
+sudo mkdir /var/log/dremio && sudo chown dremio:dremio /var/log/dremio
+sudo mkdir /var/lib/dremio && sudo chown dremio:dremio /var/lib/dremio
+....
+. 下載 tar 文件 https://download.dremio.com/community-server/[]
+. 將 Dremio 解壓縮到 /opt/dremio 目錄中。
++
+....
+sudo tar xvf dremio-enterprise-25.0.3-202405170357270647-d2042e1b.tar.gz -C /opt/dremio --strip-components=1
+....
+. 為設定資料夾建立符號連結。
++
+....
+sudo ln -s /opt/dremio/conf /etc/dremio
+....
+. 設定您的服務配置（SystemD 設定）。
++
+.. 將 dremio 守護程式的單元檔案從 /opt/dremio/share/dremio.service 複製到 /etc/systemd/system/dremio.service。
+.. 重啟系統
++
+....
+sudo systemctl daemon-reload
+....
+.. 啟用 dremio 在啟動時啟動。
++
+....
+sudo systemctl enable dremio
+....
+
+
+. 在協調器上配置 Dremio。有關更多信息，請參閱 Dremio 配置
++
+.. Dremio.conf
++
+....
+root@hadoopmaster:/usr/src/tpcds# cat /opt/dremio/conf/dremio.conf
+
+paths: {
+  # the local path for dremio to store data.
+  local: ${DREMIO_HOME}"/dremiocache"
+
+  # the distributed path Dremio data including job results, downloads, uploads, etc
+  #dist: "hdfs://hadoopmaster:9000/dremiocache"
+  dist: "dremioS3:///dremioconf"
+}
+
+services: {
+  coordinator.enabled: true,
+  coordinator.master.enabled: true,
+  executor.enabled: false,
+  flight.use_session_service: false
+}
+
+zookeeper: "10.63.150.130:2181,10.63.150.153:2181,10.63.150.151:2181"
+services.coordinator.master.embedded-zookeeper.enabled: false
+root@hadoopmaster:/usr/src/tpcds#
+....
+.. 核心站點.xml
++
+....
+root@hadoopmaster:/usr/src/tpcds# cat /opt/dremio/conf/core-site.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License. See accompanying LICENSE file.
+-->
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+	<property>
+		<name>fs.dremioS3.impl</name>
+		<value>com.dremio.plugins.s3.store.S3FileSystem</value>
+	</property>
+	<property>
+                <name>fs.s3a.access.key</name>
+                <value>24G4C1316APP2BIPDE5S</value>
+	</property>
+	<property>
+                <name>fs.s3a.endpoint</name>
+                <value>10.63.150.69:80</value>
+        </property>
+	<property>
+       		<name>fs.s3a.secret.key</name>
+       		<value>Zd28p43rgZaU44PX_ftT279z9nt4jBSro97j87Bx</value>
+   	</property>
+   	<property>
+       		<name>fs.s3a.aws.credentials.provider</name>
+       		<description>The credential provider type.</description>
+       		<value>org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider</value>
+   	</property>
+	<property>
+                <name>fs.s3a.path.style.access</name>
+                <value>false</value>
+        </property>
+	<property>
+    		<name>hadoop.proxyuser.dremio.hosts</name>
+    		<value>*</value>
+  	</property>
+  	<property>
+    		<name>hadoop.proxyuser.dremio.groups</name>
+    		<value>*</value>
+  	</property>
+  	<property>
+    		<name>hadoop.proxyuser.dremio.users</name>
+    		<value>*</value>
+	</property>
+	<property>
+		<name>dremio.s3.compat</name>
+		<description>Value has to be set to true.</description>
+		<value>true</value>
+	</property>
+	<property>
+		<name>fs.s3a.connection.ssl.enabled</name>
+		<description>Value can either be true or false, set to true to use SSL with a secure Minio server.</description>
+		<value>false</value>
+	</property>
+</configuration>
+root@hadoopmaster:/usr/src/tpcds#
+....
+
+
+. Dremio 設定儲存在NetApp物件儲存中。在我們的驗證中，「dremioconf」儲存桶位於 ontap S3 儲存桶中。下圖顯示了「dremioconf」S3儲存桶的「scratch」和「uploads」資料夾的一些詳細資訊。
+
+
+image:dremio-lakehouse-objectstorage.png["該圖顯示了 dremio 與NetApp物件存儲"]
+
+. 在執行器上配置 Dremio。在我們的設定中，我們有 3 個執行者。
++
+.. dremio.conf
++
+....
+paths: {
+  # the local path for dremio to store data.
+  local: ${DREMIO_HOME}"/dremiocache"
+
+  # the distributed path Dremio data including job results, downloads, uploads, etc
+  #dist: "hdfs://hadoopmaster:9000/dremiocache"
+  dist: "dremioS3:///dremioconf"
+}
+
+services: {
+  coordinator.enabled: false,
+  coordinator.master.enabled: false,
+  executor.enabled: true,
+  flight.use_session_service: true
+}
+
+zookeeper: "10.63.150.130:2181,10.63.150.153:2181,10.63.150.151:2181"
+services.coordinator.master.embedded-zookeeper.enabled: false
+....
+.. Core-site.xml – 與協調器設定相同。
+
+
+
+
+
+NOTE: NetApp建議使用StorageGRID作為 Datalake 和 Lakehouse 環境的主要物件儲存解決方案。此外， NetApp ONTAP也用於實現檔案/物件二元性。在本文檔中，我們根據客戶要求對ONTAP S3 進行了測試，並且它成功地充當了資料來源。
+
+
+
+=== 多源設定
+
+. 在 Dremio 中將ONTAP S3 和 storageGRID 配置為 s3 來源。
++
+.. Dremio 儀表板 -> 資料集 -> 來源 -> 新增來源。
+.. 在常規部分，請更新 AWS 存取權限和金鑰
+.. 在進階選項中，啟用相容模式，使用以下詳細資訊更新連線屬性。來自NetApp儲存控制器的端點 IP/名稱，來自 ontap S3 或 storageGRID。
++
+....
+fs.s3a.endoint = 10.63.150.69
+fs.s3a.path.style.access = true
+fs.s3a.connection.maximum=1000
+....
+.. 盡可能啟用本地緩存，盡可能使用的總可用快取的最大百分比 = 100
+.. 然後查看NetApp物件儲存的儲存桶列表。image:dremio-lakehouse-objectstorage-list.png["該圖顯示了NetApp物件儲存中的檔案列表"]
+.. storageGRID 儲存桶詳細資訊的範例視圖image:dremio-lakehouse-storagegrid-list.png["該圖顯示了NetApp物件儲存中的檔案列表"]
+
+
+. 在 Dremio 中將 NAS（特別是 NFS）配置為來源。
++
+.. Dremio 儀表板 -> 資料集 -> 來源 -> 新增來源。
+.. 在常規部分中，輸入名稱和 NFS 掛載路徑。請確保 NFS 掛載路徑安裝在 Dremio 叢集中所有節點的同一個資料夾中。
+
+
+
+
+image:dremio-lakehouse-nas-list.png["該圖顯示了NetApp物件儲存中的檔案列表"]
+
++
+
+....
+root@hadoopmaster:~# for i in hadoopmaster hadoopnode1 hadoopnode2 hadoopnode3 hadoopnode4; do ssh $i "date;hostname;du -hs /opt/dremio/data/spill/ ; df -h //dremionfsdata "; done
+Fri Sep 13 04:13:19 PM UTC 2024
+hadoopmaster
+du: cannot access '/opt/dremio/data/spill/': No such file or directory
+Filesystem                   Size  Used Avail Use% Mounted on
+10.63.150.69:/dremionfsdata  2.1T  921M  2.0T   1% /dremionfsdata
+Fri Sep 13 04:13:19 PM UTC 2024
+hadoopnode1
+12K	/opt/dremio/data/spill/
+Filesystem                   Size  Used Avail Use% Mounted on
+10.63.150.69:/dremionfsdata  2.1T  921M  2.0T   1% /dremionfsdata
+Fri Sep 13 04:13:19 PM UTC 2024
+hadoopnode2
+12K	/opt/dremio/data/spill/
+Filesystem                   Size  Used Avail Use% Mounted on
+10.63.150.69:/dremionfsdata  2.1T  921M  2.0T   1% /dremionfsdata
+Fri Sep 13 16:13:20 UTC 2024
+hadoopnode3
+16K	/opt/dremio/data/spill/
+Filesystem                   Size  Used Avail Use% Mounted on
+10.63.150.69:/dremionfsdata  2.1T  921M  2.0T   1% /dremionfsdata
+Fri Sep 13 04:13:21 PM UTC 2024
+node4
+12K	/opt/dremio/data/spill/
+Filesystem                   Size  Used Avail Use% Mounted on
+10.63.150.69:/dremionfsdata  2.1T  921M  2.0T   1% /dremionfsdata
+root@hadoopmaster:~#
+....
