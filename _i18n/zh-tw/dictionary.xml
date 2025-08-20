@@ -3703,8 +3703,6 @@
   <block id="eb6fa4e6fed41e388b4d654a174c1b82" category="cell">*產品描述*</block>
   <block id="a3b91229cc5a5eb0d50908cc956824b3" category="cell">222HA-TN-OTO-37</block>
   <block id="2302a4ae44cddff506100b112f4645c6" category="cell">超級伺服器 SYS-222HA-TN /2U</block>
-  <block id="f6c89f7ba30cbd887804a4308bd66add" category="cell">P4X-GNR6972P-SRPL2-UCC</block>
-  <block id="68a721cd66b4e182958e8b3ba088ae78" category="cell">英特爾至強 6972P 2P 128C 2G 504M 500W SGX512</block>
   <block id="e53619c1fe611a51eeeb8d148ba6e532" category="cell">記憶體</block>
   <block id="673b9923dda6787459c6a0ae7f711593" category="cell">MEM-DR564MC-ER64(x16)64GB DDR5-6400 2RX4 (16Gb) ECC RDIMM</block>
   <block id="0be247e8eaad16189d4e7ce0829add7a" category="cell">HDS-M2N4-960G0-E1-TXD-NON-080(x2) SSD M.2 NVMe PCIe4 960GB 1DWPD TLC D，80 毫米</block>
@@ -3712,7 +3710,6 @@
   <block id="7d83e48371fe2b2bd396527bf08497f1" category="paragraph">對於控制伺服器：</block>
   <block id="4bf51ddd79708218d2ca40addbf3f2fb" category="cell">511R-M-OTO-17</block>
   <block id="870f227b084b6f0c047a533d218e9874" category="cell">優化了 1U X13SCH-SYS、CSE-813MF2TS-R0RCNBP、PWS-602A-1R</block>
-  <block id="3a3c852894f27ec7f0e61dfb46110539" category="cell">P4D-G7400-SRL66(x1) ADL 奔騰 G7400</block>
   <block id="7c3e6ed807c306444b3bddd7fc90cb2a" category="cell">MEM-DR516MB-EU48(x2)16GB DDR5-4800 1Rx8 (16Gb) ECC UDIMM</block>
   <block id="c104b47ab1794697f8c929d251599740" category="paragraph">對於網路交換器：</block>
   <block id="1bf595c07879a3e4909b5196570ee253" category="cell">DCS-7280CR3A</block>
@@ -5093,4 +5090,7 @@
   <block id="42c2f45afefbd5150f5aa52986b2a3cc" category="sidebar">分層和成本節省</block>
   <block id="039a70e0c8e34414c8b3f34333f95ca8" category="sidebar">單站點 SmartStore 效能</block>
   <block id="427d072a2c1690c6d9ece23bef05477b" category="sidebar">Apache Spark 工作負載與NetApp儲存解決方案（部署指南）</block>
+  <block id="74916818f2584b32e727fdc509b2f992" category="cell">P4X-GNR6980P-SRPL2-UCC</block>
+  <block id="abaa679b5e80256d8e1d4fd65296a270" category="cell">英特爾至強 6980P 2P 128C 2G 504M 500W SGX512</block>
+  <block id="22f22b60e3e496fa07e67cfbf53cb70e" category="cell">RPL-E 6369P IP 8C/16T 3.3G 24MB 95W 1700 BO</block>
 </blocks>
