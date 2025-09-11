@@ -1,0 +1,279 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-dgx-superpod-nva1175-design.html 
+keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, NVIDIA, NVIDIA AI Enterprise, NVIDIA SuperPOD, NVIDIA DGX 
+summary: 搭載NetApp AFF A90 的NVIDIA DGX SuperPOD 
+---
+= 搭載NVIDIA DGX SuperPOD 的NetApp AFF A90儲存系統
+:hardbreaks:
+:allow-uri-read: 
+:firstname: == Design Guide
+:author: == Design Guide
+:authorinitials: =
+:authors: == Design Guide
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+搭配NetApp AFF A90 儲存系統的NVIDIA DGX SuperPOD ™ 將NVIDIA DGX 系統的世界一流運算效能與NetApp雲端連接儲存系統結合，為機器學習 (ML)、人工智慧 (AI) 和高效能技術運算 (HPC) 提供資料驅動的工作流程。本文檔介紹了使用具有乙太網路儲存結構的NetApp AFF A90儲存系統的 DGX SuperPOD 解決方案的高階架構。
+
+image:nvidialogo.png["nvidia 標誌"]
+
+NetApp的 David Arnette
+
+
+
+== 執行摘要
+
+憑藉NVIDIA DGX SuperPOD經過驗證的運算效能以及 NetApp 業界領先的資料安全、資料治理和多租用戶功能，客戶可以為下一代工作負載部署最高效、最敏捷的基礎架構。本文檔介紹了可協助客戶加快 AI/ML 計畫的上市時間和投資回報的高級架構和關鍵功能。
+
+
+
+== 項目摘要
+
+NVIDIA DGX SuperPOD為組織提供交鑰匙 AI 資料中心解決方案，無縫提供世界一流的運算、軟體工具、專業知識和持續創新。 DGX SuperPOD 可為客戶提供部署 AI/ML 和 HPC 工作負載所需的一切，同時最大程度地縮短設定時間並提高生產力。圖 1 顯示了 DGX SuperPOD 的高階組件。
+
+圖 1) 附有NetApp AFF A90儲存系統的NVIDIA DGX SuperPOD 。
+
+image:ai-superpod-a90-001.png["600,600"]
+
+DGX SuperPOD 具有以下優點：
+
+* 經過驗證的 AI/ML 和 HPC 工作負載效能
+* 從基礎設施管理和監控到預先建立的深度學習模型和工具的整合硬體和軟體堆疊。
+* 從安裝和基礎設施管理到擴展工作負載和簡化生產 AI 的專用服務
+
+
+
+
+== 解決方案概述
+
+隨著各組織採用人工智慧 (AI) 和機器學習 (ML) 計劃，對強大、可擴展且高效的基礎設施解決方案的需求從未如此強烈。這些措施的核心在於管理和訓練日益複雜的人工智慧模型，同時確保資料安全、可存取性和資源最佳化。代理人工智慧的發展和複雜的模型訓練要求對運算和儲存基礎設施提出了前所未有的需求。組織現在必須處理大量資料集、支援多個並發訓練工作負載並維護高效能運算環境，同時確保資料保護和法規遵循。傳統的基礎設施解決方案往往難以滿足這些需求，導致營運效率低落和人工智慧專案價值實現時間延遲。該解決方案具有以下主要優勢：
+
+* *可擴展性*採用NetApp AFF A90儲存系統的NVIDIA DGX SuperPOD透過其模組化架構和靈活的擴充功能提供無與倫比的可擴充性。組織可以透過添加 DGX 運算節點和AFF A90儲存系統來無縫擴展其 AI 基礎設施，而不會中斷現有工作負載或需要複雜的重新配置。
+* *資料管理和存取。 *搭載NetApp AFF A90儲存系統的NVIDIA DGX SuperPOD基於NetApp ONTAP ，透過其全面的企業級功能套件在資料管理方面表現優異。使用 ONTAP 的快照和FlexClone功能，團隊可以立即建立資料集和向量資料庫的節省空間的副本，以進行並行開發和測試。  FlexCache和 Snapmirror 複製技術支援從整個企業的資料來源實現精簡、節省空間和自動化的資料管道，而使用 NAS 和物件協定的多協定資料存取支援針對攝取和資料工程任務最佳化的新工作流程。
+* *安全。 * NetApp AFF A90儲存系統透過多層保護提供企業級安全性。在基礎設施層面，此解決方案實現了強大的存取控制機制，包括基於角色的存取控制（RBAC）、多因素身份驗證和詳細的稽核日誌記錄功能。該平台的綜合加密框架可保護靜態和傳輸中的數據，利用行業標準協議和演算法來保護智慧財產權並保持符合監管要求。整合的安全監控工具可即時查看潛在的安全威脅，而自動回應機制則有助於在風險影響營運之前降低風險。
+
+
+
+
+=== 目標受眾
+
+此解決方案適用於具有 HPC 和 AI/ML 工作負載的組織，這些工作負載需要更深入地整合到廣泛的資料資產和傳統 IT 基礎架構工具和流程中。
+
+此解決方案的目標受眾包括以下群體：
+
+* IT 和業務決策者正在規劃最高效的基礎設施，以最快的上市時間和投資回報來實現 AI/ML 計劃。
+* 資料科學家和資料工程師有興趣最大程度地提高 AI/ML 工作流程中以關鍵資料為中心的部分的效率。
+* IT 架構師和工程師需要提供可靠、安全的基礎架構，以實現自動化資料工作流程並符合現有的資料和流程治理標準。
+
+
+
+
+=== 解決方案技術
+
+NVIDIA DGX SuperPOD包含必要的伺服器、網路和存儲，可為要求苛刻的 AI 工作負載提供經過驗證的效能。 NVIDIA DGX™ H200 和NVIDIA DGX B200 系統提供世界一流的運算能力， NVIDIA Quantum 和 Spectrum™ InfiniBand 網路交換器提供超低延遲和業界領先的網路效能。透過NetApp ONTAP儲存業界領先的資料管理和效能功能，客戶可以更快地實現 AI/ML 計劃，並減少資料遷移和管理開銷。以下部分介紹了帶有AFF A90儲存系統的 DGX SuperPOD 的儲存組件。
+
+
+
+==== 搭載NetApp ONTAP 的NetApp AFF A90儲存系統
+
+由NetApp ONTAP資料管理軟體提供支援的NetApp AFF A90提供內建資料保護、反勒索軟體功能以及支援最關鍵業務工作負載所需的高效能、可擴充性和彈性。它消除了對關鍵任務操作的中斷，最大限度地減少了效能調整，並保護您的資料免受勒索軟體攻擊。  NetApp AFF A90系統提供-
+
+* *表現。 *AFF A90可輕鬆管理深度學習、人工智慧和高速分析等新一代工作負載以及 Oracle、SAP HANA、Microsoft SQL Server 和虛擬化應用程式等傳統企業資料庫。借助 NFS over RDMA、pNFS 和會話中繼，客戶可以使用現有的資料中心網路基礎設施和行業標準協定（無需專有軟體）來實現下一代應用程式所需的高水準網路效能。粒徑資料分佈使單一檔案能夠分佈在儲存叢集中的每個節點上，並且與 pNFS 結合使用時可以對單一大檔案中包含的資料集進行高效能並行存取。
+* *智力。 *利用基於資料驅動智慧、面向未來的基礎架構以及與NVIDIA和 MLOps 生態系統的深度整合所建構的 AI 就緒生態系統來加速數位轉型。使用 ONTAP 的快照和FlexClone功能，團隊可以立即建立節省空間的資料集副本，以進行平行開發和測試。 FlexCache和 Snapmirror 複製技術可實現整個企業內資料來源的簡化、節省空間和自動化的資料管道。使用 NAS 和物件協定進行多協定資料存取可以實現針對攝取和資料工程任務最佳化的新工作流程。資料和訓練檢查點可以分層到成本較低的存儲，以避免填滿主存儲。客戶可以透過單一儲存作業系統和業界最豐富的資料服務套件，以最低的成本跨混合雲端無縫地管理、保護和調動資料。
+* *安全。 *搭載NetApp ONTAP儲存的NVIDIA DGX SuperPOD透過多層保護提供企業級安全性。在基礎設施層面，此解決方案實現了強大的存取控制機制，包括基於角色的存取控制（RBAC）、多因素身份驗證和詳細的稽核日誌記錄功能。該平台的綜合加密框架可保護靜態和傳輸中的數據，利用行業標準協議和演算法來保護智慧財產權並保持符合監管要求。整合的安全監控工具可即時查看潛在的安全威脅，而自動回應機制則有助於在風險影響營運之前降低風險。  NetApp ONTAP是唯一經過驗證可以儲存絕密資料的強化企業儲存。
+* *多租戶*。 NetApp ONTAP提供最廣泛的功能，支援多租用戶安全地使用儲存資源。儲存虛擬機器透過 RBAC 控制提供基於租用戶的管理委派，全面的 QoS 控制可確保關鍵工作負載的效能，同時實現最大利用率，而用於卷級加密的租用戶管理金鑰等安全功能可確保共用儲存媒體上的資料安全。
+* *可靠性。 * NetApp透過先進的可靠性、可用性、可維護性和可管理性 (RASM) 功能消除了關鍵任務操作的中斷，從而提供了最高的正常運行時間。更多資訊請參見 https://www.netapp.com/media/67355-wp-7354.pdf["+++ ONTAP RASS 白皮書+++"]。此外，還可以透過Active IQ和Data Infrastructure Insights提供的基於 AI 的預測分析來優化系統健康狀況。
+
+
+
+
+==== NVIDIA DGX B200 系統
+
+NVIDIA DGX™ B200 是一個統一的 AI 平台，適用於任何規模、處於 AI 旅程任何階段的企業的開發到部署流程。配備八個NVIDIA Blackwell GPU，與第五代 https://www.nvidia.com/en-us/data-center/nvlink/?ncid=em-even-646649-noa-na-all-l2["+++NVIDIA+++"] https://www.nvidia.com/en-us/data-center/nvlink/?ncid=em-even-646649-noa-na-all-l2["+++NVLink(™)+++"]DGX B200 提供領先的性能，提供比前幾代產品高 3 倍的訓練性能和高 15 倍的推理性能。利用 https://www.nvidia.com/en-us/data-center/technologies/blackwell-architecture/["+++ NVIDIA Blackwell+++"] https://www.nvidia.com/en-us/data-center/technologies/blackwell-architecture/["+++建築+++"]DGX B200 可以處理各種工作負載，包括大型語言模型、推薦系統和聊天機器人，使其成為希望加速 AI 轉型的企業的理想選擇。
+
+
+
+==== NVIDIA Spectrum SN5600 乙太網路交換機
+
+SN5600 智慧葉、主幹和超級主幹交換器在密集的 2U 外形中提供 64 個 800GbE 連接埠。  SN5600 支援具有架頂式 (ToR) 交換器的標準葉子/主幹設計以及行末式 (EoR) 拓撲。  SN5600 提供 1 至 800GbE 組合的多樣化連接，並擁有業界領先的 51.2Tb/s 總吞吐量。
+
+
+
+==== NVIDIA Base Command 軟體
+
+NVIDIA Base Command™ 為NVIDIA DGX 平台提供支持，使組織能夠充分利用NVIDIA AI 創新。有了它，每個組織都可以透過經過驗證的平台充分發揮其 DGX 基礎架構的潛力，該平台包括 AI 工作流程管理、企業級叢集管理、加速運算、儲存和網路基礎架構的庫以及針對運行 AI 工作負載優化的系統軟體。圖 2 顯示了NVIDIA Base Command 軟體堆疊。
+
+圖 2) NVIDIA基礎指令軟體。
+
+image:ai-superpod-a90-002.png["600,600"]
+
+
+
+===== NVIDIA基礎指令管理器
+
+NVIDIA Base Command Manager 為邊緣、資料中心以及多雲和混合雲環境中的異質 AI 和高效能運算 (HPC) 叢集提供快速部署和端對端管理。它可以自動配置和管理從幾個節點到數十萬個節點大小的集群，支援NVIDIA GPU 加速和其他系統，並支援與 Kubernetes 的編排。將NetApp AFF A90儲存系統與 DGX SuperPOD 整合需要對 Base Command Manager 進行最少的配置，以調整系統並安裝參數以獲得最佳效能，但不需要額外的軟體即可在 DGX 系統和AFF A90儲存系統之間提供高可用性多路徑存取。
+
+
+
+=== 用例摘要
+
+NVIDIA DGX SuperPOD旨在滿足最大規模、最嚴苛的工作負載的效能要求。
+
+此解決方案適用於以下用例：
+
+* 使用傳統分析工具進行大規模機器學習。
+* 針對大型語言模型、電腦視覺/影像分類、詐欺偵測和無數其他用例的人工智慧模型訓練。
+* 高效能運算，如地震分析、運算流體動力學和大規模視覺化。
+
+
+
+
+== 解決方案架構
+
+DGX SuperPOD 是基於可擴展單元 (SU) 的概念，其中包括 32 個 DGX B200 系統以及提供所需連接和消除基礎設施中任何性能瓶頸所需的所有其他組件。客戶可以從一個或多個 SU 開始，然後根據需要添加其他 SU 來滿足其要求。本文檔介紹了單一 SU 的儲存配置，表 1 顯示了更大配置所需的元件。
+
+DGX SuperPOD 參考架構包含多個網絡， AFF A90儲存系統連接到其中的幾個網路。有關 DGX SuperPOD 網路的更多信息，請參閱https://docs.nvidia.com/dgx-superpod/reference-architecture-scalable-infrastructure-b200/latest/abstract.html["+++ NVIDIA DGX SuperPOD參考架構+++"]。
+
+對於此解決方案，高效能儲存結構是基於NVIDIA Spectrum SN5600 交換器的乙太網路，具有 Spine/Leaf 配置中的 64 個 800Gb 連接埠。帶內網路為使用者提供對其他功能（例如主目錄和常規文件共用）的訪問，也基於 SN5600 交換機，而帶外 (OOB) 網路用於使用 SN2201 交換器的裝置級系統管理員存取。
+
+儲存結構是一種葉脊架構，其中 DGX 系統連接到一對葉交換機，儲存系統連接到另一對葉交換機。多個 800Gb 連接埠用於將每個葉交換機連接到一對主幹交換機，從而透過網路建立多個高頻寬路徑，以實現聚合效能和冗餘。為了連接到AFF A90儲存系統，每個 800Gb 連接埠使用適當的銅纜或光纖分支電纜分成四個 200Gb 連接埠。為了支援用戶端使用 NFS over RDMA 安裝儲存系統，儲存結構配置為融合乙太網路上的 RDMA (RoCE)，這可確保網路中的無損資料包傳輸。圖3展示了此方案的儲存網路拓撲。
+
+圖 3) 儲存結構拓撲。
+
+image:ai-superpod-a90-003.png["600,600"]
+
+NetApp AFF A90儲存系統是一個 4RU 機箱，包含 2 個控制器，它們彼此作為高可用性夥伴 (HA 對) 運行，最多可配備 48 個 2.5 吋固態磁碟 (SSD)。每個控制器使用四個 200Gb 乙太網路連接連接到兩個 SN5600 儲存葉交換機，每個實體連接埠上有 2 個邏輯 IP 介面。儲存叢集支援具有並行 NFS (pNFS) 的 NFS v4.1，使用戶端能夠直接與叢集中的每個控制器建立連線。此外，會話中繼將多個實體介面的效能組合到單一會話中，即使是單執行緒工作負載也能存取比傳統乙太網路綁定更多的網路頻寬。將所有這些功能與 RDMA 結合，使AFF A90儲存系統能夠提供低延遲和高吞吐量，並可利用NVIDIA GPUDirect Storage™ 線性擴充工作負載。
+
+為了連接到帶內網絡，AFF A90控制器在 LACP 接口組中配置了額外的 200Gb 以太網接口，可提供通用 NFS v3 和 v4 服務以及對共享文件系統的 S3 訪問（如果需要）。所有控制器和儲存叢集交換器都連接到 OOB 網絡，以實現遠端管理存取。
+
+為了實現高效能和可擴展性，儲存控制器形成一個儲存集群，該集群可以將集群節點的整個效能和容量組合到一個名為FlexGroup的命名空間中，資料分佈在集群中每個節點的磁碟上。借助ONTAP 9.16.1 中發布的全新粒度資料分佈功能，單一檔案被分離並分佈在FlexGroup中，從而為單一檔案工作負載提供最高等級的效能。下面的圖 4 顯示了 pNFS 和 NFS 會話中繼如何與 FlexGroups 和 GDD 協同工作，以利用儲存系統中的每個網路介面和磁碟實作對大檔案的平行存取。
+
+圖 4) pNFS、會話中繼、FlexGroups 和 GDD。
+
+image:ai-superpod-a90-004.png["600,600"]
+
+此解決方案利用多個儲存虛擬機器 (SVM) 來託管卷，以實現高效能儲存存取以及管理 SVM 上的使用者主目錄和其他叢集工件。每個 SVM 都配置了網路介面和FlexGroup卷，並實施 QoS 策略以確保資料 SVM 的效能。有關 FlexGroups、儲存虛擬機器和ONTAP QoS 功能的更多信息，請參閱 https://docs.netapp.com/us-en/ontap/index.html["+++ ONTAP文檔+++"]。
+
+
+
+=== 解決方案硬體需求
+
+表 1 列出了實現一個、兩個、四個或八個可擴充單元所需的儲存硬體元件。有關伺服器和網路的詳細硬體需求，請參閱 https://docs.nvidia.com/dgx-superpod/reference-architecture-scalable-infrastructure-b200/latest/abstract.html["+++ NVIDIA DGX SuperPOD參考架構+++"]。
+
+表 1) 硬體需求。
+
+[cols="14%,12%,19%,18%,16%,10%,11%"]
+|===
+| SU尺寸 | AFF A90 系統 | 儲存叢集互連交換機 | 可用容量（典型值：3.8TB SSD） | 最大可用容量（配備 15.3TB NVMe SSD） | RU（典型值） | 功率（典型值） 
+
+
+| 1 | 4 | 2 | 555TB | 13.75PB | 18 | 7,300 瓦 
+
+
+| 2 | 8 | 2 | 1PB | 27.5PB | 34 | 14,600 瓦 
+
+
+| 4 | 16 | 2 | 2PB | 55PB | 66 | 29,200瓦 
+
+
+| 8 | 32 | 4 | 4PB | 110PB | 102 | 58,400瓦 
+|===
+[quote]
+____
+*注意：* NetApp建議每個AFF A90 HA 對至少配備 24 個驅動器，以達到最佳效能。額外的內部驅動器、更大容量的驅動器和外部擴展驅動器架可實現更高的總容量，而不會影響系統性能。
+
+____
+
+
+
+=== 軟體需求
+
+表 2 列出了將AFF A90儲存系統與 DGX SuperPOD 整合所需的軟體元件和版本。 DGX SuperPOD 還涉及此處未列出的其他軟體元件。請參閱https://docs.nvidia.com/dgx-superpod/release-notes/latest/10-24-11.html["+++DGX SuperPOD 發行說明+++"]了解完整詳情。
+
+表 2) 軟體要求。
+
+[cols="50%,50%"]
+|===
+| 軟體 | 版本 
+
+
+| NetApp ONTAP | 9.16.1 
+
+
+| NVIDIA BaseCommand 管理器 | 10.24.11 
+
+
+| NVIDIA DGX 作業系統 | 6.3.1 
+
+
+| NVIDIA OFED 驅動程式 | MLNX_OFED_LINUX-23.10.3.2.0 LTS 
+
+
+| NVIDIA Cumulus 作業系統 | 5.10 
+|===
+
+
+== 解決方案驗證
+
+此儲存解決方案經過NetApp和NVIDIA的多階段驗證，確保效能和可擴充性符合NVIDIA DGX SuperPOD的要求。此配置透過結合合成工作負載和真實 ML/DL 工作負載進行驗證，以驗證最大效能和應用程式互通性。下表 3 提供了 DGX SuperPOD 部署中常見的典型工作負載及其資料要求的範例。
+
+表 3) SuperPOD 工作負載範例。
+
+[cols="17%,33%,50%"]
+|===
+| 等級 | 工作說明 | 資料集大小 
+
+
+| 標準 | 多個並發的 LLM 或微調訓練作業和定期檢查點，其中計算需求顯著地主導了資料 I/O 需求。 | 大多數資料集在訓練期間都可以放入本地運算系統的記憶體快取中。資料集是單一模態的，模型有數百萬個參數。 
+
+
+| 增強型 | 多個同時進行的多模式訓練作業和定期檢查點，其中資料 I/O 效能是端到端訓練時間的重要因素。 | 資料集太大，無法放入本地計算系統的記憶體緩存，在訓練期間需要更多的 I/O，不足以消除頻繁 I/O 的需要。資料集具有多種模式，模型具有數十億（或更多）個參數。 
+|===
+表 4 顯示了上述範例工作負載的效能指南。這些值表示在理想條件下這些工作負載可以產生的儲存吞吐量。
+
+表 4) DGX SuperPOD 性能指南。
+
+[cols="42%,29%,29%"]
+|===
+| 性能特點 | 標準 (GBps) | 增強型 (GBps) 
+
+
+| 單SU聚合系統讀取 | 40 | 125 
+
+
+| 單SU聚合系統寫入 | 20 | 62 
+
+
+| 4 SU 聚合系統讀取 | 160 | 500 
+
+
+| 4 SU 聚合系統寫入 | 80 | 250 
+|===
+
+
+== 結論
+
+搭載NetApp * AFF A90儲存系統* 的NVIDIA DGX SuperPOD代表了 AI 基礎架構解決方案的重大進步。透過解決安全性、資料管理、資源利用率和可擴展性方面的關鍵挑戰，它使組織能夠加速其人工智慧計劃，同時保持營運效率、資料保護和協作。該解決方案的整合方法消除了人工智慧開發流程中的常見瓶頸，使資料科學家和工程師能夠專注於創新而不是基礎設施管理。
+
+
+
+== 在哪裡可以找到更多信息
+
+要了解有關本文檔中描述的信息的更多信息，請查看以下文檔和/或網站：
+
+* https://www.netapp.com/pdf.html?item=/media/125004-nva-1175-deploy-superpod-a90.pdf["NVA-1175 NVIDIA DGX SuperPOD與NetApp AFF A90儲存系統部署指南"^]
+* https://docs.nvidia.com/dgx-superpod/reference-architecture-scalable-infrastructure-b200/latest/index.html["NVIDIA DGX B200 SuperPOD 參考架構"^]
+* https://docs.nvidia.com/dgx-superpod/reference-architecture/scalable-infrastructure-h200/latest/index.html["NVIDIA DGX H200 SuperPOD 參考架構"^]
+* https://docs.nvidia.com/base-command-manager/index.html#product-manuals["NVIDIA BaseCommand 軟體"]
+* https://nvdam.widen.net/s/mmvbnpk8qk/networking-ethernet-switches-sn5000-datasheet-us["NVIDIA Spectrum SN5600 乙太網路交換機"]
+* https://docs.netapp.com/us-en/netapp-solutions/ai/index.html["+++ NetApp AI 解決方案文件+++"]
+* https://docs.netapp.com/us-en/ontap/index.html["+++ NetApp ONTAP軟體+++"]
+* https://docs.netapp.com/us-en/ontap-systems/aff-aseries/index.html["+++ NetApp安裝與維護AFF儲存系統+++"]
+* https://docs.netapp.com/us-en/ontap/nfs-rdma/index.html["基於 RDMA 的 NFS"]
+* https://www.netapp.com/media/19761-tr-4063.pdf["+++什麼是 pNFS+++"]（包含大量 pNFS 資訊的舊文件）
+

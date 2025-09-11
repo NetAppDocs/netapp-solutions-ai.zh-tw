@@ -20,6 +20,10 @@ entries:
     url: "/infra/ai-aipod-nv-validation.html"
   - title: 結論和補充信息
     url: "/infra/ai-aipod-nv-conclusion.html"
+- title: 搭載NVIDIA DGX SuperPOD 的NetApp AFF A90儲存系統 - 設計
+  url: "/infra/ai-dgx-superpod-nva1175-design.html"
+- title: 搭載NVIDIA DGX SuperPOD 的NetApp AFF A90儲存系統 - 部署
+  url: "/infra/ai-dgx-superpod-nva1175-deploy.html"
 - title: NetApp AIPod與聯想攜手為NVIDIA OVX 提供支持
   pdf-filename: NVA-1172-DESIGN： NetApp AIPod與聯想合作，支援NVIDIA OVX
   url: "/infra/ai-aipod-lenovo-nva1172.html"
