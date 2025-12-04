@@ -34,6 +34,8 @@ indexpage:
       url: "../software/ai-hybrid-ddlnexus-intro.html"
     - title: 使用 Domino 進行跨環境資料訪問
       url: "../software/ai-hybrid-ddlnexus-data.html"
+    - title: NetApp + Union.ai：混合人工智慧訓練技術指南
+      url: "../software/ai-hybrid-union.html"
     - title: NVIDIA AI Enterprise 與NetApp和 VMware 合作
       url: "../software/ai-nvaie-vmw-intro.html"
     - title: NVIDIA NGC 軟體集成

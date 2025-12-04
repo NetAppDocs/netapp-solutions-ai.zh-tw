@@ -50,6 +50,8 @@ indexpage:
       url: "/cloud/ai-mlops-fsxn-intro.html"
     - title: NetApp DataOps 工具包
       url: "/software/dataops-toolkit.html"
+    - title: NetApp + Union.ai：混合人工智慧訓練技術指南
+      url: "/software/ai-hybrid-union.html"
   - title: 大數據和混合雲AI解決方案
     links:
     - title: 混合雲端資料解決方案

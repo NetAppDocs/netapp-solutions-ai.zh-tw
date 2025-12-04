@@ -73,6 +73,9 @@ entries:
     url: "/software/ai-hybrid-ddlnexus-data.html"
   - title: 附加資訊
     url: "/software/ai-hybrid-ddlnexus-addtl.html"
+- title: NetApp和 Union.ai 的混合 AI 訓練
+  pdf-filename: Union.ai 的混合人工智慧訓練
+  url: "/software/ai-hybrid-union.html"
 - title: NVIDIA AI Enterprise 與NetApp和 VMware 合作
   pdf-filename: NVIDIA AI Enterprise 與NetApp和 VMware 合作
   entries:

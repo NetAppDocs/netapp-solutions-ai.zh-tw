@@ -2501,7 +2501,6 @@
   <block id="40ed4c797a14998a489b495cd8c9a5e0" category="paragraph">許多組織正在使用生成式人工智慧來建立新的產品功能、提高工程生產力和原型人工智慧應用程序，以提供更好的結果和消費者體驗。生成式人工智慧（例如生成式預訓練轉換器 (GPT)）使用神經網路來創建新內容，包括文字、音訊和視訊等多種內容。鑑於大型語言模型 (LLM) 涉及的極端規模和大量資料集，在公司設計 AI 解決方案之前，建立強大的 AI 基礎架構至關重要，該基礎架構可以利用內部部署、混合和多雲部署選項的強大資料儲存功能，並降低與資料移動性、資料保護和治理相關的風險。本文介紹了這些考慮因素以及相應的NetApp AI 功能，這些功能支援跨 AI 資料管道進行無縫資料管理和資料移動，以訓練、再訓練、微調和推理生成 AI 模型。</block>
   <block id="a573d92b77d430af7e424879baf78e94" category="section-title">執行摘要</block>
   <block id="3fed37bedb6b36d52c0c5b3aa0089bfe" category="paragraph">最近，自 2022 年 11 月推出 GPT-3 的衍生產品 ChatGPT 以來，用於根據用戶提示生成文字、程式碼、圖像甚至治療性蛋白質的新型 AI 工具獲得了極大的聲譽。這表明用戶可以使用自然語言提出請求，人工智慧將解釋和生成文本，例如反映用戶請求的新聞文章或產品描述，或使用基於現有數據訓練的演算法生成程式碼、音樂、語音、視覺效果和 3D 資產。因此，穩定擴散、幻覺、快速工程和價值一致性等短語正在人工智慧系統的設計中迅速湧現。這些自監督或半監督機器學習 (ML) 模型正作為預先訓練的基礎模型 (FM) 透過雲端服務提供者和其他 AI 公司供應商得到廣泛應用，各行各業的各種商業機構正在採用這些模型來執行廣泛的下游 NLP (自然語言處理) 任務。正如麥肯錫等研究分析公司所言——“生成式人工智慧對生產力的影響可能會為全球經濟增加數萬億美元的價值。”當企業將人工智慧重新想像為人類的思想夥伴，而設施管理者也同時拓展企業和機構利用生成性人工智慧的能力時，管理大量資料的機會將持續成長。本文檔介紹了生成式人工智慧以及與NetApp功能相關的設計概念，這些功能為NetApp客戶（包括本地和混合或多雲環境）帶來了價值。</block>
-  <block id="8bcfe22a3d7c5edf904444893704a8de" category="paragraph">*那麼，客戶在其 AI 環境中使用NetApp有什麼好處呢？ *  NetApp幫助組織應對快速資料和雲端成長、多雲管理以及採用 AI 等下一代技術所帶來的複雜性。 NetApp將各種功能整合到智慧資料管理軟體和儲存基礎架構中，並與針對 AI 工作負載最佳化的高效能實現了良好的平衡。像 LLM 這樣的生成式 AI 解決方案需要多次讀取和處理從儲存到記憶體的來源資料集以促進智慧。  NetApp一直是邊緣到核心到雲端生態系統中資料移動性、資料治理和資料安全技術的領導者，幫助企業客戶建立大規模 AI 解決方案。  NetApp憑藉著強大的合作夥伴網絡，一直致力於幫助首席資料長、AI 工程師、企業架構師和資料科學家設計自由流動的資料管道，以完成 AI 模型訓練和推理的資料準備、資料保護和策略資料管理職責，從而優化 AI/ML 生命週期的效能和可擴展性。 NetApp資料技術和功能（例如用於深度學習資料管道的NetApp ONTAP AI、用於在儲存端點之間無縫高效地傳輸資料的NetApp SnapMirror以及用於在資料流從批次轉變為即時且資料工程即時發生時進行即時渲染的NetApp FlexCache）為即時生成 AI 模型的部署帶來了價值。隨著各類企業採用新的人工智慧工具，他們面臨從邊緣到資料中心再到雲端的資料挑戰，需要可擴展、負責任且可解釋的人工智慧解決方案。作為混合和多雲領域的資料權威， NetApp致力於建立合作夥伴和聯合解決方案網絡，以幫助建立資料管道和資料湖的各個方面，以進行生成式 AI 模型訓練（預訓練）、微調、基於上下文的推理和 LLM 的模型衰減監控。</block>
   <block id="ba4c46fa4f06702b4667d0b3a6b2bdfe" category="section-title">什麼是生成式人工智慧？</block>
   <block id="11703c9edbc2bf714a8c4be38891fc77" category="paragraph">生成式人工智慧正在改變我們創造內容、產生新設計概念和探索新穎構圖的方式。它展示了生成對抗網路 (GAN)、變分自動編碼器 (VAE) 和生成預訓練變壓器 (GPT) 等神經網路框架，它們可以生成文字、程式碼、圖像、音訊、視訊和合成資料等新內容。 OpenAI 的 Chat-GPT、Google 的 Bard、Hugging Face 的 BLOOM 和 Meta 的 LLaMA 等基於 Transformer 的模型已成為支撐大型語言模型諸多進步的基礎技術。同樣，OpenAI 的 Dall-E、Meta 的 CM3leon 和 Google 的 Imagen 都是文本到圖像擴散模型的例子，它們為客戶提供了前所未有的照片級真實感，可以從頭開始創建新的複雜圖像，或編輯現有圖像以生成高質量的上下文感知圖像，使用數據集增強和鏈接文本和視覺語義的文本到圖像合成。數位藝術家開始將 NeRF（神經輻射場）等渲染技術與生成式人工智慧結合，將靜態 2D 影像轉換為沉浸式 3D 場景。一般來說，LLM 大致由四個參數來表徵：（1）模型的大小（通常有數十億個參數）；（2）訓練資料集的大小；（3）訓練成本；（4）訓練後的模型表現。  LLM 也主要分為三種變壓器架構。 （i）僅編碼器模型。例如 BERT（Google，2018）；（ii）編碼器-解碼器，例如 BART（Meta，2020）和（iii）僅解碼器模型。例如LLaMA（Meta，2023 年）、PaLM-E（Google，2023 年）。根據業務需求，無論公司選擇哪種架構，訓練資料集中的模型參數數量（N）和標記數量（D）通常決定訓練（預訓練）或微調 LLM 的基準成本。</block>
   <block id="d1ddcb04dcb447b3f05fa54e9ab492d0" category="section-title">企業用例與下游 NLP 任務</block>
@@ -2524,7 +2523,6 @@
   <block id="212ec66e09b7b19d2e397c5c04e8543d" category="paragraph">基礎模型 (FM) 也稱為基礎模型，是一種大型 AI 模型 (LLM)，使用大規模自我監督對大量未標記資料進行訓練，通常適用於廣泛的下游 NLP 任務。由於訓練資料沒有經過人工標記，因此模型是自然產生的，而不是明確編碼的。這意味著該模型無需明確編程即可產生自己的故事或敘述。因此FM的一個重要特徵是同質化，即在許多領域使用相同的方法。然而，透過個人化和微調技術，如今出現的產品中整合的 FM 不僅擅長生成文字、文字轉圖像和文字轉程式碼，而且還擅長解釋特定領域的任務或偵錯程式碼。例如，OpenAI 的 Codex 或 Meta 的 Code Llama 等 FM 可以根據程式設計任務的自然語言描述產生多種程式語言的程式碼。這些模型精通十幾種程式語言，包括 Python、C#、JavaScript、Perl、Ruby 和 SQL。它們理解使用者的意圖並產生完成所需任務的特定程式碼，這對於軟體開發、程式碼最佳化和程式設計任務的自動化很有用。</block>
   <block id="09505640cb74de4ed6c0043b4fd83b62" category="section-title">微調、領域特異性與再訓練</block>
   <block id="d70061bb0ac24d99b6a01f537dfc5836" category="inline-link-macro">Meta 的駱駝 2</block>
-  <block id="3983fea9bc2f220141201994aa6cf9de" category="paragraph">在資料準備和資料預處理之後進行 LLM 部署的常見做法之一是選擇已經在大型多樣化資料集上訓練過的預訓練模型。在微調的背景下，這可以是一個開源的大型語言模型，例如<block ref="40c631914d673c775e5813606a4c652a" category="inline-link-macro-rx"></block>對 700 億個參數和 2 兆個標記進行訓練。一旦選擇了預訓練模型，下一步就是根據特定領域的資料微調。這涉及調整模型的參數並根據新數據對其進行訓練以適應特定的領域和任務。例如，BloombergGPT 是一門專有的法學碩士課程，接受過廣泛金融數據的培訓，服務於金融業。針對特定任務設計和訓練的領域特定模型通常在其範圍內具有更高的準確性和性能，但在其他任務或領域之間的可轉移性較低。當業務環境和資料在一段時間內發生變化時，與測試期間的表現相比，FM 的預測準確性可能會開始下降。這時，重新訓練或微調模型就變得至關重要。傳統 AI/ML 中的模型再訓練是指使用新資料更新已部署的 ML 模型，通常是為了消除發生的兩種類型的漂移。  （1）概念漂移－當輸入變數和目標變數之間的聯繫隨時間而改變時，由於我們想要預測的描述發生了變化，模型可能會產生不準確的預測。 (2) 資料漂移－當輸入資料的特徵發生變化時發生，例如客戶習慣或行為隨時間變化，因此模型無法對此類變化做出反應。類似地，再培訓也適用於 FM/LLM，但成本可能要高得多（數百萬美元），因此大多數組織可能不會考慮。它正處於積極的研究中，在 LLMOps 領域中仍然處於新興階段。因此，當微調 FM 中出現模型衰減時，企業可以選擇使用較新的資料集再次進行微調（便宜得多），而不是重新訓練。從成本角度來看，以下列出了 Azure-OpenAI 服務的模型價格表示例。對於每個任務類別，客戶可以在特定資料集上微調和評估模型。</block>
   <block id="95d06c21390dc25827c0fd489dc141e4" category="paragraph">來源：Microsoft Azure</block>
   <block id="56307bc010f6f11cf695a4f4a8868ec2" category="paragraph"><block ref="56307bc010f6f11cf695a4f4a8868ec2" category="inline-image-macro-rx" type="image"></block></block>
   <block id="157d80dbb8ad88a26dfd59594b88e11c" category="section-title">快速工程和推理</block>
@@ -5407,4 +5405,175 @@
   <block id="51af5c28c5aeade3eeee8efe1cf0c265" category="list-text"><block ref="0b4edeca10dea88e1e3ff87f6aece04a" category="inline-link-rx"></block>（包含大量 pNFS 資訊的舊文件）</block>
   <block id="e84f1067b5e0c62707fee9cec31ec6e6" category="sidebar">搭載NVIDIA DGX SuperPOD 的NetApp AFF A90儲存系統 - 設計</block>
   <block id="ebe830dbdb267fd10b3f4000455f19f2" category="sidebar">搭載NVIDIA DGX SuperPOD 的NetApp AFF A90儲存系統 - 部署</block>
+  <block id="596cf4cc4d5e162a19a0826844899146" category="section-title">*那麼，客戶在其 AI 環境中使用NetApp有什麼好處呢？ *</block>
+  <block id="54cba921a12475f0e93be541d67490f1" category="paragraph">NetApp幫助組織應對快速資料和雲端成長、多雲管理以及採用 AI 等下一代技術所帶來的複雜性。NetApp將各種功能整合到智慧資料管理軟體和儲存基礎架構中，並與針對 AI 工作負載最佳化的高效能實現了良好的平衡。像 LLM 這樣的生成式 AI 解決方案需要多次讀取和處理從儲存到記憶體的來源資料集以促進智慧。</block>
+  <block id="7089718bb01d102d3ca66b75e734cc70" category="paragraph">NetApp一直是邊緣到核心到雲端生態系統中資料移動性、資料治理和資料安全技術的領導者，幫助企業客戶建立大規模 AI 解決方案。NetApp憑藉著強大的合作夥伴網絡，一直致力於幫助首席資料長、AI 工程師、企業架構師和資料科學家設計自由流動的資料管道，以完成 AI 模型訓練和推理的資料準備、資料保護和策略資料管理職責，從而優化 AI/ML 生命週期的效能和可擴展性。NetApp資料技術和功能（例如用於深度學習資料管道的NetApp ONTAP AI、用於在儲存端點之間無縫高效地傳輸資料的NetApp SnapMirror以及用於在資料流從批次轉變為即時且資料工程即時發生時進行即時渲染的NetApp FlexCache）為即時生成 AI 模型的部署帶來了價值。隨著各類企業採用新的人工智慧工具，他們面臨從邊緣到資料中心再到雲端的資料挑戰，需要可擴展、負責任且可解釋的人工智慧解決方案。</block>
+  <block id="9772b4cc8e96c8e8f4206d250991b4de" category="paragraph">作為混合和多雲領域的資料權威， NetApp致力於建立合作夥伴和聯合解決方案網絡，以幫助建立資料管道和資料湖的各個方面，以進行生成式 AI 模型訓練（預訓練）、微調、基於上下文的推理和 LLM 的模型衰減監控。</block>
+  <block id="1bdb9ad9a5ef7e6cc423c9885d4d8739" category="paragraph">在資料準備和資料預處理之後進行 LLM 部署的常見做法之一是選擇已經在大型多樣化資料集上訓練過的預訓練模型。在微調的背景下，這可以是開源的大型語言模型，例如：<block ref="40c631914d673c775e5813606a4c652a" category="inline-link-macro-rx"></block>使用 700 億個參數和 2 兆個代幣進行訓練。一旦選擇了預訓練模型，下一步就是根據特定領域的資料微調。這涉及調整模型的參數並根據新數據對其進行訓練以適應特定的領域和任務。例如，BloombergGPT 是一門專有的法學碩士課程，接受過廣泛金融數據的培訓，服務於金融業。</block>
+  <block id="fab051e778dea3863166cf91444b5bcf" category="paragraph">針對特定任務設計和訓練的領域特定模型通常在其範圍內具有更高的準確性和性能，但在其他任務或領域之間的可轉移性較低。當業務環境和資料在一段時間內發生變化時，與測試期間的表現相比，FM 的預測準確性可能會開始下降。這時，重新訓練或微調模型就變得至關重要。</block>
+  <block id="4ce18a58c4206acbac965ee866687247" category="paragraph">傳統 AI/ML 中的模型再訓練是指使用新資料更新已部署的 ML 模型，通常是為了消除發生的兩種類型的漂移。（1）概念漂移－當輸入變數和目標變數之間的聯繫隨時間而改變時，由於我們想要預測的描述發生了變化，模型可能會產生不準確的預測。(2) 資料漂移－當輸入資料的特徵發生變化時發生，例如客戶習慣或行為隨時間變化，因此模型無法對此類變化做出反應。</block>
+  <block id="602c876f12d2508496dc8bd8575b4ff1" category="paragraph">類似地，再培訓也適用於 FM/LLM，但成本可能要高得多（數百萬美元），因此大多數組織可能不會考慮。它正處於積極的研究中，在 LLMOps 領域中仍然處於新興階段。因此，當微調 FM 中出現模型衰減時，企業可以選擇使用較新的資料集再次進行微調（便宜得多），而不是重新訓練。從成本角度來看，以下列出了 Azure-OpenAI 服務的模型價格表示例。對於每個任務類別，客戶可以在特定資料集上微調和評估模型。</block>
+  <block id="71176ac8a95086c3af18e14dbe844fb0" category="summary">使用 Union.ai 編排和NetApp FlexCache部署混合 AI 訓練環境，使基於雲端的 GPU 訓練工作負載能夠有效率且安全地存取本地資料。</block>
+  <block id="ebe4896d0cefdc11a7145e4ba24679b4" category="doc">使用 Union.ai 和NetApp FlexCache部署混合 AI 訓練</block>
+  <block id="aeb0127b1fad213a793e443cc4c034e1" category="paragraph">了解如何使用 Union.ai 編排、 NetApp FlexCache和Trident進行 Kubernetes 儲存配置，從而部署混合 AI 訓練環境。</block>
+  <block id="0db9f14d36280e385cafd4a8e173ba9c" category="paragraph">David Espejo，Union.ai Sathish Thyagarajan， NetApp</block>
+  <block id="236b0367f9d4648bcd56117f6b73c2c5" category="paragraph">Union.ai 的混合編排平台與NetApp ONTAP和FlexCache無縫集成，可加速 AI/ML 訓練工作流程。該解決方案允許資料安全地保留在本地，同時利用基於雲端的 GPU 運算進行 AI 訓練工作負載。  NetApp FlexCache確保僅將必要的資料快取到雲端，從而實現高效、安全且可擴展的混合 AI/ML 管道。</block>
+  <block id="f237a6da02589b7944ad58fcc8dcf636" category="section-title">客戶用例：混合雲人工智慧培訓</block>
+  <block id="e2c5205f6d8d8dc0fab0d0bce1569d9f" category="list-text">本機資料：儲存在NetApp ONTAP上，以確保合規性和安全性。</block>
+  <block id="1801ce3ced3cc951feb620652dc6d4b1" category="list-text">雲端運算：在 EKS/GKE/AKS 上進行可擴充的 GPU 訓練。</block>
+  <block id="10295e9d8bfdac4bb00b04c0bc0b0aed" category="list-text">AI/ML 編排：Union.ai 協調跨環境的資料處理和訓練。</block>
+  <block id="21e9bccf6843ac1890de68780a7f2d40" category="list-text">儲存設定： NetApp Trident可自動設定 PVC/PV。</block>
+  <block id="9abac747d764180a5fe55920e00e887d" category="section-title">客戶價值</block>
+  <block id="036bc3c4ad78a1ce748913d0e7508b1a" category="list-text">利用NetApp ONTAP 的橫向擴充功能，在海量資料集上執行 AI 工作負載。</block>
+  <block id="1f7c5f457095fe04da60f8ba120a65e4" category="list-text">使用 NetApp 的混合雲端功能，在本地端和雲端之間移動和同步資料。</block>
+  <block id="3bdc2120e1312d582041096be647b9bb" category="list-text">使用FlexCache快速將本機資料快取到雲端。</block>
+  <block id="feb2a9775b0ab9fb076eee862b34a0bf" category="list-text">Union.ai 透過版本控制、血緣追蹤和工件管理簡化了跨環境的編排。</block>
+  <block id="1a5a25d256a64f75ffbb6c69a682f597" category="list-text">在雲端執行培訓，同時將敏感資料保留在本地。</block>
+  <block id="3cb632ece883ce8e1d1738b69db115ce" category="section-title">啟用插件 - 前提條件</block>
+  <block id="ec185b8a3ae00d2dc7bc400a8dd3c006" category="cell">*要求*</block>
+  <block id="dc98ae2c28f9de9e5b906a8f45c3c581" category="cell">*細節*</block>
+  <block id="e8467e9b509c4924668c01eb7ab2adde" category="cell">ONTAP版本</block>
+  <block id="19438dd3f06122a6b56a2b87636a35a0" category="cell">ONTAP 9.7+（無需FlexCache許可證）</block>
+  <block id="50174c074d05aa14191d913ea21e3e51" category="cell">FlexCache許可證</block>
+  <block id="774b9f24682d83dfc0b7a6d9acd6a45e" category="cell">ONTAP 9.6 及更早版本需要此功能</block>
+  <block id="11b36d38ea31e3e3f39211d4c9ff85e9" category="cell">本地集群和雲端集群（EKS/GKE/AKS）</block>
+  <block id="f13ee4a03ec985915aaeb699fd3d5314" category="cell">可安裝在本地集群和雲端集群上</block>
+  <block id="23b2341bc1ff8a41de6140e2e728ade5" category="cell">Union.ai</block>
+  <block id="407d73d776263be9ef5a593de9cc8960" category="cell">控制平面已部署（聯合雲端或自架）</block>
+  <block id="79629c9f5d632fe153b79bae51230230" category="cell">集群間連通性（如果ONTAP集群是獨立的）</block>
+  <block id="d08ccf52b4cdd08e41cfb99ec42e0b29" category="cell">權限</block>
+  <block id="34a1c6a28726559a79202e58b5b1676b" category="paragraph">ONTAP和 Kubernetes 叢集的管理員權限。</block>
+  <block id="aa7462aeb4d0cda09f1955bc4ad68471" category="paragraph">✅請使用正確的ONTAP憑證（例如，vsadmin）。</block>
+  <block id="796fc083420089e3cd35a14b9bc38682" category="cell">剛接觸 Union.ai？</block>
+  <block id="0a99c5455b15fcf14acd747ff433961a" category="cell">請參閱本文檔末尾的配套指南。</block>
+  <block id="4ee2bcec265f41a5c011850eb9ea191a" category="section-title">參考架構</block>
+  <block id="63bb16834a3d897a73bbb3b676f4681f" category="paragraph">下圖展示了 Union.ai 控制平面與NetApp儲存的集成，用於混合 AI 訓練。</block>
+  <block id="f3ff7d4cb08d662ccb22a7e0d198e7bc" category="image-alt">採用 Union.ai 和NetApp 的混合 AI 訓練架構</block>
+  <block id="5b9cebc88c7af20d41a8fb5d5a5ec740" category="list-text">Union.ai 控制平面：協調工作流程、管理資料移動並與NetApp API 整合。</block>
+  <block id="62d1d515610a83be5bf46c2f24528f24" category="list-text">NetApp ONTAP + FlexCache：提供從本機到雲端的高效資料快取。</block>
+  <block id="bd86e4a74b09f477abb8e01446ebb353" category="list-text">混合訓練群集：訓練作業在雲端 K8s 叢集（例如 EKS）中運行，資料從本地緩存。</block>
+  <block id="20b2d2f7ff3d10f09ee1a0cfa5fdc77b" category="section-title">步驟 1：建立FlexCache卷</block>
+  <block id="c320f12fadd143f86e468c946747b19d" category="paragraph">使用ONTAP系統管理器</block>
+  <block id="fbf67ba3555eeca4fc432c43b8b07927" category="list-text">導航至“儲存”&gt;“卷”。</block>
+  <block id="1bb250fbf1946dd1bd7ad228032f8803" category="list-text">按一下“新增”。</block>
+  <block id="fa3a36a2d48d60ddb9b70c0c6908764b" category="list-text">選擇更多選項。</block>
+  <block id="3afffa15dbb0847459b5d61d6c2f2aa9" category="list-text">啟用「新增為遠端磁碟區的快取」功能。</block>
+  <block id="953d07b2f3feae837ecfbd619c90b443" category="list-text">選擇來源磁碟區（本地）和目標磁碟區（雲端）。</block>
+  <block id="f71e6890a321cf5e86880fed490c270d" category="list-text">定義服務品質或效能等級（可選）。</block>
+  <block id="f6831112fc67960a16905d831665e29f" category="list-text">按一下“建立”。</block>
+  <block id="c3eb411bcb9e224abacb05a02a4af9c4" category="paragraph">💡如果因權限或聚合問題導致NetApp DataOps Toolkit 無法正常運作，請直接使用ONTAP系統管理員或 CLI 建立FlexCache區。</block>
+  <block id="6eac7b0a5cfc938d19f189c4a925ae85" category="section-title">步驟 2：設定 Trident</block>
+  <block id="56c52a0dabd55220d0a00db845f7eb1f" category="paragraph">在兩個叢集上都安裝Trident ：</block>
+  <block id="45d2098b426afc9ab859375c1adbe887" category="inline-link">+++ Trident安裝指南+++</block>
+  <block id="d250649bce56841bd7a8ae7e4a825154" category="paragraph">🔗 <block ref="d4fe2bbcee5aa3fc712cc2604ddb189d" category="inline-link-rx"></block></block>
+  <block id="ce18e85a5244ef1099f883c207b32d36" category="paragraph">建立Trident後端</block>
+  <block id="1d505b9bfd6afef0b98758bef1cef23c" category="paragraph">如果收到 401 未授權錯誤，請驗證ONTAP使用者是否具有足夠的 API 權限，以及是否使用了正確的使用者名稱 (vsadmin) 和密碼。</block>
+  <block id="e5250cf37b377ddb3586661f3e7bdc3e" category="paragraph">定義儲存類別</block>
+  <block id="7e383433631a99b62111f529c2e90f6e" category="section-title">步驟 3：部署 Union.ai 工作流程</block>
+  <block id="543a5300ad04692c61ad12509f36dfee" category="paragraph">Union 使用 PVC 將FlexCache卷掛載到訓練作業中。</block>
+  <block id="e3651dc228e2bf15038a1eeea69840e1" category="paragraph">範例 PodTemplate</block>
+  <block id="ef12d0a79902f644c4f92af29b9c7091" category="paragraph">範例工作流程</block>
+  <block id="4066afa3aee701e50ae5ec4c8f86ca6e" category="paragraph">從聯合導入任務、工作流程</block>
+  <block id="12113988d854d53153ebe56debcfc262" category="section-title">載入並使用來自 PVC 的資料進行訓練。</block>
+  <block id="2f8434215e66e235733bbc8f7aa6c922" category="paragraph">工會營運商將：</block>
+  <block id="a305c8fb2137d8a4a767905590079e89" category="list-text">製作PVC管</block>
+  <block id="1c35c5b70ea278327b331fdc5e5e8027" category="list-text">掛載FlexCache卷</block>
+  <block id="193acff0cdc88eae36fe646b68a073bd" category="list-text">在雲端 Kubernetes 叢集中調度作業</block>
+  <block id="8ed435a788d105467da83bc0bcc93aa7" category="section-title">步驟 4：驗證集成</block>
+  <block id="e5476676d28ebe3a7f7e5540ca5f4675" category="cell">*任務*</block>
+  <block id="933aacf34a8192a52d32c97fadebd54a" category="cell">*驗證*</block>
+  <block id="2c4159f4648782debbeab1c320c6eb36" category="cell">PVC支架</block>
+  <block id="f5e0baa9773049fb0fdfad4b1037b128" category="cell">訓練 pod 應該能夠成功掛載 /data/flexcache</block>
+  <block id="bcaba27319b0be3d4476ebc564abbebe" category="cell">訓練作業可以對FlexCache進行讀寫操作。</block>
+  <block id="0452805cb606d459124bcdb40e21d774" category="cell">快取行為</block>
+  <block id="4ccd4153d261ab04aea61d1689d17c9c" category="cell">監控ONTAP中的快取命中/未命中情況。確保聚合支援FlexCache</block>
+  <block id="f77ae91c297c4af9b7c0df16428dfecb" category="cell">驗證訓練工作負載的延遲和吞吐量</block>
+  <block id="c4ce6fec594676e7db8a8772df23cea3" category="paragraph">使用NetApp BlueXP或ONTAP CLI 監控效能。</block>
+  <block id="fe62647cc35dde214e0df1ae1fe9d0ab" category="section-title">安全注意事項</block>
+  <block id="1127e459f9563cd44a49304486317d03" category="list-text">使用 VPC 端點為NetApp ONTAP 的FSx 啟用</block>
+  <block id="aac467f7d3593eab984d0df820db3683" category="list-text">啟用傳輸中和靜態加密</block>
+  <block id="fb6241aa3cd02fb81bc14120b0a0a835" category="list-text">申請基於角色的存取控制/身分與授權以存取ONTAP</block>
+  <block id="36b4de85d3df62f02a9c4618f7393d5f" category="list-text">Union.ai 不會存取或儲存客戶數據</block>
+  <block id="77f95f9630cb5091cd2402072a3a11bf" category="section-title">監測與最佳化</block>
+  <block id="f8d8425485c22136939de6dcb7d3356a" category="cell">*工具*</block>
+  <block id="1463a95efc33a52765f03569e1e39a10" category="cell">*目的*</block>
+  <block id="b5edf5031e4afa6b0a76f28594c49ddd" category="cell">監控FlexCache 的使用情況與效能</block>
+  <block id="db06b456ce0e60d6d6cac92921fbb8d0" category="cell">Union.ai 使用者介面</block>
+  <block id="b3f63fd65c8f5f7c899c10d3d4a4d5ff" category="cell">追蹤管道狀態和指標</block>
+  <block id="046574dd59654b8d55254dd4939767ea" category="cell">Trident日誌</block>
+  <block id="7712a94ff94a189bd7789174ddb85aa3" category="cell">調試 PVC 或後端問題</block>
+  <block id="8f9f469b79a29bfaadaab8eaa7bf1636" category="paragraph">*選用增強功能*</block>
+  <block id="ce4081657a64c83e483fc3ade088d080" category="list-text">使用BlueXP API 自動建立FlexCache</block>
+  <block id="b0e97389c5c2b645585f1a4ed42f4062" category="list-text">使用 Union SDK 在訓練前預熱緩存</block>
+  <block id="a138a4f582ee5e74b8a702fd75b12caf" category="list-text">訓練後加入批量推理或模型服務管道</block>
+  <block id="15e720f9a639ae01b45177587e8ccbde" category="list-text">如果 DataOps Toolkit 失敗，則回退到透過系統管理員手動建立FlexCache 。</block>
+  <block id="1199d4564ed2d91a9aaa1b96702c1582" category="paragraph">故障排除</block>
+  <block id="932191b39be7b845f279d774204fa0c7" category="cell">_問題_</block>
+  <block id="04389d6334aedcb0de87e1a666e3c947" category="cell">_解決_</block>
+  <block id="b9f0ff9ef465f92292d9c7714cf0446b" category="cell">PVC卡在待定狀態</block>
+  <block id="7d55337975fd5793d327f0da49970ce3" category="cell">檢查Trident日誌和後端配置</block>
+  <block id="4c3472db990ec75b3639c13a00908586" category="cell">來自ONTAP API 的 401 未授權</block>
+  <block id="8f85964854ee5b9cb1a25336f9286a74" category="cell">使用 vsadmin 並驗證權限</block>
+  <block id="2ee8b0581475d5ce36df44f0c44eab51" category="cell">作業失敗：沒有適當的儲存空間</block>
+  <block id="c9928a026f07daff3baa1cd570f13e02" category="cell">確保ONTAP聚合支援FlexCache/ FabricPool</block>
+  <block id="06d6b9c5788c506f6f2f8d3f67d8df51" category="cell">訓練表現緩慢</block>
+  <block id="d03995cc9f7ad650494a9b56c2d58a9c" category="cell">檢查快取命中率和網路延遲</block>
+  <block id="bccf1526ca148033777fd0bd06e8f7ee" category="cell">資料未同步</block>
+  <block id="0e8d0a990b73463291ce4bfcba615908" category="cell">在ONTAP中驗證FlexCache關係健康狀況</block>
+  <block id="e78b6e86c7e00b15c6dd9fdca8a5bdcc" category="paragraph">*後續步驟*</block>
+  <block id="dee0fee1df57aa918047c0cfb20ad55c" category="list-text">使用測試資料驗證FlexCache</block>
+  <block id="2e4e08d271df2d2f43b686f4854cb7dc" category="list-text">部署 Union.ai 訓練管道</block>
+  <block id="321c5de7cdf5e00eb0fdaca2b788e1ec" category="list-text">監控和優化效能</block>
+  <block id="036c0cdd445e04bc18011ee63fe79f6b" category="list-text">記錄客戶特定設定</block>
+  <block id="f8ec0f3aa329ebfedf13a79184b7867e" category="section-title">相關連結</block>
+  <block id="40f1a76b84471f69f9e1889172b29883" category="inline-link">+++Union.ai 文件+++</block>
+  <block id="c91fc7e0181d836eb58c9b44f305b351" category="list-text"><block ref="c91fc7e0181d836eb58c9b44f305b351" category="inline-link-rx"></block></block>
+  <block id="84d18427d4b09cf2972d9a3f3257769b" category="inline-link">+++ NetApp FlexCache概述+++</block>
+  <block id="1a605359e56e1853280e4dee015e7108" category="list-text"><block ref="1a605359e56e1853280e4dee015e7108" category="inline-link-rx"></block></block>
+  <block id="da3e81cca1d4f971a54e502e43db83be" category="inline-link">+++ Trident CSI 驅動程式+++</block>
+  <block id="23454a58dd19bdaab14ee6b38f7085c2" category="list-text"><block ref="23454a58dd19bdaab14ee6b38f7085c2" category="inline-link-rx"></block></block>
+  <block id="703deb112695d2f3ddd729660eda475e" category="inline-link">+++適用於NetApp ONTAP 的 FSx+++</block>
+  <block id="5c3ccbe0598da1ccd0f27d66924f35a0" category="list-text"><block ref="5c3ccbe0598da1ccd0f27d66924f35a0" category="inline-link-rx"></block></block>
+  <block id="b88b18835512f2759d991ef53ab162b9" category="paragraph">您現在擁有一個經過驗證的混合 AI 訓練環境，使用 Union.ai 和NetApp FlexCache。訓練作業可以在雲端運行，同時安全且有效率地存取本地數據，而無需複製整個數據集或損害治理。</block>
+  <block id="ad33b54a429301c01188c2215540b441" category="section-title">*Union.ai - 配套指南*</block>
+  <block id="8dddc2c8fe2555559a91e764d9235d6d" category="section-title">第一步：選擇部署模式</block>
+  <block id="108439501b55d62870c68f24142fe2a5" category="paragraph">*方案A：聯合雲*</block>
+  <block id="976f05b0299c51890060c29d6f4f45b3" category="inline-link">+++console.union.ai+++</block>
+  <block id="609ccd1033d19392f6d6c02b595bb318" category="list-text">訪問：<block ref="83d678893a166e9c0f58ce02ef080fcc" category="inline-link-rx"></block></block>
+  <block id="f08d2a267c4238d5dedd3060c425bea8" category="list-text">建立組織 → 建立項目</block>
+  <block id="8666a7638fa800278c371ca2f1820986" category="paragraph">*選項B：自架*</block>
+  <block id="5078bc27c5748b853e709e2b526e1082" category="inline-link">+++自託管指南+++</block>
+  <block id="6df4df2571296ce37f0e789ec56f04a9" category="list-text">跟隨：<block ref="4be3c30c75fcef2d9efc975adc8528d7" category="inline-link-rx"></block></block>
+  <block id="f545b6872fa4adefba8899ca2fc74491" category="list-text">透過 Helm 部署：</block>
+  <block id="e473adcd16935db4753279dc28f9e821" category="paragraph">helm repo add unionai<block ref="84236ba1097180095905520179dbd184" category="inline-link-rx"></block></block>
+  <block id="00f612d5f2f9c5739afe7c75d82fb745" category="paragraph">helm install union unionai/union -n union-system -f values.yaml</block>
+  <block id="d8a959014bb50434b6e09b8d7827f70c" category="section-title">*步驟 2：安裝聯合運算子*</block>
+  <block id="7443eefd01ea12bf0e7f5acf24ead38f" category="paragraph">****kubectl apply -f<block ref="4919c1363aa43016b9853a86a6d26868" category="inline-link-rx"></block></block>
+  <block id="9f2047b5710eb7331780470de4e2fca6" category="paragraph">kubectl get pods -n union-system</block>
+  <block id="5c2133f8c5522052f26480f953cedc78" category="paragraph"></block>
+  <block id="8edcef410da7878bbc80fbf71d8d4ca1" category="section-title">步驟 3：安裝 Union CLI</block>
+  <block id="096327f6db51928112a49641fed0f8cd" category="paragraph">****pip install unionai</block>
+  <block id="bbc7802cd83c61c2822be7e61e76bb58" category="paragraph">工會登入</block>
+  <block id="36be1709489e578c13ff9335dc7eb7f4" category="section-title">*步驟 4：註冊工作流程*</block>
+  <block id="770338800a5338d40910785b3f81deca" category="paragraph">****聯合專案創建混合人工智慧</block>
+  <block id="d51c04424d78429df18e885a2925e1c1" category="paragraph">union register training_pipeline.py --project hybrid-ai</block>
+  <block id="7708565358c9d989222e9b05b65d3086" category="section-title">*步驟 5：運作與監控*</block>
+  <block id="5293ce724d74996d1c0f39a743b87ca3" category="paragraph">****union run training_pipeline --project hybrid-ai</block>
+  <block id="77d86bed8e4a63dae84e1b440af13a17" category="paragraph">聯合觀察培訓管道</block>
+  <block id="1bcbb746e8103dcfa7f40479a1fc2611" category="inline-link">+++聯合用戶介面+++</block>
+  <block id="fe70d0bdbb730c20766cb067c9162ca2" category="paragraph">查看日誌<block ref="5d901f07ac55ec91a8fb1758272f874b" category="inline-link-rx"></block></block>
+  <block id="aa5cc28d71177bdfabbd066c40556228" category="section-title">*步驟 6：註冊計算集群（可選）*</block>
+  <block id="8a850c847294bf4d916aa4d9595fbeab" category="paragraph">****union cluster register --name cloud-k8s --kubeconfig ~/.kube/config</block>
+  <block id="4f79c95b459644bc0e692dde2dd46094" category="section-title">*步驟7：追蹤文物及傳承*</block>
+  <block id="91130ed55ade71de6d2e55d497681f4f" category="paragraph">Union 會自動追蹤：</block>
+  <block id="701e52a8aaee5a831d2070361229690f" category="list-text">輸入/輸出參數</block>
+  <block id="cf5f81b1cd733c89e4b42fe6671710eb" category="list-text">數據版本</block>
+  <block id="6cb9ece998b6962dfad48664cca107df" category="list-text">日誌和指標</block>
+  <block id="d97bb7d4317729f1d0601989dc9a0eb0" category="list-text">執行譜系</block>
+  <block id="1c99161556cba115d3a4b0cf426f65fc" category="section-title">2025年12月3日</block>
+  <block id="0fb14243c78c122f3acd551576ee673d" category="paragraph">新方案：<block ref="06b6b8e975dd9eb86a80852e60ea5c25" category="inline-link-macro-rx"></block></block>
+  <block id="cae14f8b661aea219fdaf3f4f0af08db" category="paragraph">使用 Union.ai 編排和NetApp FlexCache ，可以在雲端 GPU 上運行 AI 訓練工作負載，同時將敏感資料保留在本地。  FlexCache只在雲端快取實現高效能且安全的混合訓練所需的必要資料。</block>
+  <block id="d156278e3dbb2cd83d1a870d6704c9b8" category="sidebar">NetApp + Union.ai：混合人工智慧訓練技術指南</block>
+  <block id="ddf52cdc15133d3a9cb02a51bde98630" category="sidebar">NetApp和 Union.ai 的混合 AI 訓練</block>
+  <block id="9c1377c97790bfb53de65e24276a1216" category="sidebar">Union.ai 的混合人工智慧訓練</block>
 </blocks>

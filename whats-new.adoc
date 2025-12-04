@@ -27,3 +27,11 @@ NetApp解決方案網站現在是link:https://docs.netapp.com/us-en/netapp-solut
 * link:https://docs.netapp.com/us-en/netapp-solutions-sap/index.html["適用於 SAP 的NetApp解決方案"^]
 * link:https://docs.netapp.com/us-en/netapp-solutions-virtualization/index.html["NetApp虛擬化解決方案"^]
 
+
+
+
+== 2025年12月3日
+
+新方案：link:software/ai-hybrid-union.html["使用 Union.ai 和NetApp FlexCache部署混合 AI 訓練"]
+
+使用 Union.ai 編排和NetApp FlexCache ，可以在雲端 GPU 上運行 AI 訓練工作負載，同時將敏感資料保留在本地。  FlexCache只在雲端快取實現高效能且安全的混合訓練所需的必要資料。

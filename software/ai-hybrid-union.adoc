@@ -1,0 +1,397 @@
+---
+sidebar: sidebar 
+permalink: software/ai-hybrid-union.html 
+keywords: NetApp AI, AI, Artificial Intelligence, ML, Machine Learning, Union.ai, Hybrid AI training 
+summary: 使用 Union.ai 編排和NetApp FlexCache部署混合 AI 訓練環境，使基於雲端的 GPU 訓練工作負載能夠有效率且安全地存取本地資料。 
+---
+= 使用 Union.ai 和NetApp FlexCache部署混合 AI 訓練
+:allow-uri-read: 
+
+
+[role="lead"]
+了解如何使用 Union.ai 編排、 NetApp FlexCache和Trident進行 Kubernetes 儲存配置，從而部署混合 AI 訓練環境。
+
+David Espejo，Union.ai Sathish Thyagarajan， NetApp
+
+
+
+== 概況
+
+Union.ai 的混合編排平台與NetApp ONTAP和FlexCache無縫集成，可加速 AI/ML 訓練工作流程。該解決方案允許資料安全地保留在本地，同時利用基於雲端的 GPU 運算進行 AI 訓練工作負載。  NetApp FlexCache確保僅將必要的資料快取到雲端，從而實現高效、安全且可擴展的混合 AI/ML 管道。
+
+
+
+== 客戶用例：混合雲人工智慧培訓
+
+* 本機資料：儲存在NetApp ONTAP上，以確保合規性和安全性。
+* 雲端運算：在 EKS/GKE/AKS 上進行可擴充的 GPU 訓練。
+* AI/ML 編排：Union.ai 協調跨環境的資料處理和訓練。
+* 儲存設定： NetApp Trident可自動設定 PVC/PV。
+
+
+
+
+== 客戶價值
+
+* 利用NetApp ONTAP 的橫向擴充功能，在海量資料集上執行 AI 工作負載。
+* 使用 NetApp 的混合雲端功能，在本地端和雲端之間移動和同步資料。
+* 使用FlexCache快速將本機資料快取到雲端。
+* Union.ai 透過版本控制、血緣追蹤和工件管理簡化了跨環境的編排。
+* 在雲端執行培訓，同時將敏感資料保留在本地。
+
+
+
+
+== 啟用插件 - 前提條件
+
+[cols="32%,68%"]
+|===
+
+
+| *要求* | *細節* 
+
+
+| ONTAP版本 | ONTAP 9.7+（無需FlexCache許可證） 
+
+
+| FlexCache許可證 | ONTAP 9.6 及更早版本需要此功能 
+
+
+| Kubernetes | 本地集群和雲端集群（EKS/GKE/AKS） 
+
+
+| Trident | 可安裝在本地集群和雲端集群上 
+
+
+| Union.ai | 控制平面已部署（聯合雲端或自架） 
+
+
+| 聯網 | 集群間連通性（如果ONTAP集群是獨立的） 
+
+
+| 權限  a| 
+ONTAP和 Kubernetes 叢集的管理員權限。
+
+✅請使用正確的ONTAP憑證（例如，vsadmin）。
+
+
+
+| 剛接觸 Union.ai？ | 請參閱本文檔末尾的配套指南。 
+|===
+
+
+== 參考架構
+
+下圖展示了 Union.ai 控制平面與NetApp儲存的集成，用於混合 AI 訓練。
+
+image::ai-hybrid-union-001.png[採用 Union.ai 和NetApp 的混合 AI 訓練架構]
+
+* Union.ai 控制平面：協調工作流程、管理資料移動並與NetApp API 整合。
+* NetApp ONTAP + FlexCache：提供從本機到雲端的高效資料快取。
+* 混合訓練群集：訓練作業在雲端 K8s 叢集（例如 EKS）中運行，資料從本地緩存。
+
+
+
+
+=== 步驟 1：建立FlexCache卷
+
+使用ONTAP系統管理器
+
+. 導航至“儲存”>“卷”。
+. 按一下“新增”。
+. 選擇更多選項。
+. 啟用「新增為遠端磁碟區的快取」功能。
+. 選擇來源磁碟區（本地）和目標磁碟區（雲端）。
+. 定義服務品質或效能等級（可選）。
+. 按一下“建立”。
+
+
+💡如果因權限或聚合問題導致NetApp DataOps Toolkit 無法正常運作，請直接使用ONTAP系統管理員或 CLI 建立FlexCache區。
+
+
+
+=== 步驟 2：設定 Trident
+
+在兩個叢集上都安裝Trident ：
+
+🔗 https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["+++ Trident安裝指南+++"]
+
+建立Trident後端
+
+[source, cli]
+----
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+name: ontap-flexcache
+spec:
+version: 1
+storageDriverName: ontap-nas
+managementLIF: <ONTAP-MGMT-IP>
+dataLIF: <ONTAP-DATA-IP>
+svm: <SVM-NAME>
+username: vsadmin
+password: <password>
+
+Apply: kubectl apply -f backend-flexcache.yaml
+----
+如果收到 401 未授權錯誤，請驗證ONTAP使用者是否具有足夠的 API 權限，以及是否使用了正確的使用者名稱 (vsadmin) 和密碼。
+
+定義儲存類別
+
+[source, cli]
+----
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+name: flexcache-sc
+provisioner: csi.trident.netapp.io
+parameters:
+backendType: "ontap-nas"
+Apply:
+kubectl apply -f storageclass-flexcache.yaml
+----
+
+
+=== 步驟 3：部署 Union.ai 工作流程
+
+Union 使用 PVC 將FlexCache卷掛載到訓練作業中。
+
+範例 PodTemplate
+
+[source, cli]
+----
+apiVersion: v1
+kind: PodTemplate
+metadata:
+name: netapp-podtemplate
+namespace: flytesnacks-development
+template:
+metadata:
+labels:
+default-storage: netapp
+spec:
+containers:
+- name: primary
+volumeMounts:
+- name: flexcache-storage
+mountPath: /data/flexcache
+volumes:
+- name: flexcache-storage
+persistentVolumeClaim:
+claimName: flexcache-pvc
+----
+範例工作流程
+
+從聯合導入任務、工作流程
+
+[source, cli]
+----
+@task(pod_template="netapp-podtemplate")
+
+def train_model(pvc_path: str):
+----
+
+
+= 載入並使用來自 PVC 的資料進行訓練。
+
+[source, cli]
+----
+@workflow
+
+def training_pipeline():
+
+train_model(pvc_path="/data/flexcache")
+----
+工會營運商將：
+
+* 製作PVC管
+* 掛載FlexCache卷
+* 在雲端 Kubernetes 叢集中調度作業
+
+
+
+
+=== 步驟 4：驗證集成
+
+[cols="21%,79%"]
+|===
+| *任務* | *驗證* 
+
+
+| PVC支架 | 訓練 pod 應該能夠成功掛載 /data/flexcache 
+
+
+| 資料存取 | 訓練作業可以對FlexCache進行讀寫操作。 
+
+
+| 快取行為 | 監控ONTAP中的快取命中/未命中情況。確保聚合支援FlexCache 
+
+
+| 表現 | 驗證訓練工作負載的延遲和吞吐量 
+|===
+使用NetApp BlueXP或ONTAP CLI 監控效能。
+
+
+
+== 安全注意事項
+
+* 使用 VPC 端點為NetApp ONTAP 的FSx 啟用
+* 啟用傳輸中和靜態加密
+* 申請基於角色的存取控制/身分與授權以存取ONTAP
+* Union.ai 不會存取或儲存客戶數據
+
+
+
+
+== 監測與最佳化
+
+[cols="31%,69%"]
+|===
+
+
+| *工具* | *目的* 
+
+
+| NetApp BlueXP | 監控FlexCache 的使用情況與效能 
+
+
+| Union.ai 使用者介面 | 追蹤管道狀態和指標 
+
+
+| Trident日誌 | 調試 PVC 或後端問題 
+|===
+*選用增強功能*
+
+* 使用BlueXP API 自動建立FlexCache
+* 使用 Union SDK 在訓練前預熱緩存
+* 訓練後加入批量推理或模型服務管道
+* 如果 DataOps Toolkit 失敗，則回退到透過系統管理員手動建立FlexCache 。
+
+
+故障排除
+
+[cols="41%,59%"]
+|===
+| _問題_ | _解決_ 
+
+
+| PVC卡在待定狀態 | 檢查Trident日誌和後端配置 
+
+
+| 來自ONTAP API 的 401 未授權 | 使用 vsadmin 並驗證權限 
+
+
+| 作業失敗：沒有適當的儲存空間 | 確保ONTAP聚合支援FlexCache/ FabricPool 
+
+
+| 訓練表現緩慢 | 檢查快取命中率和網路延遲 
+
+
+| 資料未同步 | 在ONTAP中驗證FlexCache關係健康狀況 
+|===
+*後續步驟*
+
+. 使用測試資料驗證FlexCache
+. 部署 Union.ai 訓練管道
+. 監控和優化效能
+. 記錄客戶特定設定
+
+
+
+
+== 相關連結
+
+* https://docs.union.ai["+++Union.ai 文件+++"]
+* https://docs.netapp.com/us-en/ontap/flexcache/index.html["+++ NetApp FlexCache概述+++"]
+* https://docs.netapp.com/us-en/trident/index.html["+++ Trident CSI 驅動程式+++"]
+* https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html["+++適用於NetApp ONTAP 的 FSx+++"]
+
+
+
+
+== 結論
+
+您現在擁有一個經過驗證的混合 AI 訓練環境，使用 Union.ai 和NetApp FlexCache。訓練作業可以在雲端運行，同時安全且有效率地存取本地數據，而無需複製整個數據集或損害治理。
+
+
+
+=== *Union.ai - 配套指南*
+
+
+
+==== 第一步：選擇部署模式
+
+*方案A：聯合雲*
+
+* 訪問： https://console.union.ai["+++console.union.ai+++"]
+* 建立組織 → 建立項目
+
+
+*選項B：自架*
+
+* 跟隨：https://docs.union.ai/platform/latest/deployment/self-hosted/["+++自託管指南+++"]
+* 透過 Helm 部署：
+
+
+helm repo add unionai https://unionai.github.io/helm-charts/[]
+
+helm install union unionai/union -n union-system -f values.yaml
+
+
+
+==== *步驟 2：安裝聯合運算子*
+
+****kubectl apply -fhttps://raw.githubusercontent.com/unionai/operator/main/deploy/operator.yaml[]
+
+kubectl get pods -n union-system
+
+
+
+
+
+==== 步驟 3：安裝 Union CLI
+
+****pip install unionai
+
+工會登入
+
+
+
+
+
+==== *步驟 4：註冊工作流程*
+
+****聯合專案創建混合人工智慧
+
+union register training_pipeline.py --project hybrid-ai
+
+
+
+
+
+==== *步驟 5：運作與監控*
+
+****union run training_pipeline --project hybrid-ai
+
+聯合觀察培訓管道
+
+查看日誌 https://console.union.ai["+++聯合用戶介面+++"]
+
+
+
+==== *步驟 6：註冊計算集群（可選）*
+
+****union cluster register --name cloud-k8s --kubeconfig ~/.kube/config
+
+
+
+==== *步驟7：追蹤文物及傳承*
+
+Union 會自動追蹤：
+
+* 輸入/輸出參數
+* 數據版本
+* 日誌和指標
+* 執行譜系
+
