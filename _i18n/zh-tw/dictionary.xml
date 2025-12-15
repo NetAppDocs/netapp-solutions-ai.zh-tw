@@ -5576,4 +5576,15 @@
   <block id="d156278e3dbb2cd83d1a870d6704c9b8" category="sidebar">NetApp + Union.ai：混合人工智慧訓練技術指南</block>
   <block id="ddf52cdc15133d3a9cb02a51bde98630" category="sidebar">NetApp和 Union.ai 的混合 AI 訓練</block>
   <block id="9c1377c97790bfb53de65e24276a1216" category="sidebar">Union.ai 的混合人工智慧訓練</block>
+  <block id="bc35ee37767e4af0acfededb3169dea7" category="list-text">Instaclustr客戶範例及其用例詳情</block>
+  <block id="0212a7ff5eedcd67a7b84fa1ba480bc2" category="paragraph"><block ref="f670d08dd43af20b7e913fb27609f01d" category="inline-link-rx"></block>，<block ref="a9adf060aa8097003033bb7f27b5067d" category="inline-link-rx"></block></block>
+  <block id="32e89286d3b2abdbdfed4a3b70b56c4a" category="paragraph"><block ref="32e89286d3b2abdbdfed4a3b70b56c4a" category="inline-link-rx"></block></block>
+  <block id="04811d6350cbb9ca8a0ee30a91752819" category="paragraph"><block ref="04811d6350cbb9ca8a0ee30a91752819" category="inline-link-rx"></block></block>
+  <block id="51a14d08c34bcecf91444995375a1ff2" category="inline-link-macro">使用 Kafka 分層儲存的 Instaclust</block>
+  <block id="e4fda4b7fc0596e39060f4d05d9a3104" category="paragraph">NetApp instaclustr 從 3.8.1 版本開始也支援 Kafka 分層儲存。請點擊此處查看更多詳情 <block ref="b7922a93a5920c465bcf40e7e8f14b82" category="inline-link-macro-rx"></block></block>
+  <block id="1f2f31fd4bc8efc61a85e89732c2b1d8" category="paragraph">Instaclustr 還支援自我再平衡功能，並且已為多個客戶實施。</block>
+  <block id="856aa9558f6aac1cc157b1d21fa78574" category="section-title">Instaclustr Kafka Connect 連接器</block>
+  <block id="2b56b60f878922093facd42284848a0c" category="inline-link-macro">更多詳情</block>
+  <block id="66e7fcb114a635fe90c2f5b97045315d" category="inline-link-macro">他們的詳細信息</block>
+  <block id="621d9727aaaf7b26ac0502b35736098f" category="paragraph">Instaclustr 支援 Kafka Connect 連接器及其詳細資訊 - <block ref="5792c576643eef1089e675cecfec7f12" category="inline-link-macro-rx"></block>。Instaclustr 提供額外的連接器 <block ref="46bc00f72c87fbc1de536d86c545b8a8" category="inline-link-macro-rx"></block></block>
 </blocks>
