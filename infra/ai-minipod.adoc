@@ -18,13 +18,13 @@ summary: 本文介紹了NetApp AIPod for Enterprise RAG 的經過驗證的參考
 
 image:aipod-mini-001.png["英特爾標誌"]
 
-Sathish Thyagarajan、Michael Oglesby、 NetApp
+Sathish Thyagarajan、Michael Oglesby、Arpita Mahajan、NetApp
 
 
 
 == 執行摘要
 
-越來越多的組織正在利用檢索增強生成 (RAG) 應用程式和大型語言模型 (LLM) 來解釋使用者提示並產生回應，以提高生產力和商業價值。這些提示和回應可以包括從組織內部知識庫、資料湖、程式碼儲存庫和文件儲存庫檢索到的文字、程式碼、圖像，甚至治療蛋白質結構。本文介紹了NetApp AIPod Mini 解決方案的參考設計，包括NetApp AFF儲存和搭載 Intel Xeon 6 處理器的伺服器。它包括與英特爾高級矩陣擴展 (Intel AMX) 結合的NetApp ONTAP資料管理軟體，以及基於企業 AI 開放平台 (OPEA) 構建的英特爾企業檢索增強生成 (RAG) 軟體。適用於企業 RAG 的NetApp AIPod Mini 使組織能夠將公用 LLM 增強為私有生成式 AI (GenAI) 推理解決方案。此解決方案展示了企業規模的高效且經濟的 RAG 推理，旨在提高可靠性並讓您更好地控制您的專有資訊。
+越來越多的組織正在利用檢索增強生成（RAG）應用和大型語言模型（LLM）來解讀使用者提示並產生回應，從而提高生產力和業務價值。這些提示和回應可以包括文字、程式碼、圖像，甚至是治療性蛋白質結構，這些資訊可以從組織的內部知識庫、資料湖、程式碼庫和文件庫中檢索。本文介紹了 NetApp AIPod Mini 解決方案的參考設計，該方案包含 NetApp AFF 儲存和配備 Intel Xeon 6 處理器的伺服器。它包含 NetApp ONTAP 資料管理軟體，並結合了 Intel Advanced Matrix Extensions（Intel AMX）和基於 Open Platform for Enterprise AI（OPEA）建構的 Intel® AI for Enterprise RAG 軟體。NetApp AIPod Mini for enterprise RAG 使組織能夠將公共 LLM 增強為私有生成式人工智慧（GenAI）推理解決方案。此解決方案展示了高效且經濟的企業級 RAG 推理能力，旨在提高可靠性並讓您更好地控制您的專有資訊。
 
 
 
@@ -36,7 +36,7 @@ Sathish Thyagarajan、Michael Oglesby、 NetApp
 
 == 使用NetApp運行 RAG 系統的優勢
 
-RAG 應用程式涉及從公司各種類型的文件儲存庫中檢索知識，例如 PDF、文字、CSV、Excel 或知識圖。這些資料通常儲存在諸如 S3 物件儲存或 NFS 本地解決方案中作為資料來源。  NetApp一直是邊緣、資料中心和雲端生態系統中資料管理、資料移動性、資料治理和資料安全技術的領導者。  NetApp ONTAP資料管理提供企業級存儲，以支援各種類型的 AI 工作負載，包括批次和即時推理，並提供以下一些優勢：
+RAG 應用程式涉及從公司文件庫中檢索各種類型的知識，例如 PDF、文字、CSV 或 Excel 文件。這些資料通常儲存在 S3 物件儲存或本機 NFS 等解決方案中，作為資料來源。NetApp 一直是邊緣運算、資料中心和雲端生態系統中資料管理、資料移動性、資料治理和資料安全技術的領導者。NetApp ONTAP 資料管理提供企業級儲存，以支援各種類型的 AI 工作負載，包括批次和即時推理，並具有以下一些優勢：
 
 * 速度和可擴展性。您可以高速處理大型資料集以進行版本控制，並能夠獨立擴展效能和容量。
 * 數據存取。多協定支援允許客戶端應用程式使用 S3、NFS 和 SMB 檔案共用協定讀取資料。  ONTAP S3 NAS 儲存桶可以促進多模式 LLM 推理場景中的資料存取。
@@ -59,7 +59,7 @@ RAG 應用程式涉及從公司各種類型的文件儲存庫中檢索知識，�
 
 
 
-==== 英特爾人工智慧技術
+==== Intel® AI 技術
 
 使用 Xeon 6 作為主機 CPU，加速系統可受益於高單執行緒效能；更高的記憶體頻寬；更高的可靠性、可用性和可服務性 (RAS)；以及更多的 I/O 通道。英特爾 AMX 加速了 INT8 和 BF16 的推理，並支援 FP16 訓練模型，INT8 每核每週期最多可進行 2,048 次浮點運算，BF16/FP16 每核每週期最多可進行 1,024 次浮點運算。要使用 Xeon 6 處理器部署 RAG 解決方案，通常建議至少使用 250GB 的 RAM 和 500GB 的磁碟空間。然而，這在很大程度上取決於 LLM 模型的大小。欲了解更多信息，請參閱英特爾 https://www.intel.com/content/dam/www/central-libraries/us/en/documents/2024-05/intel-xeon-6-product-brief.pdf["Xeon 6處理器"^]產品簡介。
 
@@ -77,7 +77,7 @@ RAG 應用程式涉及從公司各種類型的文件儲存庫中檢索知識，�
 | *硬體* | *數量* | *評論* 
 
 
-| 基於 Intel Xeon 6 的伺服器 | 2 | RAG 推理節點 - 配備雙插槽 Intel Xeon 6900 系列或 Intel Xeon 6700 系列處理器以及 250GB 至 3TB RAM，配備 DDR5 (6400MHz) 或 MRDIMM (8800MHz)。  2U伺服器。 
+| Intel Xeon 第 6 代（Granite Rapids） | 2 | RAG 推理節點－配備雙路 Intel Xeon 6900 系列（96 核心）或 Intel Xeon 6700 系列（64 核心）處理器，以及 250GB 至 3TB 的 DDR5（6400MHz）或 MRDIMM（8800MHz）記憶體。2U 伺服器。 
 
 
 | 帶有英特爾處理器的控制平面伺服器 | 1 | Kubernetes 控制平面/1U 伺服器。 
@@ -89,6 +89,8 @@ RAG 應用程式涉及從公司各種類型的文件儲存庫中檢索知識，�
 | NetApp AFF A20（或AFF A30； AFF A50） | 1 | 最大儲存容量：9.3PB。注意：網路：10/25/100 GbE 連接埠。 
 |===
 為了驗證此參考設計，我們使用了 Supermicro 的 Intel Xeon 6 處理器伺服器（222HA-TN-OTO-37）和 Arista 的 100GbE 交換器（7280R3A）。
+
+圖 3 - AIPod Mini 部署架構 image:aipod-mini-012.png["300,300"]
 
 
 
@@ -110,11 +112,11 @@ OPEA 的核心包括兩個關鍵部分：
 
 
 
-==== 由 OPEA 提供支援的英特爾企業人工智慧推理
+==== 由 OPEA 支援的 Intel® AI for Enterprise RAG
 
-適用於英特爾企業人工智慧 RAG 的 OPEA 簡化了將企業資料轉化為可操作見解的過程。它由英特爾至強處理器提供支持，整合了來自行業合作夥伴的組件，為部署企業解決方案提供了簡化的方法。它可以與成熟的編排框架無縫擴展，提供企業所需的靈活性和選擇。
+OPEA for Intel® AI for Enterprise RAG 簡化了將企業資料轉化為可執行洞察的過程。它由 Intel Xeon 處理器驅動，並整合了來自行業合作夥伴的組件，從而提供了一種精簡的企業解決方案部署方法。它可與成熟的編排框架無縫擴展，為您的企業提供所需的靈活性和選擇。
 
-在 OPEA 的基礎上，英特爾企業人工智慧 RAG 透過增強可擴展性、安全性和使用者體驗的關鍵功能擴展了這一基礎。這些功能包括與現代基於服務的架構無縫整合的服務網格功能、用於管道可靠性的生產就緒驗證以及用於 RAG 即服務的功能豐富的 UI，從而可以輕鬆管理和監控工作流程。此外，英特爾和合作夥伴的支援提供了廣泛的解決方案生態系統，結合整合的身份和存取管理 (IAM) 與 UI 和應用程序，實現安全且合規的操作。可程式護欄對管道行為提供細粒度的控制，實現客製化的安全性和合規性設定。
+基於 OPEA 的基礎，Intel® AI for Enterprise RAG 擴展了此基礎，並新增了多項關鍵功能，可提升擴充性、安全性和使用者體驗。這些功能包括服務網格功能，可與現代化服務型架構無縫整合、生產就緒驗證，可確保管線可靠性，以及功能豐富的 RAG 即服務 UI，可輕鬆管理和監控工作流程。此外，Intel 和合作夥伴支援可提供廣泛的解決方案生態系統存取權限，並結合整合式身分識別與存取管理（IAM）與 UI 和應用程式，以實現安全且合規的作業。可程式化的防護機制可對管線行為進行精細控制，以實現自訂的安全性和法規遵循設定。
 
 
 
@@ -132,19 +134,19 @@ NetApp Trident軟體是一款開源且完全支援的儲存編排器，適用於
 | *軟體* | *版本* | *評論* 
 
 
-| 企業 RAG 的英特爾 AI 的 OPEA | 1.1.2 | 基於OPEA微服務的企業RAG平台 
+| OPEA - Intel® AI for Enterprise RAG | 2.0 | 基於OPEA微服務的企業RAG平台 
 
 
-| 容器儲存介面（CSI驅動程式） | NetApp Trident 25.02 | 支援動態配置、 NetApp Snapshot 副本和磁碟區。 
+| 容器儲存介面（CSI驅動程式） | NetApp Trident 25.10 | 支援動態配置、 NetApp Snapshot 副本和磁碟區。 
 
 
-| Ubuntu | 22.04.5 | 雙節點叢集上的作業系統 
+| Ubuntu | 22.04.5 | 雙節點叢集上的作業系統。 
 
 
-| 容器編排 | Kubernetes 1.31.4 | 運行 RAG 框架的環境 
+| 容器編排 | Kubernetes 1.31.9（透過 Enterprise RAG 基礎架構 playbook 安裝） | 運行 RAG 框架的環境 
 
 
-| ONTAP | ONTAP 9.16.1P4 | AFF A20 上的儲存作業系統。它具有 Vscan 和 ARP 功能。 
+| ONTAP | ONTAP 9.16.1P4 或更新版本 | AFF A20 上的儲存作業系統。 
 |===
 
 
@@ -189,7 +191,7 @@ NetApp Trident軟體是一款開源且完全支援的儲存編排器，適用於
 
 以下螢幕截圖展示了使用ONTAP系統管理員建立 SVM 的過程。根據您的環境根據需要修改詳細資訊。
 
-圖 4 — 使用ONTAP系統管理員建立 SVM。image:aipod-mini-005.png["600,600"] image:aipod-mini-006.png["600,600"]
+圖 5 - 使用 ONTAP System Manager 建立 SVM。image:aipod-mini-005.png["600,600"] image:aipod-mini-006.png["600,600"]
 
 
 
@@ -197,11 +199,11 @@ NetApp Trident軟體是一款開源且完全支援的儲存編排器，適用於
 
 為您在上一個步驟中建立的 SVM 配置 S3 使用者/群組設定。確保您擁有對該 SVM 的所有 S3 API 操作具有完全存取權限的使用者。有關詳細信息，請參閱ONTAP S3 文件。
 
-注意：Intel AI for Enterprise RAG 應用程式的資料擷取服務需要此使用者。如果您使用ONTAP系統管理員建立了 SVM，系統管理員將自動建立一個名為 `sm_s3_user`以及一個名為 `FullAccess`當您建立 SVM 時，但尚未指派任何權限 `sm_s3_user`。
+注意：Intel® AI for Enterprise RAG 應用程式的資料擷取服務需要此使用者。如果您使用 ONTAP System Manager 建立了 SVM，System Manager 會在您建立 SVM 時自動建立名為 `sm_s3_user`的使用者和一個名為 `FullAccess`的政策，但不會為 `sm_s3_user`指派任何權限。
 
 若要編輯此使用者的權限，請導航至“儲存”>“儲存虛擬機器”，按一下您在上一個步驟中建立的 SVM 的名稱，按一下“設定”，然後按一下“S3”旁的鉛筆圖示。給予 `sm_s3_user`擁有所有 S3 API 操作的完全存取權限，建立一個關聯 `sm_s3_user`與 `FullAccess`策略如下面的螢幕截圖所示。
 
-圖 5 - S3 權限。
+圖 6 - S3 權限。
 
 image:aipod-mini-007.png["600,600"]
 
@@ -213,7 +215,7 @@ image:aipod-mini-007.png["600,600"]
 
 以下螢幕截圖展示了使用ONTAP系統管理員建立 S3 儲存桶的過程。
 
-圖 6 - 建立 S3 儲存桶。image:aipod-mini-008.png["600,600"]
+圖 7 - 建立 S3 儲存區。image:aipod-mini-008.png["600,600"]
 
 
 
@@ -225,7 +227,7 @@ image:aipod-mini-007.png["600,600"]
 
 以下螢幕截圖展示了ONTAP系統管理員中必要的儲存桶權限。
 
-圖 7 - S3 儲存桶權限。image:aipod-mini-009.png["600,600"]
+圖 8 - S3 儲存區權限。image:aipod-mini-009.png["600,600"]
 
 
 
@@ -237,7 +239,7 @@ image:aipod-mini-007.png["600,600"]
 ----
 ontap::> bucket cors-rule create -vserver erag -bucket erag-data -allowed-origins *erag.com -allowed-methods GET,HEAD,PUT,DELETE,POST -allowed-headers *
 ----
-此規則允許英特爾 AI for Enterprise RAG Web 應用程式的 OPEA 從 Web 瀏覽器內與儲存桶進行互動。
+此規則允許 OPEA for Intel® AI for Enterprise RAG Web 應用程式從 Web 瀏覽器內部與儲存桶進行互動。
 
 
 
@@ -251,128 +253,17 @@ ontap::> bucket cors-rule create -vserver erag -bucket erag-data -allowed-origin
 ----
 
 
-==== 安裝 Kubernetes
+==== 部署企業 RAG 2.0
 
-使用 Kubespray 在您的伺服器上安裝 Kubernetes。請參閱 https://kubespray.io/["Kubespray 文件"^]了解詳情。
-
-
-
-==== 安裝Trident CSI 驅動程式
-
-在您的 Kubernetes 叢集中安裝NetApp Trident CSI 驅動程式。請參閱 https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["Trident安裝文檔"^]了解詳情。
+有關完整的逐步部署工作流程，請參閱下列文件：xref:ai-aipod-mini-deployment-steps.html[NetApp AIPod Mini for ERAG - 部署步驟] 所有先決條件、基礎架構準備、設定參數和部署程序均已在上述部署指南中記錄。
 
 
 
-==== 建立Trident後端
+==== 存取適用於企業 RAG UI 的 Intel® AI 的 OPEA
 
-為您先前建立的 SVM 建立Trident後端。建立後端時，使用 `ontap-nas`司機。請參閱 https://docs.netapp.com/us-en/trident/trident-use/ontap-nas.html["Trident後端文檔"^]了解詳情。
+存取適用於 Intel® AI for Enterprise 的 OPEA RAG 使用者介面。詳情請參閱 https://github.com/opea-project/Enterprise-RAG/blob/release-2.0.0/deployment/README.md#interact-with-the-deployed-pipeline["Intel® AI for Enterprise RAG 部署文檔"^]。
 
-
-
-==== 建立儲存類別
-
-建立與您在上一個步驟中建立的Trident後端相對應的 Kubernetes 儲存類別。有關詳細信息，請參閱Trident存儲類文檔。
-
-
-
-==== 企業 RAG 的英特爾 AI 的 OPEA
-
-在您的 Kubernetes 叢集中安裝適用於 Intel AI for Enterprise RAG 的 OPEA。請參閱 https://github.com/opea-project/Enterprise-RAG/blob/release-1.2.0/deployment/README.md["英特爾 AI 企業版 RAG 部署"^]文件以了解詳細資訊。請務必記下本文後面所述的所需的設定檔修改。您必須在執行安裝手冊之前進行這些修改，以便 Intel AI for Enterprise RAG 應用程式能夠與您的ONTAP儲存系統正確搭配使用。
-
-
-
-=== 啟用ONTAP S3
-
-為 Intel AI for Enterprise RAG 安裝 OPEA 時，編輯主設定檔以允許使用ONTAP S3 作為來源資料儲存庫。
-
-要啟用ONTAP S3，請在 `edp`部分。
-
-注意：預設情況下，Intel AI for Enterprise RAG 應用程式會從 SVM 中所有現有儲存桶中擷取資料。如果您的 SVM 中有多個儲存桶，則可以修改 `bucketNameRegexFilter`字段，以便僅從某些儲存桶中提取資料。
-
-[source, cli]
-----
-edp:
-  enabled: true
-  namespace: edp
-  dpGuard:
-    enabled: false
-  storageType: s3compatible
-  s3compatible:
-    region: "us-east-1"
-    accessKeyId: "<your_access_key>"
-    secretAccessKey: "<your_secret_key>"
-    internalUrl: "https://<your_ONTAP_S3_interface>"
-    externalUrl: "https://<your_ONTAP_S3_interface>"
-    bucketNameRegexFilter: ".*"
-----
-
-
-=== 配置計劃同步設定
-
-安裝英特爾企業人工智慧 RAG 應用程式的 OPEA 時，啟用 `scheduledSync`以便應用程式自動從您的 S3 儲存桶中提取新的或更新的檔案。
-
-什麼時候 `scheduledSync`啟用後，應用程式會自動檢查來源 S3 儲存桶中是否有新檔案或更新的檔案。在此同步過程中發現的任何新檔案或更新檔案都會自動提取並新增至 RAG 知識庫。應用程式根據預設的時間間隔檢查您的來源儲存桶。預設時間間隔為 60 秒，這表示應用程式每 60 秒檢查一次變更。您可能希望更改此間隔以滿足您的特定需求。
-
-啟用 `scheduledSync`並設定同步間隔，在 `deployment/components/edp/values.yaml:`
-
-[source, cli]
-----
-celery:
-  config:
-    scheduledSync:
-      enabled: true
-      syncPeriodSeconds: "60"
-----
-
-
-=== 變更卷宗訪問模式
-
-在 `deployment/components/gmc/microservices-connector/helm/values.yaml`，對於每個卷 `pvc`列表，更改 `accessMode`到 `ReadWriteMany`。
-
-[source, cli]
-----
-pvc:
-  modelLlm:
-    name: model-volume-llm
-    accessMode: ReadWriteMany
-    storage: 100Gi
-  modelEmbedding:
-    name: model-volume-embedding
-    accessMode: ReadWriteMany
-    storage: 20Gi
-  modelReranker:
-    name: model-volume-reranker
-    accessMode: ReadWriteMany
-    storage: 10Gi
-  vectorStore:
-    name: vector-store-data
-    accessMode: ReadWriteMany
-    storage: 20Gi
-----
-
-
-=== （可選）停用 SSL 憑證驗證
-
-如果您在為 SVM 啟用 S3 存取權時使用了自簽章證書，則必須停用 SSL 憑證驗證。如果您使用由公眾信任的 CA 簽署的證書，則可以跳過此步驟。
-
-若要停用 SSL 憑證驗證，請在 `deployment/components/edp/values.yaml:`
-
-[source, cli]
-----
-edpExternalUrl: "https://s3.erag.com"
-edpExternalSecure: "true"
-edpExternalCertVerify: "false"
-edpInternalUrl: "edp-minio:9000"
-edpInternalSecure: "true"
-edpInternalCertVerify: "false"
-----
-
-
-==== 訪問適用於企業 RAG UI 的英特爾 AI 的 OPEA
-
-訪問英特爾企業人工智慧 RAG UI 的 OPEA。請參閱 https://github.com/opea-project/Enterprise-RAG/blob/release-1.1.2/deployment/README.md#interact-with-chatqna["英特爾企業人工智慧 RAG 部署文檔"^]了解詳情。
-
-圖 8 - 適用於企業 RAG UI 的英特爾 AI 的 OPEA。image:aipod-mini-010.png["600,600"]
+圖 9 - OPEA for Intel® AI for Enterprise RAG UI。image:aipod-mini-013.png["600,600"]
 
 
 
@@ -380,23 +271,23 @@ edpInternalCertVerify: "false"
 
 現在您可以提取文件以包含在基於 RAG 的查詢擴充中。有多種提取檔案的選項。根據您的需求選擇適當的選項。
 
-注意：提取檔案後，英特爾 AI for Enterprise RAG 應用程式的 OPEA 會自動檢查檔案的更新並相應地提取更新。
+注意：檔案匯入後，OPEA for Intel® AI for Enterprise RAG 應用程式會自動檢查檔案更新並相應地匯入更新。
 
-*選項 1：直接上傳到您的 S3 儲存桶 要一次提取多個文件，我們建議使用您選擇的 S3 用戶端將文件上傳到您的 S3 儲存桶（您之前建立的儲存桶）。受歡迎的 S3 用戶端包括 AWS CLI、Amazon SDK for Python（Boto3）、s3cmd、S3 瀏覽器、Cyberduck 和 Commander One。如果檔案屬於受支援的類型，則您上傳至 S3 儲存桶的任何檔案將由英特爾 AI for Enterprise RAG 應用程式的 OPEA 自動擷取。
+*選項 1：直接上傳到您的 S3 儲存桶 要一次匯入多個檔案，我們建議您使用您選擇的 S3 用戶端將檔案上傳到您的 S3 儲存桶（您先前建立的儲存桶）。常用的 S3 用戶端包括 AWS CLI、Amazon SDK for Python (Boto3)、s3cmd、S3 Browser、Cyberduck 和 Commander One。如果檔案類型受支援，您上傳到 S3 儲存桶的任何檔案將由 OPEA for Intel® AI for Enterprise RAG 應用程式自動匯入。
 
-注意：在撰寫本文時，支援以下文件類型：PDF、HTML、TXT、DOC、DOCX、PPT、PPTX、MD、XML、JSON、JSONL、YAML、XLS、XLSX、CSV、TIFF、JPG、JPEG、PNG 和 SVG。
+注意：截至撰寫本文時，支援以下檔案類型：PDF、HTML、TXT、DOC、DOCX、ADOC、PPT、PPTX、MD、XML、JSON、JSONL、YAML、XLS、XLSX、CSV、TIFF、JPG、JPEG、PNG 和 SVG。
 
-您可以使用 OPEA for Intel AI for Enterprise RAG UI 來確認您的檔案是否已正確擷取。有關詳細信息，請參閱英特爾 AI for Enterprise RAG UI 文件。請注意，應用程式可能需要一些時間來提取大量文件。
+您可以使用 OPEA for Intel® AI for Enterprise RAG UI 來確認檔案是否已正確擷取。如需詳細資訊，請參閱 Intel® AI for Enterprise RAG UI 說明文件。請注意，應用程式擷取大量檔案可能需要一些時間。
 
-*選項 2：使用 UI 上傳 如果您只需要提取少量文件，則可以使用 OPEA for Intel AI for Enterprise RAG UI 來提取它們。有關詳細信息，請參閱英特爾 AI for Enterprise RAG UI 文件。
+*選項 2：使用 UI 上傳 如果您只需要擷取少量檔案，可以使用 OPEA for Intel® AI for Enterprise RAG UI 進行擷取。如需詳細資訊，請參閱 Intel® AI for Enterprise RAG UI 說明文件。
 
-圖 9-資料提取 UI。image:aipod-mini-011.png["600,600"]
+圖 10 - 資料擷取 UI。image:aipod-mini-011.png["600,600"]
 
 
 
 ==== 執行聊天查詢
 
-現在您可以使用隨附的聊天 UI 與英特爾企業人工智慧 RAG 應用程式的 OPEA「聊天」。在回應您的查詢時，應用程式會使用您提取的檔案執行 RAG。這意味著應用程式會自動在您攝取的文件中搜尋相關信息，並在回應您的查詢時合併這些資訊。
+現在，您可以使用內建的聊天介面與 OPEA for Intel® AI for Enterprise RAG 應用程式進行「聊天」。該應用程式在回覆您的查詢時，會使用您匯入的檔案執行 RAG 操作。這表示應用程式會自動搜尋您匯入檔案中的相關資訊，並在回覆您的查詢時納入這些資訊。
 
 
 
@@ -419,19 +310,19 @@ edpInternalCertVerify: "false"
 
 | 並髮用戶 | 32 | 「並髮用戶」是指同時提交查詢的提示請求。 
 |===
-_注意：上面提供的尺寸指導是基於使用 96 核心 Intel Xeon 6 處理器收集的效能驗證和測試結果。對於具有類似 I/O 令牌和模型大小要求的客戶，我們建議使用具有 96 或 128 個核心的 Xeon 6 處理器的伺服器。
+_附註：以上容量規劃指南是基於使用 96 核心 Intel Xeon 6 處理器進行的效能驗證和測試結果。對於具有類似 I/O 令牌和模型大小要求的客戶，我們建議使用配備 96 核心 Xeon 6 處理器的伺服器。有關容量規劃指南的更多詳細資訊，請參閱 link:https://community.intel.com/t5/Blogs/Tech-Innovation/Artificial-Intelligence-AI/Scaling-Intel-AI-for-Enterprise-RAG-Performance-64-Core-vs-96/post/1723234["Intel® AI for Enterprise RAG 規模指南"]
 
 
 
 == 結論
 
-企業 RAG 系統和 LLM 是協同工作的技術，可協助組織提供準確且情境感知的回應。這些回應涉及基於大量私人和內部企業資料的資訊檢索。透過使用 RAG、API、向量嵌入和高效能儲存系統來查詢包含公司資料的文件儲存庫，可以更快、更安全地處理資料。  NetApp AIPod Mini 將 NetApp 的智慧資料基礎架構與ONTAP資料管理功能以及 Intel Xeon 6 處理器、Intel AI for Enterprise RAG 和 OPEA 軟體堆疊結合，協助部署高效能 RAG 應用程式並讓組織走上 AI 領導之路。
+企業級 RAG 系統和 LLM 是協同工作的技術，旨在幫助組織提供準確且具有上下文感知能力的回應。這些回應涉及基於海量私有和內部企業資料的資訊檢索。透過使用 RAG、API、向量嵌入和高效能儲存系統來查詢包含公司資料的文件庫，可以更快、更安全地處理資料。NetApp AIPod Mini 將 NetApp 的智慧資料基礎設施與 ONTAP 資料管理功能、Intel Xeon 6 處理器、Intel® AI for Enterprise RAG 以及 OPEA 軟體堆疊結合，協助部署高效能 RAG 應用，並協助組織邁向 AI 領導地位。
 
 
 
 == 致謝
 
-本文檔由NetApp解決方案工程團隊成員 Sathish Thyagarajan 和 Michael Ogelsby 撰寫。作者也要感謝英特爾企業 AI 產品團隊（Ajay Mungara、Mikolaj Zyczynski、Igor Konopko、Ramakrishna Karamsetty、Michal Prostko、Shreejan Mistry 和 Ned Fiori）以及NetApp的其他團隊成員（Lawrence Bunka、Bobby Oommen 和 Jeff Liborio）在驗證此解決方案期間給予的持續支持和幫助。
+本文由 NetApp 解決方案工程團隊成員 Sathish Thyagarajan、Michael Oglesby 和 Arpita Mahajan 撰寫。作者也要感謝 Intel 企業 AI 產品團隊的成員——Ajay Mungara、Mikolaj Zyczynski、Igor Konopko、Ramakrishna Karamsetty、Michal Prostko、Anna Alberska、Maciej Cichocki、Shreejan Mistry、Nicholas Rago 和 Ned Fiori——以及 NetApp 的其他團隊成員——Lawrence Bunka、Bobby Oommen 和 Jeff Liborio，感謝他們在解決方案驗證過程中持續的支持和協助。
 
 
 
@@ -448,7 +339,7 @@ _注意：上面提供的尺寸指導是基於使用 96 核心 Intel Xeon 6 處�
 | 222HA-TN-OTO-37 | 超級伺服器 SYS-222HA-TN /2U | 2 
 
 
-| P4X-GNR6980P-SRPL2-UCC | 英特爾至強 6980P 2P 128C 2G 504M 500W SGX512 | 4 
+| P4X-GNR6972P-SRPL2-UC | Intel® Xeon® 6972P 處理器 96 核心 2.40GHz 480MB 快取（500W） | 4 
 
 
 | 記憶體 | MEM-DR564MC-ER64(x16)64GB DDR5-6400 2RX4 (16Gb) ECC RDIMM | 32 
@@ -527,12 +418,30 @@ NetApp AFF儲存：
 |===
 
 
+== 基礎架構就緒檢查清單
+
+詳情請參閱 xref:ai-aipod-mini-infra-readiness.html[NetApp AIPod Mini - 基礎架構就緒]。
+
+
+
 == 在哪裡可以找到更多信息
 
 要了解有關本文檔中描述的信息的更多信息，請查看以下文檔和/或網站：
 
-https://www.netapp.com/support-and-training/documentation/ONTAP%20S3%20configuration%20workflow/["NetApp產品文檔"^]
+https://docs.netapp.com/["NetApp產品文檔"^]
 
 link:https://github.com/opea-project/Enterprise-RAG/tree/main["OPEA項目"]
 
-https://github.com/opea-project/Enterprise-RAG/tree/main/deployment/playbooks["OPEA Enterprise RAG 部署手冊"^]
+https://github.com/opea-project/Enterprise-RAG/tree/main/docs["Intel® AI ERAG 文件"]
+
+https://github.com/opea-project/Enterprise-RAG/tree/main/deployment/playbooks["OPEA Enterprise RAG 部署手冊"^] == 版本歷史
+
+|===
+| *版本* | * 日期 * | *文件版本歷史記錄* 
+
+
+| 版本 1.0 | 2025 年 9 月 | 初始版本 
+
+
+| 版本 2.0 | 2026 年 2 月 | 已更新，包含 OPEA-Intel® AI for Enterprise RAG 2.0 
+|===

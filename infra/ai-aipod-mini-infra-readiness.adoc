@@ -1,0 +1,83 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-aipod-mini-infra-readiness.html 
+keywords: netapp, aipod, RAG, ai solution, design, infrastructure, FAQs 
+summary: 本文檔概述了 NetApp AIPod Mini for Enterprise RAG 的全面基礎設施準備清單，可作為部署前參考。 
+---
+= NetApp AIPod Mini for ERAG - 基礎架構就緒檢查清單
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本文檔概述了 NetApp AIPod Mini for Enterprise RAG 的全面基礎設施準備清單，可作為部署前參考。
+
+
+
+== 業務與使用案例準備度
+
+* 該解決方案是否與業務線成果（例如生產力、客戶服務、法律、醫療保健、製造業、公共部門）一致？
+* 您是否已估算 LLM 工作負載的首次令牌獲取時間（TTFT）和延遲需求？
+* 您知道預期的並發 / 使用者負載嗎（例如，RAG 中每個 2 個工作節點 32 個並髮使用者）？
+* 您是否已確定主要的 AI/GenAI 工作負載（RAG、inferencing、fine-tuning、部門 LLM、vector DB 整合）？
+* 您是否正在評估基於 CPU 的 AI 方案（OPEA、Intel Xeon）與 GPU 方案在成本 / 效能平衡方面的優劣？
+
+
+
+
+== 技術與基礎架構需求
+
+* 您的資料管道是否已準備就緒（資料準備、ETL、安全導入向量資料庫）？
+* 您是否需要高可用性、備援或 DR 功能？
+* 您是否正在利用 Ubuntu Linux / Kubernetes / Red Hat OpenShift AI 技術堆疊的支援？
+* 您是否已驗證網路效能（根據工作負載的不同，速度範圍為 25–100GbE）？
+* 儲存是否已配置 NetApp ONTAP + Trident CSI 驅動程式以實現 Kubernetes 持久化？
+* 至少需要 3 個運算節點 (2 個工作節點、1 個控制平面節點)，且大小是否正確？
+
+
+
+
+== 軟體與生態系統協調
+
+* 您的容器化應用程式是否與提供的 Kubernetes 和 Helm charts 相容？
+* 計劃部署哪些向量資料庫（例如 Milvus、pgvector）？
+* 您是否需要 OPEA（Open Platform for Enterprise AI）預先整合來實現檢索增強生成（RAG）？
+* 您是否正在利用混合雲選項（Cloud Volumes ONTAP、FSxN、Anthos、Azure Arc）？
+* 您是否需要合作夥伴 ISV 整合（ESRI、醫療保健 PACS、金融 / 法律 ISV）？
+
+
+
+
+== 資料治理與安全
+
+* 您是否已在 Kubernetes 中啟用角色型存取控制（RBAC）？
+* 是否有資料保護和備份計劃（SnapMirror、SnapCenter、勒索軟體防護）？
+* 您是否已規劃資料法規遵循需求（HIPAA、GDPR、FedRAMP、CJIS）？
+* 您是否需要私有 AI 部署（實體隔離、內部部署、安全區域）？
+
+
+
+
+== 營運與支援考量
+
+* 管理者是否接受過 Kubernetes、Trident CSI 和 OPEA 技術棧部署的訓練/具備相關能力？
+* 您是否需要多租戶支援（部門、SLED 機構、業務部門）？
+* 是否有監控和可觀測性計劃（ONTAP System Manager、Cloud Insights、Prometheus/Grafana）？
+* 誰將負責第 2 天營運（客戶 IT 部門、合作夥伴、託管服務提供者）？
+
+
+
+
+== 商業與 GTM 協調一致
+
+* 是否有分階段的路線圖（從部門級到企業級 AI 擴展）？
+* 您是否有多年期的預測報告（TCO、ARR、利潤率提升）？
+* 授權升級情境是否明確（向量資料庫、ISV 軟體、AI 維運工具）？
+* 您是否考慮過合作夥伴獎勵措施（經銷商利潤、OEM/Intel 聯合出資）？
+* 購買行為是否符合預算週期（CapEx 與 OpEx、消費模式）？
+* 您是否有服務合作夥伴（Arrow、WWT、Presidio 等）負責規模評估和部署？
+

@@ -6,6 +6,12 @@ entries:
 - title: 適用於企業 RAG 的NetApp AIPod Mini
   pdf-filename: 適用於 RAG 推理的NetApp AIPod Mini
   url: "/infra/ai-minipod.html"
+- title: NetApp AIPod Mini for ERAG - 基礎架構就緒檢查清單
+  pdf-filename: NetApp AIPod Mini for ERAG - 基礎架構就緒檢查清單
+  url: "/infra/ai-aipod-mini-infra-readiness.html"
+- title: NetApp AIPod Mini for ERAG - 部署步驟
+  pdf-filename: NetApp AIPod Mini for ERAG - 部署步驟
+  url: "/infra/ai-aipod-mini-deployment-steps.html"
 - title: Protopia 影像轉換的負責任的 AI
   pdf-filename: 負責任的 AI 和機密推理 - NetApp AI 與 Protopia 影像轉換
   entries:
