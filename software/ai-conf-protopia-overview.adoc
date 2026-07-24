@@ -35,6 +35,7 @@ Sathish Thyagarajan、Michael Oglesby、 NetApp Byung Hoon Ahn、Jennifer Cwagen
 
 
 
+[[target-audience]]
 == 目標受眾
 
 本技術報告面向以下受眾：
@@ -48,6 +49,7 @@ Sathish Thyagarajan、Michael Oglesby、 NetApp Byung Hoon Ahn、Jennifer Cwagen
 
 
 
+[[solution-architecture]]
 == 解決方案架構
 
 該解決方案旨在利用 GPU 和傳統 CPU 的處理能力來處理大型資料集上的即時和批量推理 AI 工作負載。此驗證證明了尋求負責任的 AI 部署的組織所需的 ML 隱私保護推理和最佳資料管理。該解決方案提供了適用於單節點或多節點 Kubernetes 平台的架構，用於邊緣和雲端運算，並透過 Jupyter Lab 和 CLI 介面與核心本地的NetApp ONTAP AI、 NetApp DataOps Toolkit 和 Protopia 混淆軟體互連。下圖顯示了由NetApp支援、採用 DataOps Toolkit 和 Protopia 的資料結構的邏輯架構概覽。

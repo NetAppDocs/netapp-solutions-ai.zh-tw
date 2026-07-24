@@ -20,6 +20,7 @@ image:kafka-sc-003.png["描述解決方案概覽的圖像。"]
 
 
 
+[[solution-architecture-details]]
 == 解決方案架構細節
 
 本節介紹使用NetApp ONTAP進行分層儲存的 Confluent Platform 部署中用於效能驗證的硬體和軟體。下表涵蓋了解決方案架構和基本組件。

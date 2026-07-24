@@ -18,6 +18,7 @@ summary: 採用 Domino Data Lab 和NetApp 的混合多雲 MLOps - 初始設置
 
 
 
+[[prerequisites]]
 == 先決條件
 
 在執行本節中概述的步驟之前，我們假設您已經執行了以下任務：
@@ -33,6 +34,7 @@ summary: 採用 Domino Data Lab 和NetApp 的混合多雲 MLOps - 初始設置
 
 
 
+[[install-the-domino-enterprise-ai-platform-in-aws]]
 == 在 AWS 中安裝 Domino Enterprise AI 平台
 
 若要在 AWS 中安裝 Domino Enterprise MLOps 平台，請依照link:https://docs.dominodatalab.com/en/latest/admin_guide/c1eec3/deploy-domino/["Domino 管理指南"]。您必須在先前設定的相同 Amazon EKS 叢集中部署 Domino。此外，必須已在此 EKS 叢集中安裝和設定NetApp Trident ，並且您必須在 domino.yml 安裝設定檔中指定 Trident 管理的儲存類別作為共用儲存類別。
@@ -45,12 +47,14 @@ NOTE: link:https://www.netapp.com/media/79922-tr-4952.pdf["技術報告 TR-4952"
 
 
 
+[[enable-domino-nexus]]
 == 啟用 Domino Nexus
 
 接下來，您必須啟用 Domino Nexus。請參閱link:https://docs.dominodatalab.com/en/latest/admin_guide/c65074/nexus-hybrid-architecture/["Domino 管理指南"]了解詳情。
 
 
 
+[[deploy-a-domino-data-plane-in-your-on-premises-data-center]]
 == 在本地資料中心部署 Domino 資料平面
 
 接下來，您必須在本機資料中心部署 Domino 資料平面。您必須在先前設定的本機 Kubernetes 叢集中部署此資料平面。此外，必須已在此 Kubernetes 叢集中安裝並設定了NetApp Trident 。請參閱link:https://docs.dominodatalab.com/en/latest/admin_guide/5781ea/data-planes/["Domino 管理指南"]了解詳情。

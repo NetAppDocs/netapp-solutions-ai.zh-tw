@@ -18,6 +18,7 @@ summary: 本節介紹此解決方案所使用的技術。
 
 
 
+[[hardware-requirements]]
 === 硬體需求
 
 |===
@@ -52,6 +53,7 @@ summary: 本節介紹此解決方案所使用的技術。
 |===
 
 
+[[software-requirements]]
 === 軟體需求
 
 |===

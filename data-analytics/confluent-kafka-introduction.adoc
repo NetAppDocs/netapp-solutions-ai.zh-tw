@@ -27,6 +27,7 @@ Apache Kafka 是一個社群分散式事件流平台，每天都能夠處理數�
 
 
 
+[[why-confluent-tiered-storage]]
 == 為什麼選擇 Confluent 分層儲存？
 
 Confluent 已成為許多應用程式的預設即時串流平台，尤其是對於大數據、分析和串流媒體工作負載。分層儲存使用戶能夠在 Confluent 平台中將運算與儲存分開。它使儲存資料更具成本效益，使您能夠儲存幾乎無限量的資料並按需擴大（或縮小）工作負載，並使資料和租戶重新平衡等管理任務更加容易。 S3 相容儲存系統可以利用所有這些功能，將所有事件集中在一個地方，實現資料民主化，因此無需複雜的資料工程。有關為什麼應該為 Kafka 使用分層存儲的更多信息，請查看link:https://docs.confluent.io/platform/current/kafka/tiered-storage.html#netapp-object-storage["本文由 Confluent 撰寫"^]。
@@ -35,6 +36,7 @@ NetApp instaclustr 從 3.8.1 版本開始也支援 Kafka 分層儲存。請點�
 
 
 
+[[why-netapp-storagegrid-for-tiered-storage]]
 == 為什麼選擇NetApp StorageGRID進行分層儲存？
 
 StorageGRID是NetApp推出的業界領先的物件儲存平台。  StorageGRID是一種軟體定義的基於物件的儲存解決方案，支援業界標準物件 API，包括 Amazon Simple Storage Service (S3) API。 StorageGRID大規模儲存和管理非結構化數據，以提供安全、持久的物件儲存。內容被放置在正確的位置、正確的時間和正確的儲存層，從而優化工作流程並降低全球分佈的富媒體的成本。
@@ -43,6 +45,7 @@ StorageGRID最大的差異在於其資訊生命週期管理 (ILM) 策略引擎�
 
 
 
+[[enabling-confluent-tiered-storage]]
 == 啟用 Confluent 分層存儲
 
 分層儲存的基本概念是將資料儲存任務與資料處理任務分開。透過這種分離，資料儲存層和資料處理層可以更輕鬆地獨立擴展。

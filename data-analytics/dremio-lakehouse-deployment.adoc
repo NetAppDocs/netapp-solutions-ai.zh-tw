@@ -18,6 +18,7 @@ summary: 我們已經通過 Dremio 平台認證並在NetApp物件儲存中進行
 
 
 
+[[netapp-setup]]
 === NetApp設定
 
 * 儲存系統初始化
@@ -42,12 +43,14 @@ summary: 我們已經通過 Dremio 平台認證並在NetApp物件儲存中進行
 
 
 
+[[zookeeper-setup]]
 === Zookeeper 設定
 
 您可以使用 Dremio 提供的 zookeeper 配置。在此驗證中，我們使用了單獨的 Zookeeper。我們遵循了此網頁連結中提到的步驟 https://medium.com/@ahmetfurkandemir/distributed-hadoop-cluster-1-spark-with-all-dependincies-03c8ec616166[]
 
 
 
+[[dremio-setup]]
 === Dremio 設定
 
 我們按照此網頁連結透過 tar ball 安裝 Dremio。
@@ -237,6 +240,7 @@ NOTE: NetApp建議使用StorageGRID作為 Datalake 和 Lakehouse 環境的主要
 
 
 
+[[multiple-sources-setup]]
 === 多源設定
 
 . 在 Dremio 中將ONTAP S3 和 storageGRID 配置為 s3 來源。

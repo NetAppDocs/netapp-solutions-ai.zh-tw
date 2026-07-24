@@ -18,6 +18,7 @@ summary: 對於功能驗證，我們表明，使用 NFSv3 掛載儲存的 Kafka 
 
 
 
+[[validation-setup]]
 == 驗證設定
 
 該設定在 AWS 上運行。下表顯示了用於驗證的不同平台組件和環境配置。
@@ -47,6 +48,7 @@ image:kafka-nfs-001.png["此圖顯示了 AWS 拓撲，其中包含一個 VPC，�
 
 
 
+[[architectural-flow]]
 == 建築流程
 
 * *計算。 *我們使用了四節點 Kafka 集群，並在專用伺服器上運行三節點 zookeeper 集合。
@@ -59,6 +61,7 @@ image:kafka-nfs-001.png["此圖顯示了 AWS 拓撲，其中包含一個 VPC，�
 
 
 
+[[methodology-of-testing]]
 == 測試方法
 
 . 更新 `-is-preserve-unlink-enabled true`到kafka卷，如下：

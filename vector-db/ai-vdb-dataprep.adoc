@@ -18,6 +18,7 @@ summary: 為 NetApp 的向量資料庫解決方案準備數據
 
 
 
+[[appendix-b-preparedatanetappnew-py]]
 == 附錄 B：prepare_data_netapp_new.py
 
 [source, python]

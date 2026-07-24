@@ -18,6 +18,7 @@ summary: 在這種情況下，客戶擁有一個大型的內部部署 Hadoop 儲
 
 
 
+[[requirements-and-challenges]]
 == 要求和挑戰
 
 此用例的主要要求和挑戰包括：
@@ -35,6 +36,7 @@ summary: 在這種情況下，客戶擁有一個大型的內部部署 Hadoop 儲
 
 
 
+[[customers-existing-backup-solutionx]]
 == 客戶現有的備份解決方案x
 
 下圖是原有的Hadoop原生備份方案。
@@ -63,12 +65,14 @@ Hadoop原生備份方案的優點包括：
 
 
 
+[[backup-solutions]]
 == 備份解決方案
 
 基於這些挑戰和要求，並考慮到現有的備份系統，提出了三種可能的備份解決方案。以下小節分別描述這三種不同的備份解決方案，標示為解決方案 A 到解決方案 C。
 
 
 
+[[solution-a]]
 === 解決方案 A
 
 在解決方案 A 中，備份 Hadoop 叢集將二級備份傳送至NetApp NFS 儲存系統，因此無需磁帶，如下圖所示。
@@ -114,6 +118,7 @@ NOTE: 透過使用SnapMirror技術，Hadoop 資料可以受到保護，保存到
 
 
 
+[[solution-b]]
 === 解決方案 B
 
 解決方案B將NFS卷添加到生產Hadoop集群，從而無需備份Hadoop集群，如下圖所示。
@@ -141,6 +146,7 @@ Hadoop 原生 `hadoop distcp`指令將 Hadoop 資料從生產叢集 HDFS 保護�
 
 
 
+[[solution-c]]
 === 解決方案 C
 
 在解決方案 C 中， NetApp SAN 磁碟區直接配置到 Hadoop 生產叢集用於 HDFS 存儲，如下圖所示。

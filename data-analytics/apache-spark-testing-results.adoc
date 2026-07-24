@@ -75,6 +75,7 @@ summary: 我們使用 TeraGen 基準測試工具中的 TeraSort 和 TeraValidate
 |===
 
 
+[[financial-sentiment-analysis]]
 == 金融情緒分析
 
 我們發表了link:https://www.netapp.com/pdf.html?item=/media/17123-tr4910pdf.pdf["TR-4910：利用NetApp AI 進行客戶溝通情緒分析"^]，其中使用 https://github.com/NetApp/netapp-dataops-toolkit["NetApp DataOps 工具包"^]、 AFF儲存和NVIDIA DGX 系統。此管道利用 DataOps Toolkit 執行批量音訊訊號處理、自動語音辨識 (ASR)、遷移學習和情緒分析， https://developer.nvidia.com/riva["NVIDIA Riva SDK"^] ，以及 https://developer.nvidia.com/tao["道框架"^]。將情緒分析用例擴展到金融服務業，我們建立了 SparkNLP 工作流程，為各種 NLP 任務（例如命名實體識別）加載了三個 BERT 模型，並獲得了納斯達克十大公司季度收益電話會議的句子級情緒。
@@ -160,6 +161,7 @@ image:apache-spark-011.png["Spark NLP 情緒分析端對端工作流程執行時
 
 
 
+[[distributed-training-with-horovod-performance]]
 == Horovod 表現的分散式訓練
 
 以下命令使用單一 `master`具有 160 個執行器的節點，每個執行器都有一個核心。執行器記憶體限制為 5GB，以避免記憶體不足錯誤。請參閱link:spark-python-scripts.html["針對每個主要用例的 Python 腳本"]有關數據處理、模型訓練和模型準確率計算的更多詳細信息，請參閱 `keras_spark_horovod_rossmann_estimator.py`。
@@ -236,6 +238,7 @@ image:apache-spark-012.png["Horovod Spark 工作流程運行時。"]
 
 
 
+[[deep-learning-models-for-ctr-prediction-performance]]
 == CTR預測表現的深度學習模型
 
 對於旨在最大化點擊率的推薦系統，必須學習使用者行為背後複雜的特徵交互，這些特徵交互可以透過數學方式從低階到高階計算。對於良好的深度學習模型來說，低階和高階特徵交叉應該同等重要，而不應偏向其中任何一方。深度分解機（DeepFM）是一種基於分解機的神經網絡，它將用於推薦的分解機和用於特徵學習的深度學習結合在新的神經網路架構中。

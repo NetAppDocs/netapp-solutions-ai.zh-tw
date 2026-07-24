@@ -22,6 +22,7 @@ image:bda-ai-006.png["此圖顯示輸入/輸出對話框或表示書面內容"]
 
 
 
+[[why-are-customers-moving-from-hdfs-and-mapr-fs-to-nfs]]
 == 為什麼客戶要從 HDFS 和 MapR-FS 移轉到 NFS？
 
 大多數 Hadoop 發行版（例如 Cloudera 和 Hortonworks）都使用 HDFS，而 MapR 發行版則使用自己的檔案系統（稱為 Mapr-FS）來儲存資料。  HDFS 和 MapR-FS 資料為資料科學家提供了寶貴的見解，可用於機器學習 (ML) 和深度學習 (DL)。 HDFS 和 MapR-FS 中的資料不共享，這意味著其他應用程式無法使用它。客戶正在尋找共享數據，特別是在銀行業，客戶的敏感數據被多個應用程式使用。 Hadoop最新版本（3.x以上版本）支援NFS資料來源，無需額外的第三方軟體即可存取。借助新的NetApp XCP 功能，可以將資料從 HDFS 和 MapR-FS 直接移動到NetApp NFS，以便提供對多個應用程式的訪問

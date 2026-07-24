@@ -18,6 +18,7 @@ summary: NetApp AIPod與NVIDIA DGX 系統 - 架構
 
 
 
+[[netapp-aipod-with-dgx-systems]]
 == 搭載 DGX 系統的NetApp AIPod
 
 此參考架構利用單獨的結構進行計算叢集互連和儲存訪問，並在計算節點之間實現 400Gb/s InfiniBand (IB) 連接。下圖展示了NetApp AIPod與 DGX H100 系統的整體解決方案拓撲。
@@ -28,6 +29,7 @@ image:aipod-nv-a90-topo.png["此圖顯示輸入/輸出對話框或表示書面�
 
 
 
+[[network-design]]
 == 網路設計
 
 在此配置中，計算叢集結構使用一對 QM9700 400Gb/s IB 交換機，它們連接在一起以實現高可用性。每個 DGX H100 系統使用八個連接連接到交換機，其中偶數連接埠連接到一個交換機，奇數連接埠連接到另一個交換器。
@@ -38,6 +40,7 @@ image:aipod-nv-a90-topo.png["此圖顯示輸入/輸出對話框或表示書面�
 
 
 
+[[storage-access-overview-for-dgx-h100-systems]]
 == DGX H100 系統的儲存存取概述
 
 每個 DGX H100 系統都配備了兩個雙埠 ConnectX-7 轉接器用於管理和儲存流量，並且對於此解決方案，每個卡上的兩個連接埠都連接到同一個交換器。然後將每個卡的一個連接埠配置為 LACP MLAG 綁定，並將一個連接埠連接到每個交換機，並且在帶內管理、用戶端存取和用戶級儲存存取的 VLAN 都託管在此綁定上。
@@ -48,6 +51,7 @@ image:aipod-nv-a90-topo.png["此圖顯示輸入/輸出對話框或表示書面�
 
 
 
+[[storage-system-design]]
 == 儲存系統設計
 
 每個AFF A90儲存系統使用每個控制器的六個 200 GbE 連接埠進行連接。每個控制器的四個連接埠用於從 DGX 系統存取工作負載數據，每個控制器的兩個連接埠配置為 LACP 介面群組，以支援從管理平面伺服器存取叢集管理工件和使用者主目錄。儲存系統的所有資料存取均透過 NFS 提供，其中有一個專用於 AI 工作負載存取的儲存虛擬機器 (SVM) 和一個專用於叢集管理用途的單獨 SVM。
@@ -60,6 +64,7 @@ image:aipod-nv-a90-logical.png["此圖顯示輸入/輸出對話框或表示書�
 
 
 
+[[management-plane-servers]]
 == 管理平面伺服器
 
 此參考架構還包括五個基於 CPU 的伺服器，用於管理平面。其中兩個系統用作NVIDIA Base Command Manager 的頭節點，用於叢集部署和管理。其他三個系統用於提供額外的叢集服務，例如 Kubernetes 主節點或利用 Slurm 進行作業排程的部署的登入節點。利用 Kubernetes 的部署可以利用NetApp Trident CSI 驅動程式為AFF A900儲存系統上的管理和 AI 工作負載提供具有持久性儲存的自動設定和資料服務。

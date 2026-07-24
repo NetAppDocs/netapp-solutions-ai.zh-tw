@@ -21,6 +21,7 @@ NOTE: 可以在 Kubernetes 以外的平台上部署 JupyterHub。在 Kubernetes 
 
 
 
+[[prerequisites]]
 == 先決條件
 
 在執行本節概述的部署練習之前，我們假設您已經執行了以下任務：
@@ -31,24 +32,28 @@ NOTE: 可以在 Kubernetes 以外的平台上部署 JupyterHub。在 Kubernetes 
 
 
 
+[[install-helm]]
 == 安裝 Helm
 
 JupyterHub 使用 Helm（Kubernetes 的熱門套件管理器）進行部署。在部署 JupyterHub 之前，您必須在 Kubernetes 控制節點上安裝 Helm。要安裝 Helm，請按照 https://helm.sh/docs/intro/install/["安裝說明"^]在 Helm 官方文件中。
 
 
 
+[[set-default-kubernetes-storageclass]]
 == 設定預設 Kubernetes StorageClass
 
 在部署 JupyterHub 之前，您必須在 Kubernetes 叢集中指定一個預設 StorageClass。若要在叢集中指定預設 StorageClass，請依照link:ai-osmlops-kubeflow-deploy.html["Kubeflow部署"]部分。如果您已經在叢集中指定了預設 StorageClass，則可以跳過此步驟。
 
 
 
+[[deploy-jupyterhub]]
 == 部署 JupyterHub
 
 完成上述步驟後，現在可以部署 JupyterHub 了。  JupyterHub 部署需要以下步驟：
 
 
 
+[[configure-jupyterhub-deployment]]
 === 設定 JupyterHub 部署
 
 在部署之前，最好先針對各自的環境最佳化 JupyterHub 部署。您可以建立一個 *config.yaml* 檔案並在使用 Helm 圖表部署期間使用它。
@@ -60,6 +65,7 @@ NOTE: 在此 config.yaml 檔案中，您可以為NetApp Trident StorageClass 設
 
 
 
+[[adding-shared-volumes]]
 === 新增共享磁碟區
 
 如果您想要為所有 JupyterHub 使用者使用共享卷，您可以相應地調整您的 *config.yaml*。例如，如果您有一個名為 jupyterhub-shared-volume 的共用 PersistentVolumeClaim，則可以將其作為 /home/shared 掛載在所有使用者 pod 中，如下所示：
@@ -81,6 +87,7 @@ NOTE: 這是可選步驟，您可以根據需要調整這些參數。
 
 
 
+[[deploy-jupyterhub-with-helm-chart]]
 === 使用 Helm Chart 部署 JupyterHub
 
 讓 Helm 了解 JupyterHub Helm 圖表儲存庫。
@@ -117,6 +124,7 @@ NOTE: 在此範例中：
 
 
 
+[[check-deployment]]
 === 檢查部署
 
 在步驟 2 運行時，您可以透過以下命令看到正在建立的 pod：
@@ -135,6 +143,7 @@ proxy-7cb9bc4cc-9bdlp   1/1       Running   0          37s
 ----
 
 
+[[access-jupyterhub]]
 === 造訪 JupyterHub
 
 尋找我們可以用來存取 JupyterHub 的 IP。執行以下命令，直到代理公共服務的 EXTERNAL-IP 可用，如範例輸出所示。

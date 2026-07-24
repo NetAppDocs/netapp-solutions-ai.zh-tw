@@ -18,22 +18,26 @@ summary: '本文是關於使用Amazon FSx for NetApp ONTAP (FSx ONTAP) 在 SageM
 
 
 
+[[introduction]]
 == 介紹
 
 本教學提供了一個電腦視覺分類專案的實際範例，提供了在 SageMaker 環境中利用 FSx ONTAP作為資料來源建立 ML 模型的實務經驗。該專案專注於使用深度學習框架 PyTorch 根據輪胎影像對輪胎品質進行分類。它強調使用 FSx ONTAP作為 Amazon SageMaker 中的資料來源來開發機器學習模型。
 
 
 
+[[what-is-fsx-ontap]]
 == 什麼是 FSx ONTAP
 
 Amazon FSx ONTAP確實是 AWS 提供的完全託管的儲存解決方案。它利用 NetApp 的ONTAP檔案系統提供可靠且高效能的儲存。透過支援 NFS、SMB 和 iSCSI 等協議，它允許從不同的計算實例和容器進行無縫存取。該服務旨在提供卓越的效能，確保快速且有效率的資料操作。它還具有高可用性和耐用性，確保您的資料保持可存取和保護。此外， Amazon FSx ONTAP的儲存容量是可擴充的，您可以根據需要輕鬆調整。
 
 
 
+[[prerequisite]]
 == 先決條件
 
 
 
+[[network-environment]]
 === 網路環境
 
 image:mlops-fsxn-sagemaker-integration-training-002.png["網路環境"]
@@ -42,6 +46,7 @@ FSx ONTAP （Amazon FSx ONTAP）是一項 AWS 儲存服務。它包括在NetApp 
 
 
 
+[[data-access]]
 === 資料存取
 
 在現實場景中，資料科學家通常利用 FSx ONTAP中儲存的現有資料來建立他們的機器學習模型。但是，出於演示目的，由於 FSx ONTAP檔案系統在建立後最初是空的，因此需要手動上傳訓練資料。這可以透過將 FSx ONTAP作為磁碟區安裝到 SageMaker 來實現。檔案系統成功掛載後，您可以將資料集上傳到掛載位置，以便在 SageMaker 環境中訓練模型。這種方法可讓您利用 FSx ONTAP的儲存容量和功能，同時與 SageMaker 進行模型開發和訓練。
@@ -50,6 +55,7 @@ FSx ONTAP （Amazon FSx ONTAP）是一項 AWS 儲存服務。它包括在NetApp 
 
 
 
+[[integration-overview]]
 == 整合概述
 
 image:mlops-fsxn-sagemaker-integration-training-001.png["訓練工作流程"]
@@ -58,10 +64,12 @@ image:mlops-fsxn-sagemaker-integration-training-001.png["訓練工作流程"]
 
 
 
+[[step-by-step-integration]]
 == 逐步集成
 
 
 
+[[data-loader]]
 === 資料Loader
 
 為了使用資料訓練 PyTorch 深度學習網絡，創建了一個資料載入器以方便資料的輸入。資料載入器不僅定義批次大小，還確定讀取和預處理批次中每個記錄的過程。透過配置資料載入器，我們可以批次處理數據，從而實現深度學習網路的訓練。
@@ -191,6 +199,7 @@ data_loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
 
 
+[[model-training]]
 === 模型訓練
 
 [source, python]
@@ -245,6 +254,7 @@ for epoch in range(num_epochs):
 
 
 
+[[model-deployment]]
 === 模型部署
 
 

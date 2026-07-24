@@ -20,12 +20,14 @@ image:hdcs-sh-009.png["此圖顯示輸入/輸出對話框或表示書面內容"]
 
 
 
+[[scenario]]
 == 設想
 
 在這種情況下，物聯網感測器資料被引入雲端中，並使用 AWS 內的開源 Apache Spark 叢集進行分析。要求是將處理後的資料從雲端備份到本地端。
 
 
 
+[[requirements-and-challenges]]
 == 要求和挑戰
 
 此用例的主要要求和挑戰包括：
@@ -37,6 +39,7 @@ image:hdcs-sh-009.png["此圖顯示輸入/輸出對話框或表示書面內容"]
 
 
 
+[[solution]]
 == 解決方案
 
 客戶使用 AWS Elastic Block Store (EBS) 作為其 Spark 叢集 HDFS 存儲，以透過 Kafka 接收和提取來自遠端感測器的資料。因此，HDFS 儲存可作為備份資料的來源。

@@ -22,18 +22,21 @@ Sathish Thyagarajan、Michael Oglesby、Arpita Mahajan、NetApp
 
 
 
+[[executive-summary]]
 == 執行摘要
 
 越來越多的組織正在利用檢索增強生成（RAG）應用和大型語言模型（LLM）來解讀使用者提示並產生回應，從而提高生產力和業務價值。這些提示和回應可以包括文字、程式碼、圖像，甚至是治療性蛋白質結構，這些資訊可以從組織的內部知識庫、資料湖、程式碼庫和文件庫中檢索。本文介紹了 NetApp AIPod Mini 解決方案的參考設計，該方案包含 NetApp AFF 儲存和配備 Intel Xeon 6 處理器的伺服器。它包含 NetApp ONTAP 資料管理軟體，並結合了 Intel Advanced Matrix Extensions（Intel AMX）和基於 Open Platform for Enterprise AI（OPEA）建構的 Intel® AI for Enterprise RAG 軟體。NetApp AIPod Mini for enterprise RAG 使組織能夠將公共 LLM 增強為私有生成式人工智慧（GenAI）推理解決方案。此解決方案展示了高效且經濟的企業級 RAG 推理能力，旨在提高可靠性並讓您更好地控制您的專有資訊。
 
 
 
+[[intel-storage-partner-validation]]
 == 英特爾儲存合作夥伴驗證
 
 搭載英特爾至強 6 處理器的伺服器專為處理要求苛刻的 AI 推理工作負載而設計，並使用英特爾 AMX 實現最佳效能。為了實現最佳的儲存效能和可擴展性，該解決方案已使用NetApp ONTAP成功驗證，使企業能夠滿足 RAG 應用程式的需求。該驗證是在配備 Intel Xeon 6 處理器的伺服器上進行的。英特爾和NetApp建立了強大的合作夥伴關係，致力於提供最佳化、可擴展且符合客戶業務需求的 AI 解決方案。
 
 
 
+[[advantages-of-running-rag-systems-with-netapp]]
 == 使用NetApp運行 RAG 系統的優勢
 
 RAG 應用程式涉及從公司文件庫中檢索各種類型的知識，例如 PDF、文字、CSV 或 Excel 文件。這些資料通常儲存在 S3 物件儲存或本機 NFS 等解決方案中，作為資料來源。NetApp 一直是邊緣運算、資料中心和雲端生態系統中資料管理、資料移動性、資料治理和資料安全技術的領導者。NetApp ONTAP 資料管理提供企業級儲存，以支援各種類型的 AI 工作負載，包括批次和即時推理，並具有以下一些優勢：
@@ -45,16 +48,19 @@ RAG 應用程式涉及從公司文件庫中檢索各種類型的知識，例如 
 
 
 
+[[target-audience]]
 == 目標受眾
 
 本文檔適用於希望利用為提供企業 RAG 和 GenAI 解決方案而建構的基礎設施的 AI 決策者、資料工程師、業務領導者和部門主管。對 AI 推理、LLM、Kubernetes 以及網路及其元件的先前了解將有助於實施階段。
 
 
 
+[[technology-requirements]]
 == 技術要求
 
 
 
+[[hardware]]
 === 硬體
 
 
@@ -94,6 +100,7 @@ RAG 應用程式涉及從公司文件庫中檢索各種類型的知識，例如 
 
 
 
+[[software]]
 === 軟體
 
 
@@ -150,10 +157,12 @@ NetApp Trident軟體是一款開源且完全支援的儲存編排器，適用於
 |===
 
 
+[[solution-deployment]]
 == 解決方案部署
 
 
 
+[[software-stack]]
 === 軟體堆疊
 
 此解決方案部署在由基於 Intel Xeon 的應用節點組成的 Kubernetes 叢集上。至少需要三個節點才能實現 Kubernetes 控制平面的基本高可用性。我們使用以下叢集佈局驗證了該解決方案。
@@ -173,6 +182,7 @@ NetApp Trident軟體是一款開源且完全支援的儲存編排器，適用於
 
 
 
+[[deployment-steps]]
 === 部署步驟
 
 
@@ -291,6 +301,7 @@ ontap::> bucket cors-rule create -vserver erag -bucket erag-data -allowed-origin
 
 
 
+[[sizing-guidance]]
 == 尺寸指南
 
 作為驗證工作的一部分，我們與英特爾合作進行了性能測試。此次測試得出了下表中列出的尺寸指導。
@@ -314,18 +325,21 @@ _附註：以上容量規劃指南是基於使用 96 核心 Intel Xeon 6 處理�
 
 
 
+[[conclusion]]
 == 結論
 
 企業級 RAG 系統和 LLM 是協同工作的技術，旨在幫助組織提供準確且具有上下文感知能力的回應。這些回應涉及基於海量私有和內部企業資料的資訊檢索。透過使用 RAG、API、向量嵌入和高效能儲存系統來查詢包含公司資料的文件庫，可以更快、更安全地處理資料。NetApp AIPod Mini 將 NetApp 的智慧資料基礎設施與 ONTAP 資料管理功能、Intel Xeon 6 處理器、Intel® AI for Enterprise RAG 以及 OPEA 軟體堆疊結合，協助部署高效能 RAG 應用，並協助組織邁向 AI 領導地位。
 
 
 
+[[acknowledgment]]
 == 致謝
 
 本文由 NetApp 解決方案工程團隊成員 Sathish Thyagarajan、Michael Oglesby 和 Arpita Mahajan 撰寫。作者也要感謝 Intel 企業 AI 產品團隊的成員——Ajay Mungara、Mikolaj Zyczynski、Igor Konopko、Ramakrishna Karamsetty、Michal Prostko、Anna Alberska、Maciej Cichocki、Shreejan Mistry、Nicholas Rago 和 Ned Fiori——以及 NetApp 的其他團隊成員——Lawrence Bunka、Bobby Oommen 和 Jeff Liborio，感謝他們在解決方案驗證過程中持續的支持和協助。
 
 
 
+[[bill-of-materials]]
 == 物料清單
 
 以下是用於此解決方案功能驗證的BOM，可供參考。可以使用符合以下配置的任何伺服器或網路元件（甚至是最好具有 100GbE 頻寬的現有網路）。
@@ -418,12 +432,14 @@ NetApp AFF儲存：
 |===
 
 
+[[infra-readiness-checklist]]
 == 基礎架構就緒檢查清單
 
 詳情請參閱 xref:ai-aipod-mini-infra-readiness.html[NetApp AIPod Mini - 基礎架構就緒]。
 
 
 
+[[where-to-find-additional-information]]
 == 在哪裡可以找到更多信息
 
 要了解有關本文檔中描述的信息的更多信息，請查看以下文檔和/或網站：

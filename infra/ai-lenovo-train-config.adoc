@@ -18,6 +18,7 @@ summary: 本節介紹測試的配置、網路基礎架構、SR670 V2 伺服器�
 
 
 
+[[solution-architecture]]
 == 解決方案架構
 
 我們使用下表列出的解決方案元件進行此驗證。
@@ -54,6 +55,7 @@ image:a400-thinksystem-007.png["此圖描繪了運算層（聯想 ThinkSystem SR
 
 
 
+[[storage-controller]]
 == 儲存控制器
 
 下表列出了儲存配置。

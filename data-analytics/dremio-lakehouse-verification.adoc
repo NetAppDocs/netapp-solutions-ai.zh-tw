@@ -18,6 +18,7 @@ summary: 我們使用NetApp物件儲存（例如ONTAP和 storagegrid）對五個
 
 
 
+[[sql-query-on-object-storage]]
 === 物件儲存上的 SQL 查詢
 
 . 在 dremio.env 中將每台伺服器的記憶體設定為 250GB

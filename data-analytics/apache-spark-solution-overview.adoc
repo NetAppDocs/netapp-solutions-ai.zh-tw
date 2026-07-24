@@ -22,48 +22,56 @@ Rick Huang，Karthikeyan Nagalingam， NetApp
 
 
 
+[[customer-challenges]]
 == 客戶挑戰
 
 本節重點在於零售、數位行銷、銀行、離散製造、流程製造、政府和專業服務等資料成長產業中客戶面臨的大數據分析和 AI/ML/DL 挑戰。
 
 
 
+[[unpredictable-performance]]
 === 不可預測的表現
 
 傳統的 Hadoop 部署通常使用商品硬體。為了提高效能，您必須調整網路、作業系統、Hadoop 叢集、生態系統元件（如 Spark）和硬體。即使您調整每一層，也很難達到所需的效能水平，因為 Hadoop 運行在並非為您的環境的高效能而設計的商用硬體上。
 
 
 
+[[media-and-node-failures]]
 === 介質和節點故障
 
 即使在正常條件下，商品硬體也容易故障。如果資料節點上的磁碟發生故障，則 Hadoop 主伺服器預設該節點不健康。然後，它透過網路將該節點上的特定資料從副本複製到健康節點。此過程會減慢任何 Hadoop 作業的網路封包速度。當不健康的節點恢復健康狀態時，叢集必須再次複製資料並刪除過度複製的資料。
 
 
 
+[[hadoop-vendor-lock-in]]
 === Hadoop供應商鎖定
 
 Hadoop 經銷商擁有自己的 Hadoop 發行版和版本控制，將客戶鎖定在這些發行版上。然而，許多客戶需要記憶體分析支持，而這種支援不會將客戶綁定到特定的 Hadoop 發行版。他們需要自由地改變分佈，同時仍保留他們的分析能力。
 
 
 
+[[lack-of-support-for-more-than-one-language]]
 === 缺乏對多種語言的支持
 
 客戶通常需要除了 MapReduce Java 程式之外的多種語言支援來執行他們的作業。  SQL 和腳本等選項為獲取答案提供了更大的靈活性，為組織和檢索資料提供了更多的選項，以及將資料移至分析框架的更快的方式。
 
 
 
+[[difficulty-of-use]]
 === 使用難度
 
 一段時間以來，人們一直抱怨 Hadoop 難以使用。儘管 Hadoop 的每個新版本都變得更簡單、更強大，但這種批評仍然存在。  Hadoop 要求您了解 Java 和 MapReduce 程式模式，這對資料庫管理員和具有傳統腳本技能的人員來說是一個挑戰。
 
 
 
+[[complicated-frameworks-and-tools]]
 === 複雜的框架和工具
 
 企業AI團隊面臨多重挑戰。即使擁有專業的數據科學知識，不同部署生態系統和應用程式的工具和框架也可能無法簡單地從一個轉換到另一個。數據科學平台應該與基於 Spark 構建的相應大數據平台無縫集成，易於數據移動、可重複使用的模型、開箱即用的代碼以及支持原型設計、驗證、版本控制、共享、重用和快速將模型部署到生產的最佳實踐的工具。
 
 
 
+[[why-choose-netapp]]
 == 為什麼選擇NetApp？
 
 NetApp可以透過以下方式改善您的 Spark 體驗：
@@ -101,6 +109,7 @@ NetApp NFS 直接存取為 Hadoop/Spark 叢集提供了兩種部署選項：
 
 
 
+[[storage-tiering]]
 === 儲存分層
 
 透過 Hadoop 儲存分層，您可以根據儲存策略儲存具有不同儲存類型的檔案。儲存類型包括 `hot`， `cold` ， `warm` ， `all_ssd` ， `one_ssd` ， 和 `lazy_persist`。
@@ -120,6 +129,7 @@ image:apache-spark-002.png["是時候對 1TB 資料進行排序了。"]
 
 
 
+[[performance-scaling-scale-out]]
 === 效能擴展 - 橫向擴展
 
 當您需要從AFF解決方案中的 Hadoop 叢集取得更多運算能力時，您可以新增具有適當數量儲存控制器的資料節點。  NetApp建議從每個儲存控制器陣列 4 個資料節點開始，然後根據工作負載特性將每個儲存控制器的資料節點數量增加到 8 個。
@@ -128,18 +138,21 @@ AFF和FAS非常適合就地分析。根據運算需求，您可以新增節點�
 
 
 
+[[performance-scaling-scale-up]]
 === 效能擴展 - 擴大規模
 
 當您需要額外的儲存容量時，擴充功能可讓您將磁碟機新增至AFF、 FAS和 E 系列系統。使用Cloud Volumes ONTAP，將儲存擴展到 PB 層級需要結合兩個因素：將不常用的資料從區塊儲存分層到物件存儲，以及堆疊Cloud Volumes ONTAP授權而無需額外的運算。
 
 
 
+[[multiple-protocols]]
 === 多種協定
 
 NetApp系統支援大多數 Hadoop 部署協議，包括 SAS、iSCSI、FCP、InfiniBand 和 NFS。
 
 
 
+[[operational-and-supported-solutions]]
 === 營運和支援的解決方案
 
 本文檔中所述的 Hadoop 解決方案由NetApp支援。這些解決方案也經過了主要 Hadoop 經銷商的認證。欲了解更多信息，請參閱 http://hortonworks.com/partner/netapp/["Hortonworks"^]站點和 Cloudera http://www.cloudera.com/partners/partners-listing.html?q=netapp["認證"^]和 http://www.cloudera.com/partners/solutions/netapp.html["夥伴"^]站點。

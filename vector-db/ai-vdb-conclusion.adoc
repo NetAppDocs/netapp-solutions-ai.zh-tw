@@ -18,6 +18,7 @@ summary: 結論 - NetApp 的向量資料庫解決方案
 
 
 
+[[conclusion]]
 == 結論
 
 總而言之，本文檔全面概述了在NetApp儲存解決方案上部署和管理向量資料庫（例如 Milvus 和 pgvector）。我們討論了利用NetApp ONTAP和StorageGRID物件儲存的基礎設施指南，並透過檔案和物件儲存驗證了 AWS FSx ONTAP中的 Milvus 資料庫。
@@ -30,6 +31,7 @@ summary: 結論 - NetApp 的向量資料庫解決方案
 
 
 
+[[acknowledgments]]
 === 致謝
 
 作者衷心感謝以下貢獻者以及其他提供回饋和評論的人，使本文對NetApp客戶和NetApp領域具有價值。
@@ -44,6 +46,7 @@ summary: 結論 - NetApp 的向量資料庫解決方案
 
 
 
+[[where-to-find-additional-information]]
 === 在哪裡可以找到更多信息
 
 要了解有關本文檔中描述的信息的更多信息，請查看以下文檔和/或網站：
@@ -56,6 +59,7 @@ summary: 結論 - NetApp 的向量資料庫解決方案
 
 
 
+[[version-history]]
 === 版本歷史記錄
 
 |===

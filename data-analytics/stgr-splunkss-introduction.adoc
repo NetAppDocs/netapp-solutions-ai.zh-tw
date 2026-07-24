@@ -18,6 +18,7 @@ Splunk Enterprise 是市場領先的安全資訊和事件管理 (SIEM) 解決方
 
 
 
+[[overview]]
 == 概況
 
 數據量持續以指數級增長，為能夠利用這一巨大資源的企業創造了巨大的機會。 Splunk Enterprise 在更廣泛的使用案例中被廣泛採用。隨著用例的成長，Splunk Enterprise 提取和處理的資料量也在增加。 Splunk Enterprise 的傳統架構是分散式橫向擴展設計，提供出色的資料存取和可用性。然而，使用這種架構的企業面臨著與擴展相關的成本不斷增長的問題，以滿足快速增長的資料量。
@@ -33,6 +34,7 @@ NOTE: Splunk SmartStore 將物件儲存稱為遠端儲存或遠端儲存層。
 
 
 
+[[about-netapp-storagegrid]]
 == 關於NetApp StorageGRID
 
 NetApp StorageGRID是一種軟體定義的物件儲存解決方案，適用於大型檔案、媒體儲存庫和 Web 資料儲存。借助StorageGRID， NetApp利用二十年來提供業界領先的創新和資料管理解決方案的經驗，同時幫助組織管理和最大化其內部以及公共、私有或混合雲部署中的資訊價值。
@@ -58,12 +60,14 @@ IDC MarketScape 最近在最新報告《IDC MarketScape：2019 年全球基於�
 
 
 
+[[about-splunk-enterprise]]
 == 關於Splunk Enterprise
 
 Splunk Enterprise 是一個將資料轉化為行動的平台。日誌檔案、網站、裝置、感測器和應用程式等各種來源產生的資料會傳送到 Splunk Indexer 並由其解析，使您可以從資料中獲得豐富的見解。它可能識別資料外洩、指出客戶和產品趨勢、尋找優化基礎架構的機會或在各種用例中創建可操作的見解。
 
 
 
+[[about-splunk-smartstore]]
 == 關於Splunk SmartStore
 
 Splunk SmartStore 擴展了 Splunk 架構的優勢，同時簡化了其經濟高效擴展的能力。計算和儲存資源的分離導致索引器節點針對 I/O 進行了最佳化，並且儲存需求顯著減少，因為它們僅將一部分資料儲存為快取。當只需要其中一種資源時，您不必添加額外的計算或存儲，從而可以實現顯著的成本節約。您可以使用經濟高效且易於擴展的基於 S3 的物件存儲，這進一步簡化了環境、降低了成本並允許您維護更龐大的資料集。

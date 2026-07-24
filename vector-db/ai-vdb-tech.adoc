@@ -18,12 +18,14 @@ summary: 技術要求-NetApp 的向量資料庫解決方案
 
 
 
+[[technology-requirement]]
 == 技術要求
 
 除性能外，下面概述的硬體和軟體配置用於本文檔中執行的大部分驗證。這些配置可作為幫助您設定環境的指南。但請注意，具體組件可能會因個別客戶的要求而有所不同。
 
 
 
+[[hardware-requirements]]
 == 硬體需求
 
 |===
@@ -43,6 +45,7 @@ summary: 技術要求-NetApp 的向量資料庫解決方案
 |===
 
 
+[[software-requirements]]
 == 軟體需求
 
 |===

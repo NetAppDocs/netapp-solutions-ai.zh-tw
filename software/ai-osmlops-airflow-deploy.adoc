@@ -21,6 +21,7 @@ NOTE: 可以在 Kubernetes 以外的平台上部署 Airflow。在 Kubernetes 以
 
 
 
+[[prerequisites]]
 == 先決條件
 
 在執行本節概述的部署練習之前，我們假設您已經執行了以下任務：
@@ -31,18 +32,21 @@ NOTE: 可以在 Kubernetes 以外的平台上部署 Airflow。在 Kubernetes 以
 
 
 
+[[install-helm]]
 == 安裝 Helm
 
 Airflow 使用 Helm（Kubernetes 的流行套件管理器）進行部署。在部署 Airflow 之前，必須在部署跳轉主機上安裝 Helm。若要在部署跳轉主機上安裝 Helm，請依照 https://helm.sh/docs/intro/install/["安裝說明"^]在 Helm 官方文件中。
 
 
 
+[[set-default-kubernetes-storageclass]]
 == 設定預設 Kubernetes StorageClass
 
 在部署 Airflow 之前，您必須在 Kubernetes 叢集中指定一個預設 StorageClass。 Airflow 部署程序嘗試使用預設 StorageClass 來設定新的持久性磁碟區。如果沒有指定 StorageClass 作為預設 StorageClass，則部署失敗。若要在叢集中指定預設 StorageClass，請依照link:ai-osmlops-kubeflow-deploy.html["Kubeflow部署"]部分。如果您已經在叢集中指定了預設 StorageClass，則可以跳過此步驟。
 
 
 
+[[use-helm-to-deploy-airflow]]
 == 使用 Helm 部署 Airflow
 
 若要使用 Helm 在 Kubernetes 叢集中部署 Airflow，請從部署跳轉主機執行下列任務：

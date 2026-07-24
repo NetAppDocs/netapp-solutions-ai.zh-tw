@@ -29,12 +29,14 @@ summary: Domino Data Lab 和NetApp的混合多雲 MLOps - 跨不同環境存取�
 |===
 
 
+[[option-1-create-a-cache-of-a-volume-that-resides-in-a-different-data-plane]]
 == 選項 1 - 建立位於不同資料平面的磁碟區的緩存
 
 和link:https://docs.netapp.com/us-en/ontap/flexcache/accelerate-data-access-concept.html["NetApp FlexCache技術"]，您可以建立位於不同資料平面的NetApp磁碟區的快取。例如，如果您的本機資料平面中有NetApp卷，並且您需要在 AWS 資料平面中存取該卷，則可以在 AWS 中建立該磁碟區的快取。本節概述了建立位於不同資料平面的NetApp磁碟區的快取所需執行的任務。
 
 
 
+[[create-flexcache-volume-in-destination-environment]]
 === 在目標環境中建立FlexCache卷
 
 
@@ -53,6 +55,7 @@ NOTE: 系統管理員在Amazon FSx ONTAP中不可用。
 
 
 
+[[expose-flexcache-volume-to-domino]]
 === 將FlexCache磁碟區公開給 Domino
 
 接下來，您必須將FlexCache磁碟區公開給 Domino MLOps 平台。若要將FlexCache磁碟區公開給 Domino，請依照「公開未由Trident提供的現有 NFS 磁碟區」子部分中概述的說明進行操作link:ai-hybrid-ddlnexus-vols.html["「將現有NetApp卷公開給 Domino」部分"]此解決方案。
@@ -73,12 +76,14 @@ image:ddlnexus-005.png["此圖顯示輸入/輸出對話框或表示書面內容"
 
 
 
+[[option-2-replicate-a-volume-that-resides-in-a-different-data-plane]]
 == 選項 2 - 複製位於不同資料平面的捲
 
 和link:https://www.netapp.com/cyber-resilience/data-protection/data-backup-recovery/snapmirror-data-replication/["NetApp SnapMirror資料複製技術"]，您可以建立位於不同資料平面的NetApp磁碟區的副本。例如，如果您的本機資料平面中有一個NetApp卷，並且您需要在 AWS 資料平面中存取該卷，則可以在 AWS 中建立該磁碟區的副本。本節概述了建立位於不同資料平面的NetApp磁碟區副本所需執行的任務。
 
 
 
+[[create-snapmirror-relationship]]
 === 創建SnapMirror關係
 
 首先，您必須在來源磁碟區和目標環境中的新目標磁碟區之間建立SnapMirror關係。請注意，目標磁碟區將作為創建SnapMirror關係過程的一部分進行建立。
@@ -94,6 +99,7 @@ NOTE: 系統管理員在Amazon FSx ONTAP中不可用。
 
 
 
+[[break-snapmirror-relationship]]
 === 中斷SnapMirror關係
 
 接下來，您必須中斷SnapMirror關係才能啟動目標磁碟區進行資料存取。等到初始複製完成後再執行此步驟。
@@ -109,6 +115,7 @@ NOTE: 您可以透過檢查BlueXP、 ONTAP系統管理員或ONTAP CLI 中的鏡�
 
 
 
+[[expose-destination-volume-to-domino]]
 === 將目標卷公開給 Domino
 
 接下來，您必須將目標磁碟區公開給 Domino MLOps 平台。若要將目標磁碟區公開給 Domino，請依照「公開未由Trident提供的現有 NFS 磁碟區」子部分中概述的說明進行操作link:ai-hybrid-ddlnexus-vols.html["「將現有NetApp卷公開給 Domino」部分"]此解決方案。

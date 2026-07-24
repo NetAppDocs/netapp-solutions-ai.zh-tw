@@ -15,12 +15,14 @@ David Espejo，Union.ai Sathish Thyagarajan， NetApp
 
 
 
+[[overview]]
 == 概況
 
 Union.ai 的混合編排平台與NetApp ONTAP和FlexCache無縫集成，可加速 AI/ML 訓練工作流程。該解決方案允許資料安全地保留在本地，同時利用基於雲端的 GPU 運算進行 AI 訓練工作負載。  NetApp FlexCache確保僅將必要的資料快取到雲端，從而實現高效、安全且可擴展的混合 AI/ML 管道。
 
 
 
+[[customer-use-case-hybrid-cloud-ai-training]]
 == 客戶用例：混合雲人工智慧培訓
 
 * 本機資料：儲存在NetApp ONTAP上，以確保合規性和安全性。
@@ -31,6 +33,7 @@ Union.ai 的混合編排平台與NetApp ONTAP和FlexCache無縫集成，可加�
 
 
 
+[[customer-value]]
 == 客戶價值
 
 * 利用NetApp ONTAP 的橫向擴充功能，在海量資料集上執行 AI 工作負載。
@@ -42,6 +45,7 @@ Union.ai 的混合編排平台與NetApp ONTAP和FlexCache無縫集成，可加�
 
 
 
+[[enabling-the-plugin-prerequisites]]
 == 啟用插件 - 前提條件
 
 [cols="32%,68%"]
@@ -80,6 +84,7 @@ ONTAP和 Kubernetes 叢集的管理員權限。
 |===
 
 
+[[reference-architecture]]
 == 參考架構
 
 下圖展示了 Union.ai 控制平面與NetApp儲存的集成，用於混合 AI 訓練。
@@ -93,6 +98,7 @@ image::ai-hybrid-union-001.png[採用 Union.ai 和NetApp 的混合 AI 訓練架�
 
 
 
+[[step-1-create-a-flexcache-volume]]
 === 步驟 1：建立FlexCache卷
 
 使用ONTAP系統管理器
@@ -110,6 +116,7 @@ image::ai-hybrid-union-001.png[採用 Union.ai 和NetApp 的混合 AI 訓練架�
 
 
 
+[[step-2-configure-trident]]
 === 步驟 2：設定 Trident
 
 在兩個叢集上都安裝Trident ：
@@ -153,6 +160,7 @@ kubectl apply -f storageclass-flexcache.yaml
 ----
 
 
+[[step-3-deploy-union-ai-workflows]]
 === 步驟 3：部署 Union.ai 工作流程
 
 Union 使用 PVC 將FlexCache卷掛載到訓練作業中。
@@ -212,6 +220,7 @@ train_model(pvc_path="/data/flexcache")
 
 
 
+[[step-4-validate-integration]]
 === 步驟 4：驗證集成
 
 [cols="21%,79%"]
@@ -234,6 +243,7 @@ train_model(pvc_path="/data/flexcache")
 
 
 
+[[security-considerations]]
 == 安全注意事項
 
 * 使用 VPC 端點為NetApp ONTAP 的FSx 啟用
@@ -244,6 +254,7 @@ train_model(pvc_path="/data/flexcache")
 
 
 
+[[monitoring-and-optimization]]
 == 監測與最佳化
 
 [cols="31%,69%"]
@@ -300,6 +311,7 @@ train_model(pvc_path="/data/flexcache")
 
 
 
+[[related-links]]
 == 相關連結
 
 * https://docs.union.ai["+++Union.ai 文件+++"]
@@ -310,12 +322,14 @@ train_model(pvc_path="/data/flexcache")
 
 
 
+[[conclusion]]
 == 結論
 
 您現在擁有一個經過驗證的混合 AI 訓練環境，使用 Union.ai 和NetApp FlexCache。訓練作業可以在雲端運行，同時安全且有效率地存取本地數據，而無需複製整個數據集或損害治理。
 
 
 
+[[union-ai-companion-guide]]
 === *Union.ai - 配套指南*
 
 

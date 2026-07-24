@@ -18,6 +18,7 @@ summary: milvus 叢集設定 - NetApp 的向量資料庫解決方案
 
 
 
+[[milvus-cluster-setup-with-kubernetes-in-on-premises]]
 == 在本地使用 Kubernetes 設定 Milvus 集群
 
 客戶面臨的挑戰是在儲存和運算上獨立擴展、有效的基礎設施管理和資料管理，Kubernetes 和向量資料庫共同構成了管理大數據操作的強大、可擴展的解決方案。 Kubernetes 最佳化資源並管理容器，而向量資料庫則有效率地處理高維度資料和相似性搜尋。這種組合能夠快速處理大型資料集上的複雜查詢，並隨著資料量的增加而無縫擴展，使其成為大數據應用程式和人工智慧工作負載的理想選擇。

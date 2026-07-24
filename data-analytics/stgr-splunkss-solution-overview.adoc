@@ -18,6 +18,7 @@ summary: 本頁介紹了完成此解決方案所使用的元件，包括NetApp S
 
 
 
+[[netapp-storagegrid]]
 == NetAppStorageGRID
 
 NetApp StorageGRID是一個高效能且經濟高效的物件儲存平台。它使用分散式、基於節點的網格架構提供智慧、策略驅動的全球資料管理。它透過其無所不在的全域物件命名空間與複雜的資料管理功能結合，簡化了 PB 級非結構化資料和數十億個物件的管理。單次呼叫物件存取可跨站點擴展，並簡化高可用性架構，同時確保無論站點或基礎設施是否中斷，都能持續進行物件存取。
@@ -28,6 +29,7 @@ SmartStore 利用StorageGRID作為遠端儲存層，並允許客戶部署多個�
 
 
 
+[[splunk-enterprise]]
 == Splunk Enterprise
 
 Splunk 是機器生成資料收集和分析的領導者，透過其營運分析功能幫助簡化和現代化 IT。它還擴展到商業分析、安全性和物聯網用例。儲存是成功部署 Splunk 軟體的關鍵因素。
@@ -36,6 +38,7 @@ Splunk 是機器生成資料收集和分析的領導者，透過其營運分析�
 
 
 
+[[splunk-smartstore]]
 == Splunk SmartStore
 
 Splunk SmartStore 是一種索引器功能，它使用物件儲存（也稱為遠端儲存或遠端儲存層）例如StorageGRID透過 S3 協定儲存熱資料。

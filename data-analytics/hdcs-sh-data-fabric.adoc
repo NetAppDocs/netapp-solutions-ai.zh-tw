@@ -22,6 +22,7 @@ image:hdcs-sh-001.png["此圖顯示輸入/輸出對話框或表示書面內容"]
 
 
 
+[[proven-data-fabric-customer-use-cases]]
 == 經過驗證的資料結構客戶用例
 
 NetApp支援的資料結構為客戶提供了以下九種經過驗證的用例：
@@ -45,6 +46,7 @@ NetApp支援的資料結構為客戶提供了以下九種經過驗證的用例�
 
 
 
+[[netapp-nfs-direct-access]]
 === NetApp NFS 直接訪問
 
 NetApp NFS 允許客戶在其現有或新的 NFSv3 或 NFSv4 資料上執行大數據分析作業，而無需移動或複製資料。它可以防止資料的多次複製，並且無需將資料與來源同步。例如，在金融領域，資料從一個地方移動到另一個地方必須滿足法律義務，這不是一件容易的事。在這種情況下， NetApp NFS 直接存取會從原始位置分析財務資料。另一個主要優勢是，使用NetApp NFS 直接存取可以透過使用本機 Hadoop 命令簡化 Hadoop 資料的保護，並利用 NetApp 豐富的資料管理產品組合實現資料保護工作流程。
@@ -70,6 +72,7 @@ NetApp NFS 直接存取為 Hadoop/Spark 叢集提供了兩種部署選項：
 
 
 
+[[building-blocks-for-big-data]]
 === 大數據的建構模組
 
 NetApp提供支援的資料結構整合了資料管理服務和應用程式（構建塊），用於資料存取、控制、保護和安全，如下圖所示。

@@ -85,6 +85,7 @@ image:aipod-nv-a90-netdetail.png["此圖顯示輸入/輸出對話框或表示書
 |===
 
 
+[[storage-network-configuration]]
 == 儲存網路配置
 
 本節概述乙太網路儲存網路配置的關鍵細節。有關配置 InfiniBand 計算網路的信息，請參閱link:https://nvdam.widen.net/s/nfnjflmzlj/nvidia-dgx-basepod-reference-architecture["NVIDIA BasePOD 文檔"]。有關交換器配置的詳細信息，請參閱link:https://docs.nvidia.com/networking-ethernet-software/cumulus-linux-59/["NVIDIA Cumulus Linux 文檔"]。
@@ -183,6 +184,7 @@ image:aipod-nv-a90-netdetail.png["此圖顯示輸入/輸出對話框或表示書
 
 
 
+[[storage-system-configuration]]
 == 儲存系統配置
 
 本節介紹此解決方案的 A90 儲存系統配置的關鍵細節。有關ONTAP系統配置的更多詳細信息，請參閱link:https://docs.netapp.com/us-en/ontap/index.html["ONTAP 文件"]。下圖顯示了儲存系統的邏輯配置。
@@ -305,6 +307,7 @@ image:aipod-nv-a90-logical.png["此圖顯示輸入/輸出對話框或表示書�
 
 
 
+[[dgx-h100-configuration-for-roce-storage-access]]
 === 用於 RoCE 儲存存取的 DGX H100 配置
 
 本節介紹 DGX H100 系統配置的關鍵細節。許多配置項目可以包含在部署到 DGX 系統的 OS 映像中，或在啟動時由 Base Command Manager 實作。這裡列出它們以供參考，有關在 BCM 中配置節點和軟體映像的更多信息，請參閱link:https://docs.nvidia.com/base-command-manager/index.html#overview["BCM 文件"]。

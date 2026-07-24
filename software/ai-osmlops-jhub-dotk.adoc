@@ -18,12 +18,14 @@ summary: NetApp的開源 MLOps - 將NetApp DataOps 工具包與 JupyterHub 結�
 
 
 
+[[initial-setup]]
 == 初始設定
 
 在將 DataOps Toolkit 與 JupyterHub 一起使用之前，您必須向 JupyterHub 指派給各個使用者 Jupyter Notebook Server pod 的 Kubernetes 服務帳戶授予適當的權限。  JupyterHub 使用由 `singleuser.serviceAccountName`JupyterHub Helm 圖表設定檔中的變數。
 
 
 
+[[create-cluster-role-for-dataops-toolkit]]
 === 為 DataOps Toolkit 建立叢集角色
 
 首先，建立一個名為「netapp-dataops」的叢集角色，該角色具有建立磁碟區快照所需的 Kubernetes API 權限。
@@ -49,6 +51,7 @@ clusterrole.rbac.authorization.k8s.io/netapp-dataops-snapshots created
 ----
 
 
+[[assign-cluster-role-to-notebook-server-service-account]]
 === 將叢集角色指派給筆記本伺服器服務帳戶
 
 建立一個角色綁定，將「netapp-dataops-snapshots」叢集角色指派給適當命名空間中的適當服務帳戶。例如，如果您在「jupyterhub」命名空間中安裝了 JupyterHub，並且透過以下方式指定了「預設」服務帳戶 `singleuser.serviceAccountName`變量，您需要將“netapp-dataops-snapshots”集群角色指派給“jupyterhub”命名空間中的“預設”服務帳戶，如下例所示。
@@ -76,6 +79,7 @@ rolebinding.rbac.authorization.k8s.io/jupyterhub-netapp-dataops-snapshots create
 ----
 
 
+[[create-volume-snapshots-within-jupyter-notebook]]
 == 在 Jupyter Notebook 中建立卷宗快照
 
 現在，JupyterHub 使用者可以使用NetApp DataOps Toolkit 直接從 Jupyter Notebook 建立磁碟區快照，如下例所示。

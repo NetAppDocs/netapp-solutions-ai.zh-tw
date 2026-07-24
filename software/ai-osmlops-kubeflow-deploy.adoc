@@ -18,6 +18,7 @@ summary: NetApp開源 MLOps - Kubeflow 部署
 
 
 
+[[prerequisites]]
 == 先決條件
 
 在執行本節概述的部署練習之前，我們假設您已經執行了以下任務：
@@ -28,6 +29,7 @@ summary: NetApp開源 MLOps - Kubeflow 部署
 
 
 
+[[set-default-kubernetes-storageclass]]
 == 設定預設 Kubernetes StorageClass
 
 在部署 Kubeflow 之前，我們建議在 Kubernetes 叢集中指定一個預設 StorageClass。 Kubeflow 部署程序可能會嘗試使用預設 StorageClass 來設定新的持久性磁碟區。如果沒有指定 StorageClass 作為預設 StorageClass，則部署可能會失敗。若要在叢集中指定預設 StorageClass，請從部署跳轉主機執行下列任務。如果您已經在叢集中指定了預設 StorageClass，則可以跳過此步驟。
@@ -56,6 +58,7 @@ ontap-ai-flexvols-retain (default)   csi.trident.netapp.io   54s
 ....
 
 
+[[kubeflow-deployment-options]]
 == Kubeflow部署選項
 
 部署 Kubeflow 有很多不同的選擇。請參閱link:https://www.kubeflow.org/docs/started/installing-kubeflow/["Kubeflow 官方文檔"]取得部署選項列表，然後選擇最適合您需求的選項。

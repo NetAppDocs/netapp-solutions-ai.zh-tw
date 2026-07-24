@@ -40,6 +40,7 @@ link:https://www.netapp.com/artificial-intelligence/["https://www.netapp.com/art
 
 
 
+[[acknowledgments]]
 == 致謝
 
 * Domino Data Lab 技術聯盟 SA 總監 Josh Mineroff

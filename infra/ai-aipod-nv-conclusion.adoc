@@ -18,12 +18,14 @@ summary: NetApp AIPod與NVIDIA DGX 系統 - 更多資訊取得途徑
 
 
 
+[[conclusion]]
 == 結論
 
 DGX BasePOD 架構是下一代深度學習平台，需要同樣先進的儲存和資料管理功能。透過將 DGX BasePOD 與NetApp AFF系統結合， NetApp AIPod與 DGX 系統架構幾乎可以在任何規模上實現。結合NetApp ONTAP卓越的雲端整合和軟體定義功能， AFF可為成功的 DL 專案提供涵蓋邊緣、核心和雲端的全方位資料管道。
 
 
 
+[[additional-information]]
 == 附加資訊
 
 要了解有關本文檔中描述的信息的更多信息，請參閱以下文檔和/或網站：
@@ -84,6 +86,7 @@ https://www.nvidia.com/en-us/data-center/products/ai-enterprise/["https://www.nv
 
 
 
+[[acknowledgements]]
 == 致謝
 
 本文檔由NetApp解決方案和ONTAP工程團隊（David Arnette、Olga Kornievskaia、Dustin Fischer、Srikanth Kaligotla、Mohit Kumar 和 Raghuram Sudhaakar）編寫。作者也要感謝NVIDIA和NVIDIA DGX BasePOD工程團隊的持續支持。

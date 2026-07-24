@@ -18,6 +18,7 @@ summary: NetApp的開源 MLOps - Trident作業範例
 
 
 
+[[import-an-existing-volume]]
 == 導入現有磁碟區
 
 如果您的NetApp儲存系統/平台上存在現有磁碟區，並且您想要將其安裝在 Kubernetes 叢集內的容器上，但這些磁碟區未與叢集中的 PVC 綁定，則必須匯入這些磁碟區。您可以使用Trident磁碟區匯入功能來匯入這些磁碟區。
@@ -56,12 +57,14 @@ pb-fg-all-iface1     Bound    default-pb-fg-all-iface1-7d9f1     10995116277760 
 ....
 
 
+[[provision-a-new-volume]]
 == 提供新卷
 
 您可以使用Trident在NetApp儲存系統或平台上設定新磁碟區。
 
 
 
+[[provision-a-new-volume-using-kubectl]]
 === 使用 kubectl 設定新卷
 
 以下範例指令顯示使用 kubectl 設定新的FlexVol volume。
@@ -91,6 +94,7 @@ tensorflow-results                Bound     default-tensorflow-results-2fd60   1
 ....
 
 
+[[provision-a-new-volume-using-the-netapp-dataops-toolkit]]
 === 使用NetApp DataOps 工具包配置新磁碟區
 
 您也可以使用NetApp DataOps Toolkit for Kubernetes 在NetApp儲存系統或平台上設定新磁碟區。 NetApp DataOps Toolkit for Kubernetes 利用Trident來設定磁碟區，但簡化了使用者的流程。請參閱link:https://github.com/NetApp/netapp-dataops-toolkit/blob/main/netapp_dataops_k8s/docs/volume_management.md["文件"]了解詳情。

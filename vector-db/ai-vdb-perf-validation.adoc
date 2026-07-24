@@ -18,6 +18,7 @@ summary: 向量資料庫效能驗證 - NetApp 向量資料庫解決方案
 
 
 
+[[performance-validation]]
 == 性能驗證
 
 效能驗證在向量資料庫和儲存系統中都起著至關重要的作用，是確保最佳運作和高效資源利用的關鍵因素。向量資料庫以處理高維度資料和執行相似性搜尋而聞名，需要保持高效能水準才能快速準確地處理複雜查詢。效能驗證有助於識別瓶頸、微調配置並確保系統能夠處理預期負載而不會降低服務品質。同樣，在儲存系統中，效能驗證對於確保資料高效儲存和檢索至關重要，不會出現可能影響整體系統效能的延遲問題或瓶頸。它還有助於對儲存基礎設施的必要升級或變更做出明智的決策。因此，效能驗證是系統管理的重要方面，對維持高服務品質、運作效率和整體系統可靠性有重要貢獻。
@@ -48,6 +49,7 @@ summary: 向量資料庫效能驗證 - NetApp 向量資料庫解決方案
 |===
 
 
+[[vectordb-bench-with-milvus-standalone-cluster]]
 === 帶有 Milvus 獨立叢集的 VectorDB-Bench
 
 我們使用vectorDB-Bench在milvus獨立叢集上進行了以下效能驗證。  milvus 獨立叢集的網路和伺服器連線如下。
@@ -95,6 +97,7 @@ image:vector-db-result-standalone.png["此圖顯示輸入/輸出對話框或表�
 
 
 
+[[vectordb-bench-with-milvus-cluster]]
 === 帶有 milvus 叢集的 VectorDB-Bench
 
 在本節中，我們討論在 Kubernetes 環境中部署 Milvus 叢集。此 Kubernetes 設定建置於 VMware vSphere 部署之上，該部署託管 Kubernetes 主節點和工作節點。
@@ -144,6 +147,7 @@ image:storagecluster-latency-iops-milcus.png["此圖顯示輸入/輸出對話框
 
 
 
+[[vectordb-bench-with-postgres-pgvecto-rs]]
 === 附有 Postgres 的vectorDB-Bench（pgvecto.rs）
 
 我們使用 VectorDB-Bench 對 PostgreSQL（pgvecto.rs）進行瞭如下操作：PostgreSQL（具體來說，pgvecto.rs）的網路和伺服器連線詳情如下：
@@ -161,6 +165,7 @@ image:pgvecto-storage-perf-metrics.png["此圖顯示輸入/輸出對話框或表
 
 
 
+[[performance-comparison-between-milvus-and-postgres-on-vector-db-bench]]
 === milvus 與 postgres 在向量資料庫基準測試上的效能對比
 
 image:perf-comp-milvus-postgres.png["此圖顯示輸入/輸出對話框或表示書面內容"]
@@ -177,6 +182,7 @@ image:perf-comp-milvus-postgres.png["此圖顯示輸入/輸出對話框或表示
 
 
 
+[[observation-based-on-our-performance-validations]]
 === 根據我們的性能驗證得出的觀察結果：
 
 根據我們的性能驗證，我們做出了以下觀察：

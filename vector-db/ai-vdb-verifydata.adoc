@@ -18,6 +18,7 @@ summary: verify_data_netapp.py - netapp 的向量資料庫解決方案
 
 
 
+[[appendix-c-verifydatanetapp-py]]
 == 附錄C：verify_data_netapp.py
 
 [source, python]

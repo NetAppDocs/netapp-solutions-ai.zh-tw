@@ -18,12 +18,14 @@ summary: 用例 - NetApp 的向量資料庫解決方案
 
 
 
+[[vector-database-use-cases]]
 == 向量資料庫用例
 
 在本節中，我們討論兩個用例，例如使用大型語言模型的檢索增強生成和NetApp IT 聊天機器人。
 
 
 
+[[retrieval-augmented-generation-rag-with-large-language-models-llms]]
 === 使用大型語言模型 (LLM) 進行檢索增強生成 (RAG)
 
 ....
@@ -40,6 +42,7 @@ image:rag-nvidia-nemo.png["此圖顯示輸入/輸出對話框或表示書面內�
 
 
 
+[[netapp-it-chatbot-use-case]]
 === NetApp IT 聊天機器人用例
 
 NetApp 的聊天機器人是向量資料庫的另一個即時用例。在這種情況下， NetApp Private OpenAI Sandbox 為管理來自 NetApp 內部使用者的查詢提供了一個有效、安全且高效的平台。透過結合嚴格的安全協議、高效的資料管理系統和複雜的人工智慧處理能力，它保證透過 SSO 身份驗證根據組織中使用者的角色和職責為他們提供高品質、精確的回應。這種架構凸顯了融合先進技術以創建以使用者為中心的智慧系統的潛力。

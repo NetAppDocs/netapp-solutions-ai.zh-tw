@@ -21,6 +21,7 @@ NOTE: 可以在 Kubernetes 以外的平台上部署 MLflow。在 Kubernetes 以�
 
 
 
+[[prerequisites]]
 == 先決條件
 
 在執行本節概述的部署練習之前，我們假設您已經執行了以下任務：
@@ -31,24 +32,28 @@ NOTE: 可以在 Kubernetes 以外的平台上部署 MLflow。在 Kubernetes 以�
 
 
 
+[[install-helm]]
 == 安裝 Helm
 
 MLflow 使用 Helm（Kubernetes 的流行套件管理器）進行部署。在部署 MLflow 之前，必須在 Kubernetes 控制節點上安裝 Helm。要安裝 Helm，請按照 https://helm.sh/docs/intro/install/["安裝說明"^]在 Helm 官方文件中。
 
 
 
+[[set-default-kubernetes-storageclass]]
 == 設定預設 Kubernetes StorageClass
 
 在部署 MLflow 之前，您必須在 Kubernetes 叢集中指定一個預設 StorageClass。若要在叢集中指定預設 StorageClass，請依照link:ai-osmlops-kubeflow-deploy.html["Kubeflow部署"]部分。如果您已經在叢集中指定了預設 StorageClass，則可以跳過此步驟。
 
 
 
+[[deploy-mlflow]]
 == 部署 MLflow
 
 滿足先決條件後，您就可以使用 Helm Chart 開始 MLflow 部署。
 
 
 
+[[configure-mlflow-helm-chart-deployment]]
 === 設定 MLflow Helm Chart 部署。
 
 在使用 Helm 圖表部署 MLflow 之前，我們可以使用 *config.yaml* 檔案將部署配置為使用NetApp Trident儲存類別並更改其他參數以滿足我們的需求。您可以在以下位置找到 *config.yaml* 檔案的範例： https://github.com/bitnami/charts/blob/main/bitnami/mlflow/values.yaml[]
@@ -58,6 +63,7 @@ NOTE: 您可以在 config.yaml 檔案中的 *global.defaultStorageClass* 參數�
 
 
 
+[[installing-the-helm-chart]]
 === 安裝 Helm Chart
 
 可以使用以下命令將 Helm 圖表與 MLflow 的自訂 *config.yaml* 檔案一起安裝：
@@ -71,6 +77,7 @@ NOTE: 該命令透過提供的*config.yaml*檔案在自訂配置中的 Kubernete
 
 
 
+[[check-deployment]]
 === 檢查部署
 
 Helm 圖表部署完成後，您可以使用以下命令檢查服務是否可存取：
@@ -97,6 +104,7 @@ NOTE: 我們編輯了 config.yaml 檔案以使用 NodePort 服務存取連接埠
 
 
 
+[[access-mlflow]]
 === 存取 MLflow
 
 一旦與 MLflow 相關的所有服務都啟動並運行，您就可以使用給定的 NodePort 或 LoadBalancer IP 位址存取它（例如 `http://10.61.181.109:30002`)

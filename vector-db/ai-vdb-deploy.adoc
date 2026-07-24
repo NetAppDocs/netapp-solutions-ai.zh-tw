@@ -18,6 +18,7 @@ summary: 向量資料庫部署程式 - NetApp 向量資料庫解決方案
 
 
 
+[[deployment-procedure]]
 == 部署流程
 
 在本部署部分中，我們使用 milvus 向量資料庫和 Kubernetes 進行以下實驗設定。
@@ -28,6 +29,7 @@ NetApp 儲存為叢集提供存儲，以保存客戶資料和 Milvus 叢集資�
 
 
 
+[[netapp-storage-setup-ontap]]
 === NetApp儲存設定 – ONTAP
 
 * 儲存系統初始化
@@ -54,6 +56,7 @@ NetApp 儲存為叢集提供存儲，以保存客戶資料和 Milvus 叢集資�
 
 
 
+[[netapp-storage-setup-storagegrid]]
 === NetApp儲存設定 – StorageGRID
 
 . 安裝 storageGRID 軟體。

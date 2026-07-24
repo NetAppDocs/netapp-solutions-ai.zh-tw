@@ -26,6 +26,7 @@ NetApp儲存系統提供與本機 SSD 儲存相同或更好的效能，並為資
 
 
 
+[[acknowledgments]]
 == 致謝
 
 * 俊傑Falkanger，聯想 HPC 和人工智慧解決方案高級經理
@@ -36,6 +37,7 @@ NetApp儲存系統提供與本機 SSD 儲存相同或更好的效能，並為資
 
 
 
+[[where-to-find-additional-information]]
 == 在哪裡可以找到更多信息
 
 要了解有關本文檔中描述的信息的更多信息，請參閱以下文檔和/或網站：

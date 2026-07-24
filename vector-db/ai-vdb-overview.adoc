@@ -18,12 +18,14 @@ summary: NetApp 向量資料庫解決方案概述
 
 
 
+[[solution-overview]]
 == 解決方案概述
 
 該解決方案展示了NetApp為應對向量資料庫客戶面臨的挑戰所提供的獨特優勢和功能。透過利用NetApp ONTAP、 StorageGRID、NetApp 的雲端解決方案和SnapCenter，客戶可以為其業務營運增加顯著的價值。這些工具不僅解決了現有的問題，還提高了效率和生產力，從而促進了整體業務成長。
 
 
 
+[[why-netapp]]
 === 為什麼選擇NetApp？
 
 * NetApp 的產品（例如ONTAP和StorageGRID）允許分離儲存和運算，從而能夠根據特定需求實現最佳資源利用率。這種靈活性使客戶能夠使用NetApp儲存解決方案獨立擴展其儲存。

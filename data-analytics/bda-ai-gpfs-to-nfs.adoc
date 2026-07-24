@@ -18,6 +18,7 @@ summary: 本節提供使用NetApp XCP 設定 GPFS 和將資料移至 NFS 所需�
 
 
 
+[[configure-gpfs]]
 == 配置 GPFS
 
 . 在其中一台伺服器上下載並安裝適用於 Linux 的 Spectrum Scale Data Access。
@@ -471,6 +472,7 @@ total 5.0G
 
 
 
+[[export-gpfs-into-nfs]]
 == 將 GPFS 匯出到 NFS
 
 若要將 GPFS 匯出至 NFS，請完成下列步驟：
@@ -596,6 +598,7 @@ drwxr-xr-x   4 root root 4.0K Nov  5 20:35 ces
 
 
 
+[[configure-the-nfs-client]]
 == 配置 NFS 用戶端
 
 若要設定 NFS 用戶端，請完成下列步驟：

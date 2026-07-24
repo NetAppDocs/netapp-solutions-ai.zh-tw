@@ -18,6 +18,7 @@ summary: 在NetApp NFS 上安裝儲存層的 Kafka 叢集在 AWS 雲端進行了
 
 
 
+[[apache-kafka-in-aws-fsx-ontap]]
 == AWS FSx ONTAP中的 Apache Kafka
 
 網路檔案系統 (NFS) 是一種廣泛用於儲存大量資料的網路檔案系統。在大多數組織中，資料越來越多地由 Apache Kafka 等串流應用程式產生。這些工作負載需要可擴展性、低延遲以及具有現代儲存功能的強大資料擷取架構。為了實現即時分析並提供可操作的見解，需要精心設計且高效能的基礎架構。
@@ -30,6 +31,7 @@ Amazon FSx ONTAP在雲端提供完全託管、可擴展且高效能的 NFS 檔�
 
 
 
+[[performance-overview-and-validation-in-aws-fsx-ontap]]
 === AWS FSx ONTAP中的效能概述與驗證
 
 在NetApp NFS 上安裝儲存層的 Kafka 叢集在 AWS 雲端進行了效能基準測試。基準測試範例在以下章節中說明。

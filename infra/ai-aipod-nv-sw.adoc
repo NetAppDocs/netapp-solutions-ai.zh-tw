@@ -18,10 +18,12 @@ summary: NetApp AIPod與NVIDIA DGX 系統 - 軟體元件
 
 
 
+[[nvidia-software]]
 == NVIDIA軟體
 
 
 
+[[nvidia-base-command]]
 === NVIDIA基本指令
 
 NVIDIA Base Command™ 為每個 DGX BasePOD 提供支持，使組織能夠充分利用NVIDIA軟體創新的最佳成果。企業可以透過經過驗證的平台充分發揮其投資潛力，該平台包括企業級編排和叢集管理、加速運算、儲存和網路基礎設施的程式庫以及針對 AI 工作負載優化的作業系統 (OS)。
@@ -32,6 +34,7 @@ image:aipod-nv-basecommand-new.png["此圖顯示輸入/輸出對話框或表示�
 
 
 
+[[nvidia-gpu-cloud-ngc]]
 === NVIDIA GPU 雲端 (NGC)
 
 NVIDIA NGC 提供的軟體可滿足具有不同 AI 專業水平的資料科學家、開發人員和研究人員的需求。 NGC 上託管的軟體會針對一組常見漏洞和暴露 (CVE)、加密和私鑰進行掃描。它經過測試和設計，可擴展到多個 GPU，在許多情況下，可擴展到多節點，確保用戶最大限度地利用其在 DGX 系統上的投資。
@@ -42,16 +45,19 @@ image:aipod-nv-ngc.png["此圖顯示輸入/輸出對話框或表示書面內容"
 
 
 
+[[nvidia-ai-enterprise]]
 === NVIDIA AI 企業版
 
 NVIDIA AI Enterprise 是一個端對端軟體平台，可讓每個企業都能夠使用生成式 AI，為在NVIDIA DGX 平台上優化的生成式 AI 基礎模型提供最快、最高效的運行時。憑藉生產級的安全性、穩定性和可管理性，它簡化了生成式 AI 解決方案的開發。  NVIDIA AI Enterprise 包含在 DGX BasePOD 中，企業開發人員可以存取預訓練模型、最佳化框架、微服務、加速庫和企業支援。
 
 
 
+[[netapp-software]]
 == NetApp軟體
 
 
 
+[[netapp-ontap]]
 === NetApp ONTAP
 
 ONTAP 9 是NetApp最新一代儲存管理軟體，它支援企業實現基礎架構現代化並過渡到雲端就緒資料中心。 ONTAP利用業界領先的數據管理功能，只需一套工具即可管理和保護數據，無論數據位於何處。您也可以將資料自由移動到任何需要的地方：邊緣、核心或雲端。  ONTAP 9 包含眾多功能，可簡化資料管理、加速和保護關鍵數據，並支援跨混合雲架構的下一代基礎架構功能。
@@ -98,6 +104,7 @@ ONTAP具有以下功能，可協助滿足嚴苛且不斷變化的業務需求：
 
 
 
+[[netapp-dataops-toolkit]]
 === NetApp DataOps 工具包
 
 NetApp DataOps Toolkit 是一款基於 Python 的工具，可簡化由高效能、橫向擴展NetApp儲存支援的開發/培訓工作區和推理伺服器的管理。 DataOps Toolkit 可以作為獨立實用程式運行，並且在利用NetApp Trident自動化儲存作業的 Kubernetes 環境中更有效。主要功能包括：
@@ -111,6 +118,7 @@ NetApp DataOps Toolkit 是一款基於 Python 的工具，可簡化由高效能�
 
 
 
+[[netapp-trident]]
 === NetApp Trident
 
 Trident是一個完全支援的開源儲存編排器，適用於容器和 Kubernetes 發行版（包括 Anthos）。Trident可與整個NetApp儲存產品組合搭配使用，包括NetApp ONTAP，並且還支援 NFS、NVMe/TCP 和 iSCSI 連線。Trident允許最終用戶從其NetApp儲存系統配置和管理存儲，而無需儲存管理員的干預，從而加速 DevOps 工作流程。

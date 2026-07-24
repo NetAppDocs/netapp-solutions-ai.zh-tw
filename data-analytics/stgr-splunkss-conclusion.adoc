@@ -20,6 +20,7 @@ Splunk SmartStore 和NetApp StorageGRID的結合旨在為組織提供可擴展�
 
 
 
+[[where-to-find-additional-information]]
 == 在哪裡可以找到更多信息
 
 要了解有關本文檔中描述的信息的更多信息，請查看以下文檔和/或網站：

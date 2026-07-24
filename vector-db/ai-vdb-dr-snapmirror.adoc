@@ -18,6 +18,7 @@ summary: 使用NetApp SnapMirror進行災難復原 - NetApp 的向量資料庫�
 
 
 
+[[disaster-recovery-using-netapp-snapmirror]]
 == 使用NetApp SnapMirror進行災難復原
 
 image:vector-database-dr-fsxn-gcnv.png["此圖顯示輸入/輸出對話框或表示書面內容"]

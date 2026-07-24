@@ -18,6 +18,7 @@ summary: instaclustr 與 pgvector - Netapp 的向量資料庫解決方案
 
 
 
+[[vector-database-with-instaclustr-using-postgresql-pgvector]]
 == 使用 PostgreSQL 的 Instaclustr 向量資料庫：pgvector
 
 在本節中，我們將深入探討 instaclustr 產品如何在 pgvector 功能上與 postgreSQL 整合的具體細節。我們有一個範例「如何使用 PGVector 和 PostgreSQL 來提高 LLM 準確性和效能：嵌入簡介和 PGVector 的作用」。請檢查link:https://www.instaclustr.com/blog/how-to-improve-your-llm-accuracy-and-performance-with-pgvector-and-postgresql-introduction-to-embeddings-and-the-role-of-pgvector/["部落格"]以獲取更多資訊。

@@ -18,12 +18,14 @@ summary: 在這種用例中，客戶的要求是基於現有的 Hadoop 集群快
 
 
 
+[[scenario]]
 == 設想
 
 在這種情況下，從本地以及災難復原位置的大型 Hadoop 資料湖實作建置多個 Spark/Hadoop 叢集。
 
 
 
+[[requirements-and-challenges]]
 == 要求和挑戰
 
 此用例的主要要求和挑戰包括：
@@ -36,6 +38,7 @@ summary: 在這種用例中，客戶的要求是基於現有的 Hadoop 集群快
 
 
 
+[[solution]]
 == 解決方案
 
 FlexClone技術用於滿足剛才所述的要求。 FlexClone技術是 Snapshot 副本的讀/寫副本。它從父 Snapshot 副本數據中讀取數據，並且僅為新/修改的區塊消耗額外的空間。它速度快並且節省空間。

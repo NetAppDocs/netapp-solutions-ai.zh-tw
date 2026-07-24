@@ -18,6 +18,7 @@ summary: 本節描述了詳細的測試過程結果。
 
 
 
+[[image-recognition-training-using-resnet-in-ontap]]
 == 在ONTAP中使用 ResNet 進行影像辨識訓練
 
 我們使用一台和兩台 SR670 V2 伺服器執行 ResNet50 基準測試。本次測試使用MXNet 22.04-py3 NGC容器運行訓練。
@@ -41,6 +42,7 @@ python train_imagenet.py --gpus 0,1,2,3,4,5,6,7 --batch-size 408 --kv-store horo
 
 
 
+[[data-read-speed-local-versus-network-storage]]
 == 資料讀取速度：本地儲存與網路儲存
 
 讀取速度是透過 `dd`對 ImageNet 資料集的其中一個檔案執行指令。具體來說，我們對本地和網路資料運行以下命令：
@@ -53,6 +55,7 @@ Local storage: 1.7 GB/s Network storage: 1.5 GB/s.
 
 
 
+[[shared-use-case-multiple-independent-simultaneous-jobs]]
 == 共享用例：多個獨立、同時的作業
 
 該測試模擬了該解決方案的預期用例：多作業、多用戶 AI 訓練。每個節點在使用共享網路儲存的同時運行自己的訓練。結果如下圖所示，從圖中可以看出，該解決方案案例提供了出色的效能，所有作業的運行速度與單一作業基本相同。總吞吐量與節點數量成線性關係。

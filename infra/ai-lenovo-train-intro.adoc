@@ -22,6 +22,7 @@ Sathish Thyagarajan、David Arnette、 NetApp Mircea Troaca、聯想
 
 
 
+[[target-audience]]
 == 目標受眾
 
 本文檔適用於以下受眾：
@@ -34,6 +35,7 @@ Sathish Thyagarajan、David Arnette、 NetApp Mircea Troaca、聯想
 
 
 
+[[solution-architecture]]
 == 解決方案架構
 
 此解決方案採用聯想 ThinkSystem 伺服器和具有AFF儲存的NetApp ONTAP，旨在利用 GPU 和傳統 CPU 的處理能力來處理大型資料集的 AI 訓練。此驗證展示了採用橫向擴展架構的高效能和最佳資料管理，該架構使用一台、兩台或四台 Lenovo SR670 V2 伺服器以及一台NetApp AFF A400儲存系統。下圖提供了架構概覽。

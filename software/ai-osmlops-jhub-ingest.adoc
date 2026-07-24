@@ -18,6 +18,7 @@ NetApp SnapMirror是一種複製技術，可讓您在NetApp儲存系統之間複
 
 
 
+[[example-worklfow-and-demo]]
 == 範例工作流程和演示
 
 參考link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Accelerating-Data-Ingestion-and-AI-ML-Experimentation-with-NetApp-SnapMirror-and/ba-p/457814["此 Tech ONTAP部落格文章"]有關使用NetApp SnapMirror將資料匯入 JupyterHub 的詳細範例工作流程和示範。

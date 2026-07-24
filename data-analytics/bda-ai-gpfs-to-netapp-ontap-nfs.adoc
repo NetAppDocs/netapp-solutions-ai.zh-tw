@@ -20,6 +20,7 @@ image:bda-ai-005.png["此圖顯示輸入/輸出對話框或表示書面內容"]
 
 
 
+[[gpfs-essentials]]
 == GPFS 基礎知識
 
 GPFS 中使用下列節點類型：
@@ -33,12 +34,14 @@ GPFS 中使用下列節點類型：
 
 
 
+[[list-of-operations-for-gpfs-nfs-and-xcp]]
 == GPFS、NFS 和 XCP 的操作列表
 
 本節提供了建立 GPFS、將 GPFS 匯出為 NFS 匯出以及使用 XCP 傳輸資料的操作清單。
 
 
 
+[[create-gpfs]]
 === 建立GPFS
 
 若要建立 GPFS，請完成以下步驟：
@@ -62,6 +65,7 @@ GPFS 中使用下列節點類型：
 
 
 
+[[export-gpfs-into-nfs]]
 === 將 GPFS 匯出到 NFS
 
 若要將 GPFS 匯出至 NFS，請完成下列步驟：
@@ -74,6 +78,7 @@ GPFS 中使用下列節點類型：
 
 
 
+[[configure-nfs-client]]
 === 配置 NFS 用戶端
 
 若要設定 NFS 用戶端，請完成下列步驟：

@@ -18,6 +18,7 @@ summary: 本節描述完成驗證所需的任務。
 
 
 
+[[prerequisites]]
 == 先決條件
 
 要執行本節中概述的任務，您必須能夠存取安裝並配置了以下工具的 Linux 或 macOS 主機：
@@ -36,6 +37,7 @@ summary: 本節描述完成驗證所需的任務。
 
 
 
+[[scenario-1-on-demand-inferencing-in-jupyterlab]]
 == 場景 1 – JupyterLab 中的按需推理
 
 . 為 AI/ML 推理工作負載建立 Kubernetes 命名空間。
@@ -105,6 +107,7 @@ image:ai-protopia-009.png["此圖顯示輸入/輸出對話框或表示書面內�
 
 
 
+[[scenario-2-batch-inferencing-on-kubernetes]]
 == 場景 2 – Kubernetes 上的批次推理
 
 . 為 AI/ML 推理工作負載建立 Kubernetes 命名空間。
@@ -253,6 +256,7 @@ mAP: 0.8841195749171925
 
 
 
+[[scenario-3-nvidia-triton-inference-server]]
 == 場景 3 – NVIDIA Triton 推理伺服器
 
 . 為 AI/ML 推理工作負載建立 Kubernetes 命名空間。

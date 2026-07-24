@@ -26,12 +26,14 @@ NetApp的 David Arnette
 
 
 
+[[executive-summary]]
 == 執行摘要
 
 憑藉NVIDIA DGX SuperPOD經過驗證的運算效能以及 NetApp 業界領先的資料安全、資料治理和多租用戶功能，客戶可以為下一代工作負載部署最高效、最敏捷的基礎架構。本文檔介紹了可協助客戶加快 AI/ML 計畫的上市時間和投資回報的高級架構和關鍵功能。
 
 
 
+[[program-summary]]
 == 項目摘要
 
 NVIDIA DGX SuperPOD為組織提供交鑰匙 AI 資料中心解決方案，無縫提供世界一流的運算、軟體工具、專業知識和持續創新。 DGX SuperPOD 可為客戶提供部署 AI/ML 和 HPC 工作負載所需的一切，同時最大程度地縮短設定時間並提高生產力。圖 1 顯示了 DGX SuperPOD 的高階組件。
@@ -49,6 +51,7 @@ DGX SuperPOD 具有以下優點：
 
 
 
+[[solution-overview]]
 == 解決方案概述
 
 隨著各組織採用人工智慧 (AI) 和機器學習 (ML) 計劃，對強大、可擴展且高效的基礎設施解決方案的需求從未如此強烈。這些措施的核心在於管理和訓練日益複雜的人工智慧模型，同時確保資料安全、可存取性和資源最佳化。代理人工智慧的發展和複雜的模型訓練要求對運算和儲存基礎設施提出了前所未有的需求。組織現在必須處理大量資料集、支援多個並發訓練工作負載並維護高效能運算環境，同時確保資料保護和法規遵循。傳統的基礎設施解決方案往往難以滿足這些需求，導致營運效率低落和人工智慧專案價值實現時間延遲。該解決方案具有以下主要優勢：
@@ -60,6 +63,7 @@ DGX SuperPOD 具有以下優點：
 
 
 
+[[target-audience]]
 === 目標受眾
 
 此解決方案適用於具有 HPC 和 AI/ML 工作負載的組織，這些工作負載需要更深入地整合到廣泛的資料資產和傳統 IT 基礎架構工具和流程中。
@@ -73,6 +77,7 @@ DGX SuperPOD 具有以下優點：
 
 
 
+[[solution-technology]]
 === 解決方案技術
 
 NVIDIA DGX SuperPOD包含必要的伺服器、網路和存儲，可為要求苛刻的 AI 工作負載提供經過驗證的效能。 NVIDIA DGX™ H200 和NVIDIA DGX B200 系統提供世界一流的運算能力， NVIDIA Quantum 和 Spectrum™ InfiniBand 網路交換器提供超低延遲和業界領先的網路效能。透過NetApp ONTAP儲存業界領先的資料管理和效能功能，客戶可以更快地實現 AI/ML 計劃，並減少資料遷移和管理開銷。以下部分介紹了帶有AFF A90儲存系統的 DGX SuperPOD 的儲存組件。
@@ -120,6 +125,7 @@ NVIDIA Base Command Manager 為邊緣、資料中心以及多雲和混合雲環�
 
 
 
+[[use-case-summary]]
 === 用例摘要
 
 NVIDIA DGX SuperPOD旨在滿足最大規模、最嚴苛的工作負載的效能要求。
@@ -133,6 +139,7 @@ NVIDIA DGX SuperPOD旨在滿足最大規模、最嚴苛的工作負載的效能�
 
 
 
+[[solution-architecture]]
 == 解決方案架構
 
 DGX SuperPOD 是基於可擴展單元 (SU) 的概念，其中包括 32 個 DGX B200 系統以及提供所需連接和消除基礎設施中任何性能瓶頸所需的所有其他組件。客戶可以從一個或多個 SU 開始，然後根據需要添加其他 SU 來滿足其要求。本文檔介紹了單一 SU 的儲存配置，表 1 顯示了更大配置所需的元件。
@@ -161,6 +168,7 @@ image:ai-superpod-a90-004.png["600,600"]
 
 
 
+[[solution-hardware-requirements]]
 === 解決方案硬體需求
 
 表 1 列出了實現一個、兩個、四個或八個可擴充單元所需的儲存硬體元件。有關伺服器和網路的詳細硬體需求，請參閱 https://docs.nvidia.com/dgx-superpod/reference-architecture-scalable-infrastructure-b200/latest/abstract.html["+++ NVIDIA DGX SuperPOD參考架構+++"]。
@@ -191,6 +199,7 @@ ____
 
 
 
+[[software-requirements]]
 === 軟體需求
 
 表 2 列出了將AFF A90儲存系統與 DGX SuperPOD 整合所需的軟體元件和版本。 DGX SuperPOD 還涉及此處未列出的其他軟體元件。請參閱https://docs.nvidia.com/dgx-superpod/release-notes/latest/10-24-11.html["+++DGX SuperPOD 發行說明+++"]了解完整詳情。
@@ -218,6 +227,7 @@ ____
 |===
 
 
+[[solution-verification]]
 == 解決方案驗證
 
 此儲存解決方案經過NetApp和NVIDIA的多階段驗證，確保效能和可擴充性符合NVIDIA DGX SuperPOD的要求。此配置透過結合合成工作負載和真實 ML/DL 工作負載進行驗證，以驗證最大效能和應用程式互通性。下表 3 提供了 DGX SuperPOD 部署中常見的典型工作負載及其資料要求的範例。
@@ -256,12 +266,14 @@ ____
 |===
 
 
+[[conclusion]]
 == 結論
 
 搭載NetApp * AFF A90儲存系統* 的NVIDIA DGX SuperPOD代表了 AI 基礎架構解決方案的重大進步。透過解決安全性、資料管理、資源利用率和可擴展性方面的關鍵挑戰，它使組織能夠加速其人工智慧計劃，同時保持營運效率、資料保護和協作。該解決方案的整合方法消除了人工智慧開發流程中的常見瓶頸，使資料科學家和工程師能夠專注於創新而不是基礎設施管理。
 
 
 
+[[where-to-find-additional-information]]
 == 在哪裡可以找到更多信息
 
 要了解有關本文檔中描述的信息的更多信息，請查看以下文檔和/或網站：
