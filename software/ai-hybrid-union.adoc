@@ -121,7 +121,7 @@ image::ai-hybrid-union-001.png[採用 Union.ai 和NetApp 的混合 AI 訓練架�
 
 在兩個叢集上都安裝Trident ：
 
-🔗 https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["+++ Trident安裝指南+++"]
+🔗 https://docs.netapp.com/us-en/trident/trident-install/kubernetes-deploy-operator.html["+++ Trident安裝指南+++"]
 
 建立Trident後端
 

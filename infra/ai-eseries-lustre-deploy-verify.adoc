@@ -1,0 +1,61 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-eseries-lustre-deploy-verify.html 
+keywords: Lustre, NetApp E-Series, deployment verification, Pacemaker, scaling 
+summary: 驗證 Lustre 叢集的健全狀況、掛載點和容量，並使用其他建置區塊擴充檔案系統。 
+---
+= 驗證並擴充 Lustre 部署
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+在生產環境使用前，請確認叢集健全狀況、Lustre 掛載點和檔案系統容量，然後在需要時使用相同的清單新增建置區塊。
+
+
+
+[[verify-the-deployment]]
+== 驗證部署
+
+.步驟
+. 從 Lustre 伺服器確認所有 Pacemaker 資源均已在預期節點上啟動：
++
+[source, cli]
+----
+pcs status
+----
+. 從 Lustre 用戶端確認 Lustre 檔案系統已掛載：
++
+[source, cli]
+----
+mount -t lustre
+----
+. 從 Lustre 用戶端確認檔案系統容量，並確認 MDT 和 OST 目標可見：
++
+[source, cli]
+----
+lfs df -h
+----
+
+
+有關使用 IOR、mdtest 和 fio 進行效能驗證的資訊，請參見link:ai-eseries-lustre-sizing.html["尺寸指南"]。
+
+對於受控目標移轉或 HA 容錯移轉測試，請遵循 link:https://github.com/NetApp/ansible-lustre/blob/release/1.0.0/roles/lustre/docs/ha_user_guide.md["HA 管理使用者指南"^] 中的程序。
+
+
+
+[[expand-the-file-system]]
+== 擴充檔案系統
+
+若要增加容量或中繼資料效能，請使用額外的建置區塊擴充現有清單。請勿為新建置區塊建立分隔的清單。劇本會自動分配唯一的 MDT 和 OST 索引，並將新目標註冊到現有的 MGS 中。
+
+.步驟
+. 將新的建置區塊主機、陣列和資源群組（MDT+OST 或僅 OST）新增至您用於原始部署的相同清單和 `host_vars`和 `group_vars`檔案。
+. 使用更新後的清單重新執行主要部署 Playbook。
+
+
+請參閱 link:ai-eseries-lustre-architecture.html["解決方案架構"] 以取得擴充規則，以及參閱 link:ai-eseries-lustre-sizing.html["尺寸指南"] 以取得何時新增每種建置區塊類型的指導。

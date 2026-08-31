@@ -1,0 +1,282 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-eseries-lustre-hw.html 
+keywords: Lustre, NetApp E-Series, EF80, hardware, servers, storage, network, NVMe-oF, BYOS 
+summary: 檢視 Lustre 與 NetApp E 系列儲存設備的伺服器、E 系列陣列、儲存配置和連網需求。 
+---
+= Lustre 與 NetApp E 系列儲存設備 - 硬體元件
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+當您使用 NetApp E 系列儲存設備調整 Lustre 規模及訂購時，請針對伺服器、NetApp E 系列陣列、儲存配置及連網使用這些硬體需求。有關軟體元件，請參閱 link:ai-eseries-lustre-sw.html["軟體元件"]。
+
+
+
+[[server-requirements]]
+== 伺服器要求
+
+此解決方案採用自帶伺服器（BYOS）模式。每個建置區塊需要兩個符合或超過以下規格的 OSS/MDS 伺服器節點。
+
+
+
+[[node-specifications]]
+=== 節點規格
+
+下表列出每個 OSS/MDS 節點的最低伺服器要求。
+
+|===
+| 成分 | 要求 
+
+
+| 數量 | 每個建置區塊包含 2 個節點 
+
+
+| CPU | AMD EPYC 或 Intel Xeon，32 核心或更高 
+
+
+| 記憶 | 256 GB DDR5（最低配置） 
+
+
+| 網路 HCA | 6 個雙埠 200Gb HCA（參見<<platform-connectivity,HCA 連線功能>>） 
+
+
+| PCIe 插槽 | 2× PCIe Gen5 x16 和 4× PCIe Gen5 x8 （請參閱 <<pcie-slots,PCIe 插槽要求>>） 
+
+
+| 啟動磁碟機 | 2 × 磁碟機採用 RAID 1（建議使用軟體或硬體 RAID） 
+|===
+NetApp 使用 Lenovo ThinkSystem SR665 V3 伺服器驗證了此解決方案。其他廠商的同等伺服器，只要符合這些要求，亦可支援。
+
+
+
+[[hca-connectivity]]
+[[platform-connectivity]]
+=== HCA 連線功能
+
+下表列出每個 OSS/MDS 伺服器節點的 HCA、LNet 前端連接埠和 NVMe-oF 路徑要求。
+
+|===
+| 每個節點的 HCA | 每個 Lustre 節點的 LNet 連接埠 | 每個 Lustre 節點的 NVMe-oF 路徑 | 範例 HCA 
+
+
+| 6（12 個連接埠） | 4 | 總共 8 個（每個陣列 4 個） | MCX755106AS-HEAT（雙埠 200Gb PCIe gen5 卡） 
+|===
+NetApp 建議每個節點使用六個 HCA，以最大化 EF80 儲存設備陣列的頻寬。
+
+
+
+[[pcie-slot-requirements]]
+[[pcie-slots]]
+=== PCIe 插槽要求
+
+EF80 建置區塊中的每個 OSS/MDS 伺服器節點包含六個雙埠 HCA：兩個用於 LNet，四個用於 NVMe-oF。插槽寬度決定了每個 HCA 的可用頻寬，因此請確認每個插槽和轉接卡的電氣寬度，而不僅僅是卡片本身的寬度。安裝在 Gen5 x8 插槽中的 Gen5 x16 卡將以 x8 模式運作。
+
+* *LNet HCAs：* 安裝在 PCIe Gen5 x16 插槽中，以達到完整的前端處理量。
+* *NVMe-oF HCAs:* 安裝在 PCIe Gen5 x8 或 PCIe Gen5 x16 插槽中。
+* *NUMA 平衡：* 將 HCA 平均分配到兩個 NUMA 區域，以便每個區域擁有兩個 LNet 介面和四個 NVMe-oF 介面。
+
+
+下表列出 EF80 建置區塊中每個 OSS/MDS 伺服器節點的最小插槽數。
+
+|===
+| 流量類型 | 每個節點的 HCA | 最小插槽寬度 | 每個 NUMA 區域的插槽 
+
+
+| LNet | 2 | PCIe Gen5 x16 | 1 
+
+
+| NVMe-oF | 4 | PCIe Gen5 x8 | 2 
+|===
+您也可以選擇將雙埠 HCA 上的連接埠分割，使一個連接埠承載 LNet 流量，另一個連接埠承載 NVMe-oF 流量。將所有四個 HCA 安裝在 PCIe Gen5 x16 插槽中，以確保每個 LNet 連接埠都能達到完整處理量，然後再新增兩個 HCA 安裝在 Gen5 x8 或 Gen5 x16 插槽中，用於剩餘的 NVMe-oF 連接埠。
+
+.Lenovo ThinkSystem SR665 V3 的擴充座配置範例
+[%collapsible]
+====
+以下兩種立管組合均符合 EF80 建置區塊的插槽要求。
+
+*最小插槽寬度*
+
+在轉接卡位置 1 和 2 安裝 BPQU 轉接卡。每個 BPQU 轉接卡提供一個 PCIe Gen5 x16 插槽和兩個 PCIe Gen5 x8 插槽。這些轉接卡總共提供兩個用於 LNet 的 Gen5 x16 插槽和四個用於 NVMe-oF 的 Gen5 x8 插槽，均勻分佈在 NUMA 區域內。
+
+image:eseries-lustre-sr665v3-bpqu-6hca-layout.png["Lenovo ThinkSystem SR665 V3 背面檢視，BPQU 轉接卡位於位置 1 和 2，每個 NUMA 區域顯示一個 PCIe Gen5 x16 插槽和兩個 PCIe Gen5 x8 插槽"]
+
+*所有第五代 x16 插槽*
+
+在擴充卡插槽 1 和 2 中安裝 BPQV 擴充卡，在擴充卡插槽 3 中安裝 BLL9 擴充卡。每個 BPQV 擴充卡提供兩個 PCIe Gen5 x16 插槽。BLL9 擴充卡提供 NUMA 區域 0 的插槽 7 和 NUMA 區域 1 的插槽 8，這兩個插槽均為 PCIe Gen5 x16。此組合提供六個 Gen5 x16 插槽，每個 NUMA 區域三個，並支援在同一 HCA 的各個連接埠之間分割 LNet 和 NVMe-oF 流量。
+
+image:eseries-lustre-sr665v3-bpqv-6hca-layout.png["Lenovo ThinkSystem SR665 V3 後視圖，位置 1 和 2 安裝了 BPQV 轉接卡，位置 3 安裝了 BLL9 轉接卡，圖中顯示了分佈在兩個 NUMA 區域中的六個 PCIe Gen5 x16 插槽。"]
+
+====
+
+
+[[ef80-standard-building-block]]
+== EF80 標準建置區塊
+
+EF80 是此解決方案版本經過驗證的標準平台。
+
+
+
+[[array-specifications]]
+=== 陣列規格
+
+下表列出建置區塊（兩個陣列）的 EF80 陣列規格。
+
+|===
+| 成分 | 規格 
+
+
+| 模型 | NetApp EF80 
+
+
+| 外形尺寸 | 2U 基本機箱，24 個內部 NVMe SSD 插槽 
+
+
+| 控制器 | 雙控制器（A 和 B） 
+
+
+| 磁碟機 | 每個陣列配備 24 個 NVMe SSD 
+
+
+| I/O 連接 | 在經過驗證的 Lustre 設計中，每個陣列配備 8 個 200Gb NVMe/IB 或 NVMe/RoCE 主機連接埠 
+|===
+EF80 平台在每個控制器中安裝三個雙埠主機 I/O 模組後，每個陣列最多支援十二個主機連接埠。經過驗證的 Lustre 設計在插槽 1 和 2 中使用主機 I/O 模組，每個陣列可實現八個主機連接埠。
+
+每個 EF80 陣列也使用專用的插槽 4 I/O 模組進行控制器間鏡射。將控制器 A 的連接埠 4a 連接到控制器 B 的連接埠 4a，並將控制器 A 的連接埠 4b 連接到控制器 B 的連接埠 4b。這些連線提供快取鏡射和 I/O 傳輸，不用於主機 NVMe-oF 流量。請參閱 link:https://docs.netapp.com/us-en/e-series/install-hw-ef50-ef80/install-cable.html#step-1-cable-the-inter-controller-mirroring-connections["連接 EF50 和 EF80 控制器間鏡射連接線"^]。
+
+有關所有型號的完整 EF 系列規格，請參閱link:https://www.netapp.com/pdf.html?item=/media/14036-ds-4082.pdf["NetApp EF 系列 All Flash Array 產品型錄"^]。
+
+
+
+[[drive-layout-24-drives-per-array]]
+=== 磁碟機佈局（每個陣列 24 個磁碟機）
+
+基本建置區塊中的每個 EF80 陣列都使用全部 24 個 NVMe 磁碟機插槽：
+
+* 4 個磁碟機組成 RAID 1，用於 MGS/MDT 儲存設備（共享的 Volume 群組或 DDP 分配）
+* 10 個磁碟機組成 RAID 6 陣列，用於 OST 儲存設備（第一個 OST 資源池）
+* 10 個磁碟機組成 RAID 6 陣列，用於 OST 儲存設備（第二個 OST 資源池）
+
+
+此版面配置適用於使用 3.84 TB、7.68 TB 或 15.3 TB 磁碟機並採用傳統 Volume 群組的情況。當使用 30.7 TB 或 61.4 TB Capacity Flash （QLC） 磁碟機時，請在所有 24 個磁碟機上資源配置單一動態磁碟資源池，並在資源池中為 MGS 和 MDT 磁碟區建立 RAID 1 磁碟區，同時為 OST 使用預設的 RAID 6 磁碟區。
+
+
+NOTE: 目前不建議在此解決方案中使用 1.92 TB 的磁碟機。請使用上面列出的經過驗證的磁碟機容量之一。
+
+image:eseries-lustre-ef80-driveslots.png["Lustre 磁碟機佈局，每個 EF80 陣列配備 24 個 NVMe 磁碟機"]
+
+
+
+[[volume-and-target-counts-base-building-block]]
+=== Volume 與目標計數（基礎建置區塊）
+
+下表列出了基礎建置區塊的 MGS、MDT 和 OST 數量。
+
+|===
+| 目標類型 | 每個 BB 的數量 | RAID / 資源池 | 附註 
+
+
+| MGS | 1 | RAID 1 | 僅基礎建置區塊；陣列 1 
+
+
+| MDT | 8 | RAID 1 | 每個陣列 4 個 
+
+
+| OST | 32 | RAID 6 (TLC) 或 DDP (QLC) | 每個陣列 16 個 
+|===
+在 Ansible 清單中，請使用以下 Volume 規模調整指南作為起點。
+
+|===
+| 體積 | 建議大小 | 附註 
+
+
+| MGS | 5–10 GiB | 僅組態資料 
+
+
+| MDT | RAID 1 容量 ÷ MDT 數量 | 每顆約含 1–2 個 TiB（典型值） 
+
+
+| OST | RAID 6 或 DDP 容量 ÷ 每個資源池的 OST 數量 | 隨磁碟機容量而變化；參見link:ai-eseries-lustre-sizing.html["尺寸指南"] 
+|===
+
+
+[[primary-building-block-volume-distribution]]
+=== 主要建置區塊 Volume 分佈
+
+下圖展示了在基礎 EF80 建置區塊中，Lustre 目標的首選放置位置以及 OSS/MDS 伺服器節點和 E 系列陣列之間的 NVMe-oF 連接。圖中將管理目標標記為 *MGT*（管理目標）；一個 MGT 承載本文件其他部分提及的 MGS（管理伺服器）服務。
+
+.基礎建置區塊目標經銷（EF80）
+image:eseries-lustre-target-distribution.png["在基礎 EF80 建置區塊中，Lustre 目標經銷和 NVMe-oF 路徑跨 OSS/MDS 伺服器節點和 E 系列陣列的分佈情況。"]
+
+下表列出 Volume 在兩個陣列中的分佈情況，以及每個目標偏好的伺服器。
+
+[cols="1,1,1,1,1,2"]
+|===
+| 目標類型 | 陣列 1 | 陣列 2 | 伺服器 1 | 伺服器 2 | 附註 
+
+
+| MGS | 1 | 0 | 1 | 0 | 僅限基礎建置區塊 
+
+
+| MDT | 4 | 4 | 4 | 4 | 每個伺服器優先選擇來自每個陣列的 2 個 MDT 
+
+
+| OST | 16 | 16 | 16 | 16 | 每個 RAID 6 資源池 8 個 × 每個陣列 2 個資源池，或等效的 DDP 分配 
+
+
+| *Volume 總計* | *21* | *20* | *21* | *20* |  
+|===
+
+
+[[storage-pool-selection-tlc-vs-qlc]]
+== 儲存資源池選擇：TLC 與 QLC
+
+根據陣列中 NVMe 磁碟機的容量選擇 E 系列資源池類型：
+
+* *3.84 TB、7.68 TB 和 15.3 TB 磁碟機：* OST Volume 使用 *RAID 6 Volume 群組*，MGS 和 MDT Volume 使用 *RAID 1 Volume 群組*，或共享磁碟機資源池使用 DDP。
+* *30.7 TB 和 61.4 TB 容量的 Flash （QLC） 磁碟機：* 僅使用 *動態磁碟資源池 （DDP）*。在 DDP 內為 MGS 和 MDT 儲存設備建立 RAID 1 Volume。從 DDP 為 OST 儲存設備建立 RAID 6 Volume。
+
+
+有關按磁碟機大小和佈局劃分的每個建置區塊可用容量估算，請參閱link:ai-eseries-lustre-sizing.html["尺寸指南"]。
+
+
+
+[[network-requirements]]
+== 網路需求
+
+
+
+[[backend-nvme-of]]
+=== 後端（NVMe-oF）
+
+* NVMe/InfiniBand 或 NVMe/RoCE，位於每個 OSS/MDS 節點與每個 E 系列陣列之間
+* NVMe/RoCE 後端介面上的 MTU 9000（典型）
+* 每個 Lustre 節點到儲存設備陣列有八條路徑（每個陣列四條路徑）
+* EF80 每個節點使用六個 HCA（NVMe-oF 使用 i2、i3、i5 和 i6；LNet 使用 i1 和 i4）。將節點 A 連接到標籤結尾為 `a`的控制器連接埠，例如 `1a`和 `2a`。將節點 B 連接到標籤結尾為 `b`的控制器連接埠，例如 `1b`和 `2b`。請參閱link:ai-eseries-lustre-deploy-hardware.html["EF80 六 HCA 後端佈線"]。
+
+
+
+
+[[frontend-lnet]]
+=== 前端（LNet）
+
+* IPoIB 或 RoCE（適用於 LNet (`@o2ib` 網路類型）
+* RoCE 前端介面的 MTU 為 9000（典型值）
+* 當有四個前端連接埠可用時，建議使用多軌 LNet（EF80：i1 和 i4 HCA，兩個連接埠）
+* 專用 InfiniBand 或 RoCE 交換器架構，連接 OSS/MDS 伺服器節點和 Lustre 用戶端
+* 建議在 RoCE 架構上使用無損 RoCE （PFC）。
+
+
+
+
+[[management]]
+=== 管理
+
+* 伺服器 BMC 和陣列管理連接埠的頻外管理網路
+* 專用 Corosync 網路或共享的前端架構（取決於站台）
+

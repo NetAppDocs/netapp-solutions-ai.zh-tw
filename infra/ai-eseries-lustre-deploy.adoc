@@ -1,0 +1,74 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-eseries-lustre-deploy.html 
+keywords: Lustre, NetApp E-Series, EF80, deployment, Ansible, NVMe-oF 
+summary: 依照工作流程，使用 NetApp Ansible 自動化功能，搭配 NetApp E 系列儲存設備部署 Lustre。 
+---
+= 將 Lustre 與 NetApp E 系列儲存設備搭配部署
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+依序完成硬體、環境準備、清單、Ansible 部署和驗證任務，即可透過 NetApp E 系列儲存設備部署 Lustre。
+
+
+
+[[prerequisites]]
+== 先決條件
+
+在開始部署之前，請確保以下事項：
+
+* 您遵循了link:ai-eseries-lustre-sizing.html["尺寸指南"]中的規模和建置區塊指南，並選擇了符合link:ai-eseries-lustre-hw.html["硬體組件"]的硬體。
+* 您已確認伺服器、HCA、E 系列、作業系統、Lustre、SANtricity 作業系統和 DOCA-OFED 組合已列於 link:https://imt.netapp.com/imt/#welcome["NetApp 互通性矩陣工具"^] 的 *E-Series Lustre* 清單中。
+* 計畫建置區塊的所有 OSS/MDS 伺服器節點和 E 系列陣列均已在現場，可安裝到機架。
+* 您擁有伺服器 BMC、陣列管理連接埠以及將作為 Ansible 控制節點的主機的憑證和網路存取。
+
+
+
+NOTE: NetApp 支援使用 link:https://github.com/NetApp/ansible-lustre/tree/release/1.0.0["NetApp E 系列 Lustre Ansible collection"^] 部署 Lustre HA 叢集和 Lustre 用戶端。請勿手動設定 Lustre 目標、LNet、NVMe-oF 主機連線功能或 Pacemaker 資源。
+
+
+
+[[deployment-workflow]]
+== 部署工作流程
+
+請依序完成以下任務：
+
+. link:ai-eseries-lustre-deploy-hardware.html["機架和纜線 Lustre 硬體"].
++
+將 Lustre 伺服器和 EF80 陣列安裝到機架上，然後連接後端 NVMe-oF 和前端 LNet 架構。
+
+. link:ai-eseries-lustre-deploy-prepare.html["準備 Lustre 部署環境"].
++
+設定陣列和伺服器，然後在控制節點上安裝 Ansible 及其相依性。
+
+. link:ai-eseries-lustre-deploy-inventory.html["自訂 Lustre Ansible 庫存"].
++
+選擇站台架構模板，並填入伺服器、陣列、網路、建置區塊和憑證。
+
+. link:ai-eseries-lustre-deploy-cluster.html["部署 Lustre HA 叢集和用戶端"].
++
+準備伺服器作業系統，安裝 NVIDIA DOCA-OFED，執行主要部署 playbook，並設定 Lustre 用戶端。
+
+. link:ai-eseries-lustre-deploy-verify.html["驗證並擴充 Lustre 部署"].
++
+生產環境使用前，請確認叢集健全狀況、掛載點和容量。當檔案系統需要其他建置區塊時，請擴充現有清單。
+
+
+
+
+
+[[related-information]]
+== 相關資訊
+
+* link:https://github.com/NetApp/ansible-lustre/tree/release/1.0.0["NetApp E 系列 Lustre Ansible collection"^]
+* link:https://github.com/NetApp/netapp-lustre/tree/master["NetApp Lustre 來源儲存庫"^]
+* link:https://github.com/NetApp/ansible-lustre/blob/release/1.0.0/roles/lustre/docs/ha_user_guide.md["HA 管理使用者指南"^]
+* link:https://github.com/NetApp/ansible-lustre/blob/release/1.0.0/roles/lustre/docs/performance_tuning.md["效能調校指南"^]
+* link:https://github.com/NetApp/ansible-lustre/tree/release/1.0.0/getting_started/lustre_deployment_template/clients["Lustre 用戶端部署範本"^]
+

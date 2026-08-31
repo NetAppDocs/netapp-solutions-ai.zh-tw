@@ -33,6 +33,35 @@ entries:
 - title: NetApp上的 BeeGFS 與 E 系列存儲
   pdf-filename: NetApp上的 BeeGFS 與 E 系列存儲
   url: "/infra/ai-eseries-beegfs.html"
+- title: Lustre 搭配 NetApp E 系列儲存系統
+  pdf-filename: Lustre 搭配 NetApp E 系列儲存系統
+  entries:
+  - title: 介紹
+    url: "/infra/ai-eseries-lustre-intro.html"
+  - title: 解決方案架構
+    url: "/infra/ai-eseries-lustre-architecture.html"
+  - title: 硬體組件
+    url: "/infra/ai-eseries-lustre-hw.html"
+  - title: 軟體元件
+    url: "/infra/ai-eseries-lustre-sw.html"
+  - title: 尺寸指南
+    url: "/infra/ai-eseries-lustre-sizing.html"
+  - title: 部署解決方案
+    entries:
+    - title: 部署工作流程
+      url: "/infra/ai-eseries-lustre-deploy.html"
+    - title: 機架和線纜硬體
+      url: "/infra/ai-eseries-lustre-deploy-hardware.html"
+    - title: 準備部署環境
+      url: "/infra/ai-eseries-lustre-deploy-prepare.html"
+    - title: 自訂 Ansible 清單
+      url: "/infra/ai-eseries-lustre-deploy-inventory.html"
+    - title: 部署 HA 叢集和用戶端
+      url: "/infra/ai-eseries-lustre-deploy-cluster.html"
+    - title: 驗證並擴充部署
+      url: "/infra/ai-eseries-lustre-deploy-verify.html"
+  - title: 相關資源
+    url: "/infra/ai-eseries-lustre-resources.html"
 - title: 使用 E 系列儲存部署 IBM Spectrum Scale
   pdf-filename: 使用 E 系列儲存部署 IBM Spectrum Scale
   url: "/infra/ai-eseries-spectrumscale.html"

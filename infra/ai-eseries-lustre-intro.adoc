@@ -1,0 +1,31 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-eseries-lustre-intro.html 
+keywords: Lustre, NetApp E-Series, EF80, HPC, AI, parallel file system, NVMe-oF, high-performance storage 
+summary: Lustre 與 NetApp E 系列儲存搭配使用，採用可重複建置區塊架構和 NetApp E 系列 All Flash 陣列，為 AI 和 HPC 工作負載提供經過驗證的易擴充平行檔案系統。 
+---
+= Lustre 與 NetApp E 系列儲存設備－簡介
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Lustre 搭配 NetApp E 系列儲存設備，是一個經過驗證的平行檔案系統解決方案，適用於 AI 和 HPC 工作負載，由可重複的 HA 伺服器對和 E 系列 All Flash 陣列建置區塊組成。
+
+
+
+[[solution-overview]]
+== 解決方案概述
+
+Lustre 與 NetApp E 系列儲存設備結合，將開源的 Lustre 平行檔案系統與 NetApp E 系列區塊儲存設備整合，為資料密集型工作負載交付易擴充的高效能基礎架構。每個建置區塊包含兩個配置為高可用度 （HA） 的 OSS/MDS 伺服器節點和兩個 E 系列 All Flash 陣列。後端 NVMe-oF 連線將區塊 I/O 傳輸至陣列，而獨立的 LNet 架構則連接用戶端與 OSS/MDS 伺服器節點，以存取平行檔案系統。
+
+基礎建置區塊承載管理伺服器 (MGS)、初始中繼資料目標 (MDT) 和物件儲存目標 (OST)。隨著工作負載需求的成長，其他建置區塊會向基礎 MGS 註冊，以擴充中繼資料容量、資料容量和彙總處理量。
+
+下圖展示了一個範例部署，其中包含多個建置區塊和透過 LNet 連接的 Lustre 用戶端。
+
+.Lustre 搭配 NetApp E 系列儲存解決方案總覽
+image:eseries-lustre-overview-diagram.png["Lustre 與 NetApp E 系列儲存設備解決方案總覽，包括建置區塊和用戶端"]

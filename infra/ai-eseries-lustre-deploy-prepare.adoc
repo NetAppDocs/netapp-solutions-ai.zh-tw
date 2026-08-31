@@ -1,0 +1,107 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-eseries-lustre-deploy-prepare.html 
+keywords: Lustre, NetApp E-Series, Ansible control node, EF80, deployment 
+summary: 準備 EF80 陣列、Lustre 伺服器和 Ansible 控制節點以進行部署。 
+---
+= 準備 Lustre 部署環境
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+在每個 EF80 陣列和 Lustre 伺服器上設定管理存取和基本設定，然後準備 Ansible 控制節點來部署解決方案。
+
+
+
+[[prepare-e-series-arrays]]
+== 準備 E 系列陣列
+
+.步驟
+. 在每個控制器上設定管理介面，並確認 SANtricity System Manager 是否可以存取。
+. 設定 Ansible 清單將使用的陣列名稱和管理憑證。
+. 確認陣列處於最佳狀態，所有硬碟均已到位且報告正常。
+
+
+有關設定管理連線的說明，請參閱link:https://docs.netapp.com/us-en/e-series/["E 系列文件"^]。
+
+
+
+[[prepare-lustre-servers]]
+== 準備 Lustre 伺服器
+
+.步驟
+. 在每台伺服器上設定基板管理控制器（BMC），以實現頻外存取，並設定 UEFI 系統設定以獲得最佳效能。
+. 安裝支援的作業系統（RHEL 或 Rocky Linux），然後設定主機名稱和管理網路連接埠。
+. 準備所有韌體和軟體套件，以符合 *E 系列 Lustre* 解決方案的要求，如 link:ai-eseries-lustre-sw.html["軟體元件"] 中所述。
+
+
+
+
+[[prepare-the-ansible-control-node]]
+== 準備 Ansible 控制節點
+
+指定一個可透過管理網路存取所有 Lustre 伺服器和 E 系列陣列的虛擬或實體 Linux 系統，作為 Ansible 控制節點。
+
+以下步驟使用 Ubuntu 24.04。有關其他 Linux 發行版的說明，請參閱link:https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html["Ansible 安裝文件"^]。
+
+.步驟
+. 安裝 Python、pip 和 Python 虛擬環境套件：
++
+[source, console]
+----
+sudo apt-get install python3 python3-pip python3-setuptools python3-venv
+----
+. 建立並啟動 Python 虛擬化環境：
++
+[source, console]
+----
+python3 -m venv ~/pyenv
+source ~/pyenv/bin/activate
+----
+. 在已啟動的虛擬環境中安裝 Ansible 和所需的 Python 套件：
++
+[source, console]
+----
+pip install "ansible-core>=2.19" cryptography jinja2 ipaddr netaddr \
+  passlib pyyaml resolvelib
+----
+. 安裝 NetApp E 系列 Lustre Ansible 集合。此集合的安裝也會安裝其相依集合，包括 SANtricity 和 Host 集合：
++
+[source, console]
+----
+ansible-galaxy collection install netapp_eseries.lustre
+----
+. 驗證已安裝的 Ansible、Python 和集合版本：
++
+[source, console]
+----
+ansible --version
+python3 --version
+ansible-galaxy collection list netapp_eseries.lustre
+----
+. 設定從控制節點到每個 Lustre 伺服器的免密碼 SSH 連線。請將 `<ip_or_hostname>`替換為伺服器的管理 IP 位址或主機名稱：
++
+[source, console]
+----
+ssh-keygen
+ssh-copy-id <ip_or_hostname>
+----
++
+對每個 Lustre 伺服器重複上述步驟。 `ssh-copy-id`
+
+
+
+
+NOTE: 請勿為 E 系列陣列設定無密碼 SSH。Ansible 透過 SANtricity Web Services API 使用清單中定義的憑證來管理這些陣列。
+
+
+
+[[after-you-finish]]
+== 完成後
+
+link:ai-eseries-lustre-deploy-inventory.html["自訂 Ansible 清單"].

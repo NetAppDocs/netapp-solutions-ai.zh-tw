@@ -89,4 +89,4 @@ summary: NetApp的開源 MLOps - 架構
 [[support]]
 == 支援
 
-NetApp不為 Apache Airflow、JupyterHub、MLflow、Kubeflow 或 Kubernetes 提供企業支援。如果您對完全支援的 MLOps 平台感興趣，link:https://www.netapp.com/us/contact-us/index.aspx?for_cr=us["聯絡NetApp"^]了解NetApp與合作夥伴共同提供的全面支援的 MLOps 解決方案。
+NetApp 不提供 Apache Airflow、JupyterHub、MLflow、Kubeflow 或 Kubernetes 的企業支援。如果您對完整支援的 MLOps 平台感興趣，link:https://www.netapp.com/company/contact-us/["聯絡NetApp"^]請了解 NetApp 與合作夥伴共同提供的完整支援 MLOps 解決方案。

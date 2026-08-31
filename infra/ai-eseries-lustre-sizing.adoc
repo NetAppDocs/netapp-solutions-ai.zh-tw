@@ -1,0 +1,119 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-eseries-lustre-sizing.html 
+keywords: Lustre, NetApp E-Series, EF80, sizing, scaling, building block, validation, performance, capacity 
+summary: 使用 NetApp E 系列儲存建置區塊，根據容量和中繼資料需求調整 Lustre 的規模，決定何時擴充，並審查影響效能的因素。 
+---
+= Lustre 搭配 NetApp E 系列儲存設備 - 規模調整指引
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用 NetApp E 系列儲存建置區塊，根據容量和中繼資料需求來調整 Lustre 的規模，決定何時新增容量，並審查影響效能的因素。
+
+
+
+[[capacity-sizing]]
+== 容量規模調整
+
+一個包含兩個 EF80 陣列的基本建置區塊提供了以下 Lustre 目標佈局。如需偏好的目標放置和 NVMe-oF 路徑，請參閱 link:ai-eseries-lustre-hw.html#_primary_building_block_volume_distribution["主要建置區塊 Volume 分佈"] 中的 link:ai-eseries-lustre-hw.html["硬體組件"]。
+
+|===
+| 成分 | 計數 | 典型 Volume 大小（每個目標） 
+
+
+| MGS | 1 | 5-10 GiB 
+
+
+| MDT | 8 | 大小因磁碟機容量和 RAID 佈局而異 
+
+
+| OST | 32 | 大小因磁碟機容量和 RAID 佈局而異 
+|===
+每個 EF80 陣列使用 24 個 NVMe 磁碟機。支援的容量包括 3.84 TB、7.68 TB 和 15.3 TB，支援傳統 Volume 群組（MGS/MDT 使用 RAID 1，OST 使用 RAID 6）或 DDP；以及 30.7 TB 或 61.4 TB 容量的 Flash（QLC）磁碟機，僅支援 DDP。目前不建議在此解決方案中使用 1.92 TB 磁碟機。有關磁碟機插槽佈局和資源池選擇，請參閱link:ai-eseries-lustre-hw.html["硬體組件"]。
+
+下表列出了 EF80 建置區塊（兩個陣列，48 個磁碟機）的近似可用容量。陣列可用容量與最終 Lustre 檔案系統可用容量不同。MDT inode 分配、日誌、過度資源配置和庫存 Volume 百分比都會減少應用程式可用的容量。
+
+[cols="2,4,2"]
+|===
+| 磁碟機容量 | 佈局（每個陣列） | 近似可用容量（建置區塊） 
+
+
+| 3.84 TB | RAID 1 (2+2) + RAID 6 (10) + RAID 6 (10) | 138.08 TB 
+
+
+| 3.84 TB | DDP（24 個磁碟機，2 個預留） | 133.63 TB 
+
+
+| 7.68 TB | RAID 1 (2+2) + RAID 6 (10) + RAID 6 (10) | 276.35 TB 
+
+
+| 7.68 TB | DDP（24） | 267.47 TB 
+
+
+| 15.3 TB | RAID 1 (2+2) + RAID 6 (10) + RAID 6 (10) | 552.88 TB 
+
+
+| 15.3 TB | DDP（24） | 535.15 TB 
+
+
+| 30.7 TB | 僅限 DDP | 1,070.35 TB 
+
+
+| 61.4 TB | 僅限 DDP | 2,162.70 TB 
+|===
+將中繼資料和資料分別設定大小，然後在 Ansible 清單中設定 Volume 大小。部署範本使用 ldiskfs 格式化目標；MDT 使用 Lustre 預設的 inode 比率，並設定 OST 範本 `-i 4096`。
+
+* *中繼資料 (MDT)：* 根據預期檔案數量確定 MDT 的規模。預留大約兩倍於預期檔案數量的成長空間。MDT 容量過小會導致即使 OST 容量充足，也無法建立新檔案。
+* *資料（OST）：*根據可用容量和處理量需求決定 OST 的大小。
+* *MGS:* 僅使用較小的管理目標（5-10 GiB）進行檔案系統組態。
+
+
+根據所選磁碟機容量調整清單中的 MDT 和 OST Volume 大小。僅當站台需要不同的 inode 比率時，才在 `format_options.mkfsoptions`中 `eseries_lustre_filesystem_mdt`或 `eseries_lustre_filesystem_ost`中進行變更。有關 inode 比率的背景資訊，請參閱link:https://wiki.lustre.org/Lustre_Tuning["Lustre Wiki：Lustre 調校"^]。有關何時新增建置區塊，請參閱<<規模化>>。
+
+
+
+[[scaling]]
+== 規模化
+
+當容量或中繼資料負載需要時，新增建置區塊：
+
+* *僅限 OST：* 檔案數量和中繼資料負載已在現有 MDT 容量範圍內，但您需要更大的資料容量或彙總處理量。此方案新增 32 個 OST 和兩個 OSS/MDS 伺服器節點。
+* *MDT+OST：* 檔案數量或中繼資料速率接近 MDT 容量上限，或您需要更高的中繼資料處理量和資料容量。增加 8 個 MDT 和 32 個 OST。
+
+
+在現有 MDT 上使用 `mdt.*.md_stats`，以確認中繼資料是否已飽和。每個 Pacemaker/Corosync 叢集最多只能包含五個建置區塊（十個 OSS/MDS 伺服器節點）。對於更大規模的部署，請將建置區塊平均分配至多個 HA 叢集。請參閱link:ai-eseries-lustre-architecture.html["解決方案架構"]以了解擴充規則。
+
+以下範例展示了一個 HA 叢集中具有基本建置區塊和僅 OST 建置區塊的檔案系統。
+
+|===
+| 建置區塊 | 類型 | 伺服器 | 陣列 | MGS | MDT | OST 
+
+
+| BB1 | 基礎 | 2 | 2 | 1 | 8 | 32 
+
+
+| BB2 | 僅限 OST | 2 | 2 | 0 | 0 | 32 
+
+
+| 總計 |  | 4 | 4 | 1 | 8 | 64 
+|===
+BB2 使用 `mgsnode=`將其 OST 目標註冊到 BB1 中的 MGS。BB2 的 OST 索引是全域分配的（例如，OST0032 到 OST0063），因此沒有索引與 BB1 衝突。
+
+
+
+[[performance]]
+== 表現
+
+正式驗證使用 Lustre 用戶端的 IOR、mdtest 和 fio 來表徵相對處理量、IOPS 和中繼資料行為，並驗證高可用度容錯移轉。這些測試不提供效能保證數據。綜合基準測試衡量的是最佳情況下的效能，可能無法反映實際應用程式效能。
+
+效能大致與建置區塊的數量成正比。實際結果取決於磁碟機類型和資源池佈局、NVMe-oF 路徑數量、LNet 架構和用戶端數量，以及資料 I/O 與中繼資料 I/O 的比例。
+
+請聯絡您的 NetApp 帳戶團隊，以取得特定工作負載的規模和效能建議。
+
+有關磁碟機佈局和 Volume 統計，請參閱 link:ai-eseries-lustre-hw.html["硬體組件"]。有關部署步驟，請參閱 link:ai-eseries-lustre-deploy.html["部署解決方案"]。有關現場級庫存指南，請參閱 link:ai-eseries-lustre-deploy-inventory.html["自訂 Lustre Ansible 庫存"]。

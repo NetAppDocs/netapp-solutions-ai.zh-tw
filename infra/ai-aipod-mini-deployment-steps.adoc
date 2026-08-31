@@ -200,7 +200,7 @@ kubeconfig: "<repository path>/deployment/inventory/<cluster-name>/artifacts/adm
 ----
 ansible-playbook playbooks/infrastructure.yaml --tags configure,install -i inventory/<cluster-name>/inventory.ini -e @inventory/<cluster-name>/config.yaml
 ----
-注意：- 如果您的節點上未設定免密碼 sudo，則需要將 `--ask-become-pass`新增至此命令。使用 `--ask-become-pass`時，請務必確保每個節點上的 ssh 使用者密碼相同。- 有關詳細資訊，請參閱 https://github.com/opea-project/Enterprise-RAG/blob/main/deployment/roles/infrastructure/netapp_trident_csi_setup/netapp_trident_integration.md["NetApp Trident CSI 整合，適用於企業 RAG"^]。有關更多詳細資訊，請參閱 https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["Trident安裝文檔"^]。
+注意：- 如果您的節點上未設定免密碼 sudo，則需要將 `--ask-become-pass`新增至此命令。使用 `--ask-become-pass`時，請務必確保每個節點上的 ssh 使用者密碼相同。- 詳情請參閱  https://github.com/opea-project/Enterprise-RAG/blob/main/deployment/roles/infrastructure/netapp_trident_csi_setup/netapp_trident_integration.md["NetApp Trident CSI 整合，適用於企業 RAG"^]。有關更多詳細資訊，請參閱 https://docs.netapp.com/us-en/trident/trident-install/kubernetes-deploy-operator.html["Trident安裝文檔"^]。
 
 
 

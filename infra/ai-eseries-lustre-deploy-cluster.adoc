@@ -1,0 +1,150 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-eseries-lustre-deploy-cluster.html 
+keywords: Lustre, NetApp E-Series, Ansible, DOCA-OFED, Lustre client 
+summary: 使用 NetApp Ansible playbook 部署 Lustre HA 叢集和用戶端。 
+---
+= 部署 Lustre 高可用度叢集和用戶端
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+:client-tmpl: https://github.com/NetApp/ansible-lustre/blob/release/1.0.0/getting_started/lustre_deployment_template/clients/ROCE_lustre_cluster_clients
+
+
+[role="lead"]
+準備伺服器作業系統，安裝 NVIDIA DOCA-OFED，部署 Lustre HA 叢集，並使用 NetApp Ansible playbooks 設定 Lustre 用戶端。
+
+在開始之前，請完成並確保link:ai-eseries-lustre-deploy-inventory.html["自訂 Lustre Ansible 庫存"]中所述的物品清單。
+
+
+
+[[deploy-the-lustre-ha-cluster]]
+== 部署 Lustre HA 叢集
+
+.步驟
+. 從工作複本的 `building_blocks/playbooks`目錄中，準備 Lustre 伺服器上的作業系統。將 `<inventory_path>`替換為您自訂的庫存目錄路徑：
++
+[source, console]
+----
+ansible-playbook -i <inventory_path>/lustre_inventory.yml deploy_lustre_os/deploy_lustre_os_playbook.yml
+----
+. 在每台 Lustre 伺服器上安裝 NVIDIA DOCA-OFED。針對上一步安裝的核心建置核心模組。請按照適用於您核心的步驟進行操作link:https://networking-docs.nvidia.com/doca/archive/3-2-3/doca-host-installation-and-upgrade#id-(3.2.3-Jun_Oct25LTSU3)DOCA-HostInstallationandUpgrade-DOCAExtraPackageanddoca-kernel-support["NVIDIA DOCA-Host 安裝與升級"^]。以下範例展示了在 RHEL 或 Rocky Linux 上安裝 DOCA-OFED 的過程。
++
+.. 安裝 DOCA 主機儲存庫套件並重新整理套件快取。請將 `<doca_host_package>`替換為您的作業系統和架構對應的 DOCA 主機套件：
++
+[source, console]
+----
+dnf install -y wget tar
+wget https://www.mellanox.com/downloads/DOCA/<doca_host_package>.rpm
+rpm -i <doca_host_package>.rpm
+dnf clean all
+dnf makecache
+----
+.. 為正在執行的核心建立 DOCA 核心模組。該指令碼會列印其所建立的套件路徑：
++
+[source, console]
+----
+dnf install -y doca-extra
+/opt/mellanox/doca/tools/doca-kernel-support
+----
+.. 安裝指令碼建立的核心模組儲存庫套件，然後重新整理套件快取。將 `<doca_kernel_repo>`替換為上一步中的路徑：
++
+[source, console]
+----
+rpm -Uvh <doca_kernel_repo>.rpm
+dnf makecache
+----
+.. 安裝 DOCA-OFED 使用者空間、核心和 NVMe 套件。將 `<kernel_version>`替換為目前執行中的核心版本：
++
+[source, console]
+----
+dnf install -y doca-ofed-userspace
+dnf install -y --disablerepo=doca doca-kernel-<kernel_version>
+dnf install -y kmod-mlnx-nvme
+----
+
+
+. 執行主要部署 playbook：
++
+[source, console]
+----
+ansible-playbook -i <inventory_path>/lustre_inventory.yml lustre_playbook.yml
+----
++
+
+NOTE: 調整 `--forks`以依部署規模控制 Ansible 並行設定的主機數量。例如，對於較大的叢集，請新增 `--forks 20`。
+
+
+
+此腳本配置 E 系列 Volume 群組或動態磁碟資源池，以及 Volume，設定 NVMe-oF 主機連線功能，格式化並裝載 Lustre 目標，設定 LNet，套用效能調校，以及設定 Pacemaker HA 資源。
+
+
+NOTE: 包含一個建置區塊的部署將形成一個雙節點 Pacemaker 叢集。在容錯移轉時，節點 A 將獲得額外的投票權。若要在雙節點叢集中實現仲裁，請考慮設定 qdevice。當部署包含多個建置區塊時，每個建置區塊都會向更大的 Pacemaker 叢集貢獻一對雙節點伺服器，直到達到已記錄的叢集限制。請檢閱link:https://github.com/NetApp/ansible-lustre/blob/release/1.0.0/roles/lustre/docs/ha_user_guide.md["HA 管理使用者指南"^]中的隔離和仲裁組態，以便叢集能夠在節點故障期間安全地恢復目標。
+
+
+
+[[deploy-lustre-clients]]
+== 部署 Lustre 用戶端
+
+透過自訂用戶端部署範本並執行用戶端 playbook，可在任何需要檔案系統存取的系統上部署 Lustre 用戶端。
+
+.步驟
+. 從 link:https://wiki.whamcloud.com/display/PUB/Lustre+Support+Matrix["Lustre 支援對照表"^] 中選擇相容的用戶端作業系統和核心。如果尚未安裝，請從 link:https://github.com/NetApp/netapp-lustre["netapp-lustre"^] 建置並安裝適用於該核心的 Lustre 用戶端軟體套件。
+. 建立範本目錄的工作複本 `clients`（包括其共享的 `passwords.yml`檔案），並選擇與您的架構相符的範本：
++
+** *InfiniBand:* link:https://github.com/NetApp/ansible-lustre/tree/release/1.0.0/getting_started/lustre_deployment_template/clients/IB_lustre_cluster_clients["IB_lustre_cluster_clients"^]
+** *RoCE:* link:https://github.com/NetApp/ansible-lustre/tree/release/1.0.0/getting_started/lustre_deployment_template/clients/ROCE_lustre_cluster_clients["ROCE_lustre_cluster_clients"^]
+
+
+. 自訂 `lustre_client_inventory.yml`、 `host_vars`和 `group_vars`以供您的用戶端使用。表格中的行引用指向 `ansible-lustre` `release/1.0.0`標籤中的 RoCE 用戶端範本檔案；InfiniBand 用戶端範本使用相同的變數，除非另有說明。
++
+[cols="2,3,4,2,4"]
+|===
+| 欄位 | Ansible 變數 | 模板檔案 (`release/1.0.0`） | 範圍 | 附註 
+
+
+| 用戶端主機 | `lustre_clients` | link:https://github.com/NetApp/ansible-lustre/blob/release/1.0.0/getting_started/lustre_deployment_template/clients/ROCE_lustre_cluster_clients/lustre_client_inventory.yml#L4["lustre_client_inventory.yml#L4"^] | 每個用戶端 | 列出每個用戶端主機名稱。 
+
+
+| 用戶端 SSH 使用者名稱和密碼 | `ssh_client_user` / `ssh_client_become_pass` | link:https://github.com/NetApp/ansible-lustre/blob/release/1.0.0/getting_started/lustre_deployment_template/clients/passwords.yml#L2["passwords.yml#L2"^] | 全集群範圍 | 僅當 SSH 使用者不是 `root`時，才設定 become 密碼。 
+
+
+| LNet 介面 | `eseries_lustre_lnet` | link:https://github.com/NetApp/ansible-lustre/blob/release/1.0.0/getting_started/lustre_deployment_template/clients/ROCE_lustre_cluster_clients/group_vars/all.yml#L7["group_vars/all.yml#L7"^] | 全集群範圍 | 用戶端 LNet 介面名稱（L13 的值）。 
+
+
+| 裝載 MGS NID | `lustre_client_mounts.mgsnode` | link:https://github.com/NetApp/ansible-lustre/blob/release/1.0.0/getting_started/lustre_deployment_template/clients/ROCE_lustre_cluster_clients/group_vars/all.yml#L17["group_vars/all.yml#L17"^] | 全集群範圍 | 用於裝載檔案系統的 MGS NID （L20 中的值）。 
+
+
+| 檔案系統名稱 | `lustre_client_mounts.fsname` | link:https://github.com/NetApp/ansible-lustre/blob/release/1.0.0/getting_started/lustre_deployment_template/clients/ROCE_lustre_cluster_clients/group_vars/all.yml#L21["group_vars/all.yml#L21"^] | 全集群範圍 | 必須與叢集 `fsname`相符。 
+
+
+| 裝載點 | `lustre_client_mounts.mount_point` | link:https://github.com/NetApp/ansible-lustre/blob/release/1.0.0/getting_started/lustre_deployment_template/clients/ROCE_lustre_cluster_clients/group_vars/all.yml#L22["group_vars/all.yml#L22"^] | 全集群範圍 | 用戶端裝載目錄。 
+
+
+| 用戶端管理 IP | `ansible_host` | link:https://github.com/NetApp/ansible-lustre/blob/release/1.0.0/getting_started/lustre_deployment_template/clients/ROCE_lustre_cluster_clients/host_vars/client_01.yml#L4["host_vars/client_01.yml#L4"^] | 每個用戶端重複 | 每個用戶端一個 `host_vars/client_NN.yml`檔案。 
+
+
+| 儲存架構介面 | `eseries_roce_interfaces` | link:https://github.com/NetApp/ansible-lustre/blob/release/1.0.0/getting_started/lustre_deployment_template/clients/ROCE_lustre_cluster_clients/host_vars/client_01.yml#L10["host_vars/client_01.yml#L10"^] | 每個用戶端重複 | 前端介面位址（第 15 行的值）。InfiniBand 模板在此處使用 `eseries_ipoib_interfaces`。 
+|===
++
+對每個用戶端重複上述設定。為每個用戶端建立一個 `host_vars/client_NN.yml`檔案，並將相應的主機新增至 `lustre_client_inventory.yml`。填入共享的 `clients/passwords.yml`檔案，並在執行用戶端 playbook 之前使用 Ansible Vault 對其加密。
+
+. 從用戶端模板目錄執行用戶端 playbook：
++
+[source, console]
+----
+ansible-playbook -i lustre_client_inventory.yml lustre_client_playbook.yml
+----
+
+
+用戶端 playbook 設定用戶端網路介面和 LNet，並可為 Lustre 檔案系統建立持久的 systemd 裝載單元。
+
+
+
+[[after-you-finish]]
+== 完成後
+
+link:ai-eseries-lustre-deploy-verify.html["驗證部署"].

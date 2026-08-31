@@ -1,0 +1,111 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-eseries-lustre-architecture.html 
+keywords: Lustre, NetApp E-Series, EF80, building block, NVMe-oF, LNet, Pacemaker, HA, scaling, clients 
+summary: 了解 Lustre 與 NetApp E 系列儲存系統的建置區塊設計、擴充規則、HA 模型、網路拓撲和用戶端整合。 
+---
+= Lustre 搭配 NetApp E 系列儲存系統解決方案架構
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+了解 Lustre 與 NetApp E 系列儲存系統如何利用建置區塊、高可用度、網路拓撲和用戶端，以便您規劃容量、效能和容錯移轉。
+
+
+
+[[building-block-design]]
+== 建置區塊設計
+
+建置區塊是 NetApp E 系列 Lustre 解決方案的基本易擴充單元。每個建置區塊包含兩個配置為高可用度 (HA) 配對的伺服器節點，提供 Lustre 物件儲存伺服器 (OSS) 和中繼資料伺服器 (MDS) 功能；兩個 NetApp E 系列 All Flash 陣列；伺服器與陣列之間的專用後端 NVMe over Fabrics (NVMe-oF) 連線；以及用於用戶端和節點間通訊的專用前端 Lustre 連網 (LNet) 連線。一個 Pacemaker 和 Corosync HA 叢集可包含來自一個或多個建置區塊的伺服器配對。此 NetApp `ansible-lustre`集合使用 Ansible 自動化來部署和設定 Lustre 服務。
+
+.Lustre 建置區塊
+image:eseries-lustre-building-block.png["Lustre HA 建置區塊，包含兩個 OSS/MDS 伺服器節點和兩個 E 系列 EF80 陣列"]
+
+建置區塊可根據檔案系統的成長需求進行擴充。每個檔案系統都需要一個基礎建置區塊。基礎建置區塊在管理目標 (MGT) 上託管管理伺服器 (MGS)，並提供初始中繼資料目標 (MDT) 和物件儲存目標 (OST) 容量。其他建置區塊可擴充檔案系統，並將其 MDT 和 OST 目標註冊至基礎建置區塊的 MGS。這種模組化方法可讓容量和效能根據工作負載需求獨立擴充。
+
+NetApp 對於大多數部署，建議使用以下建置區塊組態方案。列出的 MGS、MDT 和 OST 數量是建議的預設值，這些值已經過最佳化，可最大化 E 系列儲存陣列的效能和容量。您可以根據工作負載需求，在 Ansible 清單中調整目標數量、Volume 大小和 E 系列磁碟機分配。例如，需要更大中繼資料儲存容量的部署，可以在相同的建置區塊硬體中資源配置更多 MDT 和更少的 OST。
+
+下表總結了建置區塊類型和建議的目標數量。
+
+|===
+| 類型 | MGS | MDT | OST | 使用 
+
+
+| 基礎 | 1 | 8 | 32 | 檔案系統的第一個建置區塊。承載 MGS 以及初始 MDT 和 OST 容量。 
+
+
+| MDT+OST | 0 | 8 | 32 | 新增中繼資料和資料容量。註冊到基礎建置區塊 MGS。 
+
+
+| 僅限 OST | 0 | 0 | 32 | 僅增加資料容量。已註冊到基礎建置區塊 MGS。 
+|===
+* *磁碟機類型和資源池佈局：* E 系列支援傳統 RAID Volume 群組和動態磁碟資源池（DDP）。對於 TLC NVMe 磁碟機，OST 儲存設備使用 RAID 6 Volume 群組，MGS 和 MDT 儲存設備使用 RAID 1 Volume 群組。對於 QLC NVMe 磁碟機，共享的磁碟機資源池使用 DDP。
+* *目標經銷：* 每個建置區塊中的 Lustre 目標在兩個 OSS/MDS 伺服器節點和兩個 E 系列陣列之間保持均衡分佈。這種佈局將 I/O 分散到伺服器 CPU 和陣列控制器上，以提高 NVMe-oF 路徑效能並維持備援。請參閱 link:ai-eseries-lustre-hw.html#_primary_building_block_volume_distribution["目標經銷和 NVMe-oF 連線功能"] 中的 link:ai-eseries-lustre-hw.html["硬體組件"]。
+
+
+支援的作業系統、Lustre 版本、陣列韌體和相關建置區塊元件列於link:https://imt.netapp.com/imt/#welcome["NetApp 互作業性矩陣工具（IMT）"^]的 *E 系列 Lustre* 下。如需詳細的 Volume 數量、磁碟機佈局和規模指南，請參閱link:ai-eseries-lustre-hw.html["硬體組件"]。如需軟體元件相關資訊，請參閱link:ai-eseries-lustre-sw.html["軟體元件"]。
+
+
+
+[[scaling-recommendations]]
+== 規模化建議
+
+Lustre 檔案系統透過新增建置區塊來進行擴充，當中繼資料容量、資料容量或兩者都成為瓶頸時，即可進行擴充。根據檔案數量和中繼資料 IOPS 來擴充 MDT；根據容量和彙總處理量需求來擴充 OST。
+
+. *每個檔案系統一個基本建置區塊：* 部署一個基本建置區塊；它承載 MGS 和初始 MDT 和 OST 目標。
+. *附加建置區塊設定檔：* 當現有 MDT 容量充足且資料容量或處理量必須增加時，新增僅包含 OST 的建置區塊。當中繼資料效能或命名空間容量成為瓶頸時，新增包含 MDT 和 OST 的建置區塊。
+. *HA 叢集限制：* 將每個 Pacemaker 和 Corosync HA 叢集限制為五個建置區塊（十個 Lustre 伺服器節點）。將較大的部署平均拆分為多個 HA 叢集，以避免大型組態中的資源限制。
+
+
+下圖展示了最多五個建置區塊堆疊在一個 42U 機架中的情況（每個機架一個 Pacemaker HA 叢集）。多個機架可以參與單一 Lustre 檔案系統；只有基礎建置區塊承載 MGS。
+
+.Lustre 平行檔案系統機架擴充
+image:eseries-lustre-2x2-rack-scaling.png["Lustre 平行檔案系統可在多個 42U 機架上擴充，每個機架在一個 Pacemaker HA 叢集中最多可容納五個建置區塊。"]
+
+有關規模範例，請參見link:ai-eseries-lustre-sizing.html["尺寸指南"]。
+
+
+
+[[ha-architecture]]
+== HA 架構
+
+Lustre 與 NetApp E 系列儲存採用共享磁碟高可用度 （HA） 架構，並與 NetApp E 系列儲存系統整合。Pacemaker 管理 HA 資源，Corosync 提供叢集成員關係和郵件功能。它們共同管理每個建置區塊中兩個 OSS/MDS 伺服器節點之間的 Lustre 目標容錯移轉。多重路徑 NVMe-oF 將兩個 OSS/MDS 伺服器節點連接到相同的 E 系列 Volume，因此任何一個節點都可以在需要時接管目標服務。
+
+每個 MGS、MDT 和 OST 都設定為具有相依性的 HA 資源，位於 Pacemaker 資源群組中。Pacemaker 可確保資源以正確的順序啟動和停止、保持共置於相同節點上，且一次只能在一個節點上執行。兩個節點同時存取相同目標可能會毀損底層檔案系統。
+
+* *目標容錯移轉：* 兩個 OSS/MDS 伺服器節點在叢集中互為對等節點，但每個 Lustre 目標在同一時間僅在一個節點上處於作用中。Pacemaker 監控資源會監控每個目標及其相依性的健全狀況，並在目標於其目前節點上無法使用時觸發容錯移轉。發生故障時，Pacemaker 會以正確的順序在合作夥伴節點上重新啟動受影響的資源群組，服務恢復後，用戶端會以透明方式重新連接至目標的新位置。由於每個目標僅在單一節點上啟動，因此檔案系統永遠不會面臨來自兩個節點的並行寫入。
+* *共享儲存設備存取：* 多重路徑 NVMe-oF 路徑將每個 OSS/MDS 伺服器節點連接到建置區塊中的所有 E 系列控制器，因此每個目標 Volume 都可以從任一節點存取。如果某個伺服器節點發生故障，其合作夥伴節點已擁有到相同 Volume 的作用中路徑，無需重新設定儲存設備連線即可接管目標的所有權。如果某個陣列控制器或路徑發生故障，多重路徑會將 I/O 重新導向至倖存的控制器。這種雙重備援使 Lustre 目標可在 OSS/MDS 伺服器節點或陣列控制器之間容錯移轉，而不會失去對後端 Volume 的存取。
+* *STONITH 隔離：* 當發生故障時，Pacemaker 有時無法與故障節點通訊以確認其目標已停止。在從其他位置重新啟動這些目標之前，Pacemaker 會隔離故障節點（理想情況下是透過斷電），以確保其完全關閉。隔離功能可防止腦裂情況，即兩個節點同時存取相同目標並導致底層檔案系統毀損，從而在容錯移轉期間保持資料完整性。NetApp 建議 `fence_redfish`在配備支援 Redfish 的基板管理控制器 (BMC) 的伺服器上使用此功能。其他隔離代理，例如 `fence_apc`，也受支援。
+
+
+有關叢集管理和隔離組態，請參閱 link:https://github.com/NetApp/ansible-lustre/blob/release/1.0.0/roles/lustre/docs/ha_user_guide.md["HA 使用者指南"^] 中的 link:https://github.com/NetApp/ansible-lustre/tree/release/1.0.0["ansible-lustre 集合"^]。
+
+
+
+[[network-architecture]]
+== 網路架構
+
+此解決方案為儲存設備後端流量和 LNet 前端流量使用分隔的網路路徑。
+
+* *後端 （NVMe-oF）：* OSS/MDS 伺服器節點透過 NVMe-oF 使用 NVMe/InfiniBand 或 NVMe/RoCE 連接到 E 系列陣列。NVMe-oF 路徑承載 Lustre 目標服務和 E 系列 Volume 之間的區塊 I/O。有關 EF80 六 HCA 後端佈線，請參閱 link:ai-eseries-lustre-deploy-hardware.html["機架和纜線 Lustre 硬體"]。有關跨節點和陣列的慣用目標放置位置，請參閱 link:ai-eseries-lustre-hw.html#_primary_building_block_volume_distribution["目標經銷"] 中的 link:ai-eseries-lustre-hw.html["硬體組件"]。
+* *前端（LNet）：* Lustre 用戶端和 OSS/MDS 伺服器節點使用 `@o2ib`網路類型與 NVIDIA OFED 堆疊，透過 LNet 進行通訊。InfiniBand 和 RoCE 都是經過驗證的前端傳輸協定。ansible-lustre 集合會將所有前端介面設定為多軌 LNet，以彙總多個連接埠來提升頻寬，並為用戶端和節點間流量提供路徑備援。
+* *管理和叢集：* 帶外管理網路提供伺服器管理、BMC 存取和陣列管理。STONITH 隔離代理（例如 `fence_redfish`）使用此網路存取伺服器 BMC 並移除故障節點的電源。Corosync 也可以透過此網路作為前端架構以外的附加環來執行叢集通訊。設定具有多個環的 Corosync 可為叢集郵件增加備援，並降低單一網路故障導致仲裁中斷的風險。
+
+
+
+
+[[lustre-clients]]
+== Lustre 用戶端
+
+Lustre 用戶端載入用戶端核心模組，建立與 OSS/MDS 伺服器節點的 LNet 連線，並裝載檔案系統，為應用程式提供單一、一致且符合 POSIX 標準的命名空間。I/O 以並行方式分散於各作用中的 OST。用戶端節點位於建置區塊外部，並透過前端 LNet 架構使用檔案系統。此解決方案的用戶端作業系統未列於 IMT 中；請使用 link:https://wiki.whamcloud.com/display/PUB/Lustre+Support+Matrix["Lustre 支援對照表"^] 以查看已部署 Lustre 版本所支援的已測試用戶端發行版及核心版本（例如，Red Hat Enterprise Linux 9、SUSE Linux Enterprise Server 15 和 Ubuntu 24.04）。
+
+用戶端節點需要連線至與 OSS/MDS 伺服器節點相同的 LNet 架構和網路類型。如有需要，LNet 路由器可以橋接分隔的 LNet 子網路或網路架構。
+
+NetApp 提供適用於 Rocky Linux 9.8 和 Red Hat Enterprise Linux 9.8 的預編譯 Lustre 伺服器 RPM 套件。NetApp 不提供預先編譯的用戶端軟體套件。請從 link:https://github.com/NetApp/netapp-lustre["netapp-lustre 儲存庫"^] 中的 Lustre 原始程式碼，為用戶端作業系統和核心建置用戶端軟體套件。
+
+安裝用戶端套件後，link:https://github.com/NetApp/ansible-lustre/tree/release/1.0.0["ansible-lustre 集合"^] 中的選用  `lustre_client` 角色會設定用戶端網路介面和 LNet、在選取時啟用多軌 LNet、驗證連線功能，並管理持續性 systemd 裝載單元。此角色不會建置 Lustre。僅在填入  `lustre_client_packages` 時，它才會安裝用戶端套件。如果需要，可以手動設定用戶端。如需逐步程序，請參閱 link:ai-eseries-lustre-deploy.html["部署解決方案"] 和 link:https://github.com/NetApp/ansible-lustre/blob/release/1.0.0/roles/lustre_client/README.md["lustre_client 角色文件"^]。

@@ -1,0 +1,46 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-eseries-lustre-deploy-hardware.html 
+keywords: Lustre, NetApp E-Series, EF80, hardware deployment, NVMe-oF, LNet 
+summary: 將伺服器、EF80 陣列、後端 NVMe-oF 網路和前端 LNet 架構安裝到機架上並連接線纜，以建置 Lustre 建置區塊。 
+---
+= 機架和纜線 Lustre 硬體
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+將 Lustre 伺服器和 NetApp EF80 陣列安裝到機架上，然後為每個建置區塊連接後端 NVMe-oF 和前端 LNet 架構。
+
+
+
+[[before-you-begin]]
+== 開始之前
+
+查看 link:ai-eseries-lustre-hw.html["硬體組件"] 中的 HCA 計數、PCIe 插槽要求、路徑要求和 MTU 指南。
+
+.步驟
+. 根據建置區塊拓撲，將所有 Lustre 伺服器和 E 系列儲存陣列安裝到機架上並連接電纜。
++
+image:eseries-lustre-building-block-labeled.png["標示「Lustre」字樣的建置區塊堆疊了兩台 OSS/MDS 伺服器和兩台 EF80 陣列"]
+
+. 對於每個 EF80 陣列，將控制器 A 的連接埠 4a 連接到控制器 B 的連接埠 4a，並將控制器 A 的連接埠 4b 連接到控制器 B 的連接埠 4b。這些專用連接提供控制器間的鏡射，不用於主機流量。參見link:https://docs.netapp.com/us-en/e-series/install-hw-ef50-ef80/install-cable.html#step-1-cable-the-inter-controller-mirroring-connections["連接 EF50 和 EF80 控制器間鏡射連接線"^]。
+. 根據 EF80 六 HCA 拓撲，在伺服器和陣列之間連接後端 NVMe-oF 網路。
++
+.EF80 六 HCA 後端佈線（RoCE 或 InfiniBand）
+image:eseries-lustre-ef80-6hca-cabling.png["EF80 六 HCA 後端 NVMe-oF 纜線連接兩個 OSS/MDS 伺服器節點和兩個 EF80 陣列"]
+
+. 將每台 Lustre 伺服器和 Lustre 用戶端上的四個前端 LNet 介面（i1 和 i4 HCA）連接到專用 InfiniBand 或 RoCE 交換器架構。
+. 使用 RoCE 時，請將架構設定為無損操作並啟用優先權流程控制 （PFC）。Ansible playbook 會在建置區塊中的所有介面上設定無損 RoCE。
+
+
+
+
+[[after-you-finish]]
+== 完成後
+
+link:ai-eseries-lustre-deploy-prepare.html["準備伺服器、陣列和 Ansible 控制節點"].

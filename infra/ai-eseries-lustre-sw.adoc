@@ -1,0 +1,89 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-eseries-lustre-sw.html 
+keywords: Lustre, NetApp E-Series, software, SANtricity, Rocky Linux, Pacemaker, Corosync, DOCA, Lustre client 
+summary: 檢視用於部署 Lustre 與 NetApp E 系列儲存系統的軟體元件和 Ansible 自動化。 
+---
+= Lustre 搭配 NetApp E 系列儲存系統 - 軟體元件
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+查看用於部署 Lustre 與 NetApp E 系列儲存設備的軟體堆疊和 Ansible 自動化。有關伺服器、儲存設備和網路的資訊，請參閱 link:ai-eseries-lustre-hw.html["硬體組件"]。
+
+
+
+[[building-block-software]]
+== 建置區塊軟體
+
+下表列出 E 系列陣列和 OSS/MDS 伺服器節點所使用的軟體元件。請以 link:https://imt.netapp.com/imt/#welcome["NetApp 互作業性矩陣工具（IMT）"^] 作為官方來源，確認支援的版本和元件組合。部署前，請搜尋 *E-Series Lustre*，並確認作業系統、Lustre、SANtricity 作業系統、DOCA-OFED、HCA 韌體和 HA 套件的版本。
+
+[cols="30%,70%"]
+|===
+| 成分 | 功能 
+
+
+| SANtricity OS | 在每個 E 系列陣列上執行，並提供 SANtricity System Manager、雙主動控制器高可用度（具備自動 I/O 路徑故障移轉）、自動負載平衡和路徑監控、動態磁碟資源池和傳統 RAID、自動磁碟機重建、鏡像快取保護、Data Assurance、主動式磁碟機健全狀況監控以及線上軟體、韌體和組態變更。 
+
+
+| Lustre | 為用戶端提供單一符合 POSIX 標準的命名空間，同時將中繼資料和檔案資料分散至多個目標，以實現並行存取。管理伺服器 （MGS） 儲存檔案系統組態，中繼資料目標 （MDT） 管理命名空間，物件儲存目標 （OST） 將檔案資料儲存在 E 系列 Volume 上。此分離式設計可透過新增建置區塊來擴充效能和容量。 
+
+
+| Red Hat Enterprise Linux (RHEL) 或 Rocky Linux | 為 Lustre 目標服務、高可用度叢集以及儲存設備和網路連線功能提供核心、系統服務和套件架構。支援的作業系統儲存庫亦提供 Pacemaker、Corosync、fence 代理程式、NVMe-oF 和多重路徑套件，這些套件已作為解決方案堆疊共同進行測試。 
+
+
+| 高可用度叢集服務（Pacemaker、Corosync 和 fence 代理程式） | 這些服務協同工作，為 OSS/MDS 伺服器節點上的 Lustre 目標提供協調一致的高可用度。它們維護叢集成員關係和仲裁，監控資源，協調有序故障轉移，並在啟動其他位置的共享目標之前隔離無回應的節點。這種協調機制可防止對 E 系列 Volume 的腦裂存取，並在故障期間保護檔案系統的完整性。 
+
+
+| NVIDIA DOCA-OFED | 為 InfiniBand 和 RoCE 架構提供 HCA 驅動程式、RDMA 程式庫及管理公用程式。同一軟體堆疊支援對 E 系列陣列的低延遲後端 NVMe-oF 存取，以及與 Lustre 用戶端的高處理量前端 LNet 通訊。 
+|===
+NetApp 為 Rocky Linux 9.8 和 Red Hat Enterprise Linux 9.8 提供預先建置的 Lustre 伺服器 RPM。
+
+
+
+[[ansible-automation]]
+== Ansible 自動化
+
+Lustre 搭配 NetApp E 系列儲存系統的部署與交付，是透過 Ansible 自動化從具備對 E 系列陣列及 OSS/MDS 伺服器節點管理存取權的控制節點來實現。Ansible 清單對所需的解決方案進行建模，包括陣列、伺服器、儲存設備分配、網路介面和高可用度叢集資源。
+
+NetApp E 系列 Lustre Ansible 集合利用 SANtricity 和 Host 集合協調端對端部署。這些集合協同運作，為 E 系列儲存設備進行資源配置和映射、準備伺服器作業系統、設定 NVMe-oF 和 LNet 連線、部署 Lustre 目標並建立 Pacemaker 資源。此自動化功能使組態可重複執行，並簡化了在現有檔案系統中新增建置區塊的程序。
+
+下表總結了 Ansible 控制節點上使用的主要軟體套件。如需目前的軟體套件相依性，請參閱 link:https://github.com/NetApp/ansible-lustre["NetApp E 系列 Lustre Ansible collection"^]。
+
+[cols="35%,65%"]
+|===
+| 套件 | 依賴或目的 
+
+
+| Python | 為 Ansible 和所需的 Python 模組提供執行環境。 
+
+
+| ansible-core | 需要 Python，並執行 NetApp E 系列 Ansible 集合。 
+
+
+| 其他 Python 套件 | `cryptography`， `ipaddr`， `netaddr`， `passlib`， `resolvelib`， `jinja2`，和 `pyyaml` 
+
+
+| NetApp E 系列 Lustre Ansible collection | 設定 Lustre、LNet、NVMe-oF 主機連線功能和 Pacemaker 資源。 
+
+
+| NetApp E 系列 SANtricity Ansible 集合 | 透過 SANtricity Web Services API 設定 E 系列陣列、儲存設備資源池、Volume 及主機對應。 
+
+
+| NetApp E 系列主機 Ansible 集合 | 為 OSS/MDS 伺服器節點準備 LNet 和 NVMe-oF 連線至 E 系列陣列。 
+|===
+
+
+[[lustre-client-software]]
+== Lustre 用戶端軟體
+
+Lustre 用戶端軟體使系統能夠透過前端 LNet 架構存取平行檔案系統。每個用戶端都需要與其執行中的核心以及伺服器上所部署的 Lustre 版本相容的 Lustre 核心模組和 Lustre 用戶端公用程式。
+
+使用 link:https://wiki.whamcloud.com/display/PUB/Lustre+Support+Matrix["Lustre 支援對照表"^] 尋找與您的 Lustre 版本相容的用戶端作業系統和核心。NetApp 不提供預先編譯的 Lustre 用戶端軟體套件。請從 link:https://github.com/NetApp/netapp-lustre["netapp-lustre 儲存庫"^] 中 NetApp 提供的 Lustre 原始碼，為用戶端作業系統和核心建立用戶端軟體套件。安裝 Lustre 用戶端軟體套件後， `lustre_client` 角色可以設定網路介面、LNet，並為 Lustre 檔案系統建立持久的 systemd 裝載單元。
+
+有關用戶端部署步驟，請參閱link:ai-eseries-lustre-deploy.html["部署解決方案"]。
