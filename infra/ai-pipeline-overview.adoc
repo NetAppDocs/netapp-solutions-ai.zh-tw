@@ -1,0 +1,37 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-pipeline-overview.html 
+keywords:  
+summary:  
+---
+= 簡化跨 NetApp 儲存設備平台（StorageGRID、ONTAP 和 E 系列）的 AI 傳輸途徑
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Karthikeyan Nagalingam， NetApp
+
+這個經過驗證的架構展示了一個由 Apache Airflow 編排、受控且具備儲存層感知能力的 AI 資料傳輸途徑。此解決方案從 NetApp StorageGRID 擷取原始表格與文字資料，在 ONTAP NAS 儲存桶上準備確定性資料集與清單，並使用 NetApp XCP 根據執行階段組態將準備好的資料移至 NetApp ONTAP S3 或 LustreFS。然後，它會訓練並逐步微調 scikit-learn 模型，產生預測結果，對成功的訓練輸出進行檢查點保存，並將模型、計量、清單和預測證據歸檔到 StorageGRID。該架構提供可重製的執行、可設定的儲存設備位置、故障防護機制、以檢查點為基礎的恢復，以及貫穿整個 AI 生命週期的可稽核血緣關係。它專為需要跨 NetApp 儲存層部署與驗證 AI 傳輸途徑之可重複模式的架構師、資料工程師、機器學習工程師和基礎架構團隊所設計。
+
+'''
+
+
+[[table-of-contents]]
+=== 目錄
+
+. link:ai-pipeline-executive-summary.html["執行摘要"]
+. link:ai-pipeline-solution-overview.html["解決方案概述、業務價值和客戶收益"]
+. link:ai-pipeline-architecture.html["架構概述"]
+. link:ai-pipeline-netapp-components.html["NetApp、第三方和開源技術元件"]
+. link:ai-pipeline-solution-design-and-storage-architecture.html["解決方案設計與儲存設備架構詳情"]
+. link:ai-pipeline-data-mobility.html["使用 NetApp XCP 實現資料移動性"]
+. link:ai-pipeline-deployment-architecture.html["部署架構"]
+. link:ai-pipeline-configuration-reference.html["組態參考"]
+. link:ai-pipeline-operational-guide.html["操作指南"]
+. link:ai-pipeline-security-considerations-validation-testing.html["安全考量、驗證和測試"]
+. link:ai-pipeline-differentiation-appendices.html["NetApp 差異化與競爭定位，附錄"]
+

@@ -1,0 +1,79 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-pipeline-netapp-components.html 
+keywords:  
+summary:  
+---
+= 4.NetApp、第三方和開源技術元件
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Karthikeyan Nagalingam， NetApp
+
+[cols="50%,50%"]
+|===
+| 成分 | 在解決方案中的角色 
+
+
+| NetAppStorageGRID | 與 S3 相容的原始資料擷取與歸檔物件儲存分層 
+
+
+| NetApp ONTAP NAS 儲存桶 / NFS | 已準備的資料分層；在資料搬移之前，NFS 來源匯出已由 XCP 預檢驗證 
+
+
+| NetApp ONTAP S3 | 選用的 XCP 訓練資料與模型工件目的地 
+
+
+| NetApp XCP | 高處理量資料移動性引擎；複製到 S3 或 LustreFS 
+
+
+| NetApp FabricPool | 可選擇對 ONTAP NAS 準備資料和歸檔鄰近資料進行分層，以最佳化成本 
+
+
+| LustreFS（NetApp 整合版） | 用於訓練分層的高效能平行檔案系統 
+
+
+| NetApp Console（選用） | ONTAP 和 XCP 資源的延伸監控 / 可觀測性 
+
+
+| ONTAP Snapshot 快照技術/備份 | ONTAP NAS 分層中已準備好資料的時間點保護，與傳輸途徑無關 
+|===
+
+
+[[4-1-netapp-xcp-core-value]]
+== 4.1 NetApp XCP — 核心價值
+
+XCP 是將資料位置與運算位置解耦的移動性階層。單一組態交換器 (`xcp++_++copy++_++destination`）決定準備好的資料和模型成品是存放於 NetApp ONTAP S3 還是 LustreFS 高效能分層，並由 `model++_++training`、 `fine++_++tuning` 和 `inferencing` 自動從相同目的地讀取和寫入。
+
+
+
+[[4-2-third-party-and-open-source-technology-components]]
+== 4.2 第三方和開源技術組件
+
+[cols="50%,50%"]
+|===
+| 成分 | 目的 
+
+
+| Apache Airflow | DAG 協調、重試、XCom 工作通訊、排程 
+
+
+| Apache Spark | 選用的分散式轉換引擎，用於 `data++_++prep` 
+
+
+| Delta Lake / Apache Iceberg | 適用於準備好的表格式資料的選用 Lakehouse 表格格式 
+
+
+| scikit-learn | `LinearRegression`（表格）和 `SGDClassifier`（文字，遞增） 
+
+
+| Airbyte / Apache NiFi | 選用的擷取連接器位於前端 `data++_++prep` 
+
+
+| boto3 | 用於 StorageGRID、ONTAP NAS 儲存桶和 ONTAP S3 互動的 AWS S3 相容 SDK 
+|===

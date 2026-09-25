@@ -1,0 +1,86 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-pipeline-operational-guide.html 
+keywords:  
+summary:  
+---
+= 9.操作指南
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Karthikeyan Nagalingam， NetApp
+
+本指南涵蓋日常執行、監控、事件分類、訓練恢復、歸檔驗證、容量調校和資料保護。結合第 8 節中的組態方案，可在本地、ONTAP S3 和 LustreFS 訓練模式下以一致的方式運作相同的傳輸途徑。
+
+
+
+[[9-1-execution-walkthrough]]
+== 9.1 執行流程演示
+
+透過 `trigger++_++and++_++wait++_++ai++_++pipeline++_++sklearn.sh`使用 `CONF++_++JSON`有效負載觸發一次執行。該指令碼提交一個唯一命名的手動執行，持續輪詢直至達到終止狀態，並在有可用資訊時列印失敗工作的本機日誌尾部。每個主工作在啟動時都會發出 `effective++_++config`記錄，以便操作員可以驗證評估的組態，而不僅僅依賴提交的有效負載。
+
+
+
+[[9-2-monitoring-and-observability]]
+== 9.2 監控和可觀測性
+
+在 Airflow UI 或 CLI 中監控 DAG 狀態，並將其與執行 ID 和 `run++_++stamp`關聯。guard 記錄易於 grep 檢索： `++[++data++_++prep++]++ effective++_++config`、 `++[++model++_++training++]++ effective++_++config`、 `++[++xcp++_++copy++]++ effective++_++config` 和  `++[++checkpoint++]++ resume++_++summary`。審查這些項目，以驗證每次執行的轉換引擎、選定的 XCP 目的地、訓練來源和檢查點重複使用決策。
+
+
+
+[[9-3-troubleshooting-quick-reference]]
+== 9.3 故障排除快速參考
+
+使用此表將常見工作故障與首要修正行動關聯。在重試執行之前，請先解決來源連線和裝載問題；如果未修正無效組態或無法使用的端點而重試，將會重現相同的故障。
+
+[cols="34%,33%,33%"]
+|===
+| 症狀 | 可能原因 | 解決方案 
+
+
+| `Could not resolve XCP S3 credentials` | 遺失/錯誤 `xcp++_++s3++_++profile` 於 `xcp++_++s3++_++profiles` | 驗證設定檔名稱和認證資料對應 
+
+
+| `no readable Lustre source directory` | LustreFS 未掛載或錯誤 `xcp++_++lustrefs++_++dest++_++path` | 使用  `findmnt -T /mnt/lustre/client -o FSTYPE,TARGET -n` 驗證檔案系統類型；正確的路徑 
+
+
+| `Missing required text dataset files` | 原始 S3 前綴中缺少文字 JSON | 上傳 `text++_++base.json`， `text++_++finetune.json`， `text++_++infer.json` 
+
+
+| 預檢結束代碼 1 | SSH 無法連線 | 驗證 `ssh++_++default`連線和主機/使用者 
+
+
+| 預檢結束代碼 2 | NFS 路徑未匯出/不可見 | 使用 `xcp show ++<++ip++>++`驗證匯出 
+|===
+
+
+[[9-4-checkpoint-operations]]
+== 9.4 檢查點作業
+
+檢查點機制僅適用於 `model++_++training`。設定 `training++_++checkpoint++_++reuse++_++mode=resume++_++if++_++exists`以重複使用有效的已完成訓練結果，並跳過備援的模型訓練，或使用 `verify++_++only`來驗證檢查點資格而不跳過。在初始測試期間，或每當訓練輸入、組態或預期工件發生變更時，請保持停用重複使用 (`off`）。
+
+
+
+[[9-5-manual-archive-operations]]
+== 9.5 手動歸檔操作
+
+謹慎設定 `manual++_++archive++_++enabled=true`並選擇 `manual++_++archive++_++stage`。當治理要求在訓練成功後立即將核心模型基準化時，請使用 `model++_++training`；當歸檔必須包含最終預測時，請使用 `inferencing`。選擇 `model++_++training`的執行會在歸檔分支之後繼續進行微調和推論；它只是不會歸檔其後續的輸出。驗證帶有執行戳記的 StorageGRID 前置詞下的上傳，並審查 `++[++manual++_++archive++]++`所選階段的記錄、找到的檔案和上傳計數。
+
+
+
+[[9-6-scaling-guidance]]
+== 9.6 擴充指引
+
+根據輸入 Volume 和服務層級目標調整 `sample++_++count`、 `spark++_++driver++_++memory`、 `spark++_++executor++_++memory`和 `spark++_++timeout++_++secs`。首先使用有限樣本驗證資料形狀和路由，然後在 StorageGRID、ONTAP NAS、XCP 和選定的訓練分層具有足夠的容量和處理量後，使用 `sample++_++count=0`進行全行執行。
+
+
+
+[[9-7-backup-and-recovery]]
+== 9.7 備份與恢復
+
+使用 ONTAP Snapshot 快照技術和備份保護 ONTAP NAS 預處理資料儲存桶。對原始儲存桶和歸檔儲存桶套用 StorageGRID 保護和保留原則；歸檔儲存桶保留歷史記錄，不受傳輸途徑重新執行的影響。將這些儲存設備保護措施與訓練檢查點記錄結合，以便在工作、主機或站點層級中斷後恢復正確的運作範圍資料和基準工件。

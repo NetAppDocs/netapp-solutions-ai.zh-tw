@@ -1,0 +1,277 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-pipeline-deployment-architecture.html 
+keywords:  
+summary:  
+---
+= 7.部署架構
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Karthikeyan Nagalingam， NetApp
+
+本節定義了運行該傳輸途徑所需的基礎架構配置、軟體相依性和網路連線。此部署將 Airflow 協調與 XCP 資料移動主機分離，同時將這兩個元件連接到 StorageGRID、ONTAP NAS 以及選定的 ONTAP S3 或 LustreFS 訓練目的地。
+
+
+
+[[7-1-reference-infrastructure-requirements]]
+== 7.1 參考基礎架構需求
+
+以下元件建立最小功能部署實體佔用空間。根據所選的準備引擎和並行工作負載調整 Airflow 主機的規模；將 XCP 主機放置在可以存取 ONTAP NAS NFS 匯出和所選目的地之處，以避免不必要的網路躍點。LustreFS 模式要求在 XCP 主機和 Airflow worker 上都具有相容的裝載。
+
+[cols="50%,50%"]
+|===
+| 成分 | 要求 
+
+
+| Airflow 主機 | CPU/記憶體容量大小應根據 Spark 或 Python 轉換負載進行調整 
+
+
+| XCP 主機 | 網路存取 NFS/Lustre 和 NetApp ONTAP S3 端點 
+
+
+| LustreFS 用戶端 | 當選擇為目的地時，裝載到 XCP 主機和 Airflow 主機上 
+|===
+
+
+[[7-1-1-reference-validation-environment]]
+=== 7.1.1 參考驗證環境
+
+以下環境用作具有代表性的單節點驗證設定檔。它是功能和效能評估的起點，而非生產環境的規模建議；客戶必須根據其資料集 Volume、並行性、保留、恢復和服務等級要求來確定運算、網路、儲存容量和保護的規模。
+
+[cols="50%,50%"]
+|===
+| 層 | 參考硬體/軟體 
+
+
+| 運算和網路 | 一台伺服器，配備 256 GB 記憶體、64 個 CPU 核心和 10 GbE 連線 
+
+
+| ONTAP 作用中儲存設備 | 一台 NetApp A800 系統，配備 48 顆 1.8 TB 固態硬碟 
+
+
+| 物件儲存設備 | 一台 NetApp StorageGRID SG5864 應用裝置 
+
+
+| 高通量訓練儲存設備 | 一套配備 LustreFS 的 NetApp E2812 系統 
+
+
+| 平台軟體 | Kubernetes、Apache Airflow、Apache Airbyte、單節點 Apache Spark、NetApp XCP 和 LustreFS 
+|===
+
+
+[[7-2-software-version-matrix]]
+== 7.2 軟體版本對照表
+
+此對照表標示已驗證傳輸途徑所使用的執行階段軟體。請確保 Airflow 和 Python 環境與已部署的提供者和套件相容。Spark 、 Delta Lake 和 Iceberg 是選用的，只有在 `data++_++prep`使用 Spark 轉換路徑或對應的表格格式時才需要。
+
+[cols="50%,50%"]
+|===
+| 軟體 | 版本/備註 
+
+
+| Apache Airflow | 2.x 
+
+
+| Python | 3.11 
+
+
+| boto3 | 最新穩定版 
+
+
+| scikit-learn | 最新穩定版 
+
+
+| PySpark（選用） | 相容於 Delta 3.2.0 / Iceberg 1.5.2 執行階段套件 
+
+
+| NetApp XCP | 安裝在遠端主機上，例如 `/usr/src/xcp/linux/xcp` 
+|===
+
+
+[[7-3-network-requirements]]
+== 7.3 網路要求
+
+這些網路流量必須由路由、防火牆和名稱解析原則允許。建議生產環境中所有與 S3 相容的端點都使用 HTTPS；如果端點未使用預設的 HTTPS 連接埠，請使用已設定的自訂連接埠。根據已部署的 LustreFS 實作，確認 Lustre 用戶端的連線。
+
+[cols=","]
+|===
+| 流程 | 協定/連接埠 
+
+
+| Airflow → ONTAP S3 | HTTPS/HTTP（443/80 或自訂） 
+
+
+| Airflow → XCP 主機 | SSH（22） 
+
+
+| XCP 主機 → NFS 來源 | NFS（2049） 
+
+
+| XCP 主機 → LustreFS | Lustre 用戶端連接埠 
+
+
+| XCP 主機 → ONTAP S3（S3 模式） | HTTPS/HTTP 
+|===
+
+
+[[7-4-deployment-notes]]
+== 7.4 部署說明
+
+[cols="50%,50%"]
+|===
+| 章節 / 主題 | 指導 / 操作實務 
+
+
+| SSH 連線設定 | 設定 Airflow 連線 `ssh++_++default`，透過連接埠 22 以 XCP 主機為目標，並限制 SSH 金鑰權限 (`600`）。 
+
+
+| 服務生命週期管理 | 使用 `tools/airflow++_++ctl.sh`在部署和維護期間管理本機 Airflow 排程器和 Web 伺服器生命週期。 
+
+
+| 憑證與機密儲存設備 | 將憑證、API 權杖和存取金鑰儲存在 Airflow Connections、Variables 或 secrets 後端，而不是即時在 `dag++_++run.conf`中。 
+
+
+| 基礎架構與工作可觀測性 | 分別監控排程器心跳和工作執行情況，以便將協調可用度問題與 DAG 故障區分開來。 
+|===
+
+
+[[7-5-installation-and-prerequisites]]
+== 7.5 安裝與前提條件
+
+本小節定義了在全新環境中建置、設定和執行經 NetApp AI 驗證的傳輸途徑所需的基本安裝步驟。它適用於在執行任何 DAG 之前設定 Airflow 工作區的操作人員、架構師和工程師。
+
+
+
+[[7-5-1-prerequisites]]
+=== 7.5.1 先決條件
+
+安裝解決方案前，請確認目標主機符合以下最低需求：
+
+* Linux 作業系統，最好是 Ubuntu 22.04/24.04 或 RHEL 8&#43;。
+* 具備 Python 3.11 以及 `pip`、 `venv` 與可用的建置工具。
+* 主機上已安裝 Git，用於來源擷取和版本管理。
+* Apache Airflow 2.x 部署在專用的 Python 虛擬化環境。
+* 從 Airflow 主機到 NetApp XCP 主機的 SSH 存取。
+* 從 Airflow 主機到 StorageGRID、ONTAP NAS 和選定的 ONTAP S3 或 LustreFS 目的地的網路連線。
+* 為原始資料、預處理資料接移和歸檔儲存設備提供與 S3 相容的端點存取。
+* 選用：如果使用 `spark`準備路徑，則需要 Java 執行階段和 Spark 3.x。
+* 選用：選取 `table++_++format=delta` 或 `table++_++format=iceberg` 時的 Delta Lake 與 Iceberg 執行階段套件。
+* 選用：使用  `xcp++_++copy++_++destination=lustrefs` 時的 Lustre 用戶端裝載。
+
+
+
+
+[[7-5-2-software-package-acquisition-and-repository-access]]
+=== 7.5.2 軟體套件取得與儲存庫存取
+
+若要取得此解決方案的軟體套件、自動化 DAG、部署指令碼與驗證成品，請透過 ng-data-mobility-in-ai-pipeline@netapp.com 聯絡 NetApp AI & Data Mobility 工程團隊。
+
+取得存取權限後，從 GitHub 下載或 Clone 專案來源到目標工作目錄中：
+
+[source, bash]
+----
+# Example GitHub clone
+mkdir -p /opt/netapp-ai
+cd /opt/netapp-ai
+
+git clone https://github.com/<your-org>/<your-repo>.git
+cd <your-repo>
+
+git checkout main
+ls -la
+----
+如果您已經在 `/opt/netapp-ai/<your-repo>`下 Clone 了儲存庫，請從該工作目錄繼續，而不是下載另一個複本。
+
+
+
+[[7-5-3-create-the-python-environment]]
+=== 7.5.3 建立 Python 環境
+
+建立一個專用的虛擬化環境，並安裝 Airflow 和傳輸途徑的基本相依性。
+
+[source, bash]
+----
+export REPO_ROOT=/opt/netapp-ai/<your-repo>
+cd "$REPO_ROOT"
+python3 -m venv "$REPO_ROOT/.venv"
+source "$REPO_ROOT/.venv/bin/activate"
+
+python -m pip install --upgrade pip setuptools wheel
+pip install "apache-airflow>=2.8,<3.0" boto3 scikit-learn
+----
+對於基於 Spark 的準備和 Lakehouse 表格格式，請視需要安裝選用套件：
+
+[source, bash]
+----
+pip install pyspark==3.5.*
+pip install delta-spark==3.2.0
+pip install apache-iceberg==1.5.2
+----
+請使用 Spark 執行階段和叢集拓撲所支援的確切套件版本。請勿混用不相容的 Spark、Delta 和 Iceberg 組合。
+
+
+
+[[7-5-4-configure-airflow-and-the-repository]]
+=== 7.5.4 設定 Airflow 和儲存庫
+
+從 Clone 的儲存庫根目錄，初始化 Airflow 中繼資料資料庫，並驗證 DAG 檔案對 Airflow 是否可見。
+
+[source, bash]
+----
+export AIRFLOW_HOME="$REPO_ROOT/.airflow"
+export AIRFLOW__CORE__DAGS_FOLDER="$REPO_ROOT"
+export AIRFLOW__CORE__LOAD_EXAMPLES=False
+
+airflow db init
+airflow dags list | grep -E "example_ai_pipeline|example_ai_pipeline_sklearn"
+----
+工作區包含已驗證傳輸途徑所需的 Airflow 組態檔案和 DAG。如果儲存庫包含用於本機生命週期管理的輔助指令碼，請使用該指令碼來啟動排程器和 Web 伺服器，而不是手動呼叫 Airflow。
+
+[source, bash]
+----
+# Start the Airflow scheduler and webserver with the deployment's service manager.
+# or, if using the standard commands:
+# airflow scheduler
+# airflow webserver
+----
+
+
+[[7-5-5-required-connectivity-and-secret-configuration]]
+=== 7.5.5 必要的連線與機密組態
+
+在執行傳輸途徑之前，請確認以下資源可從 Airflow 主機存取：
+
+* StorageGRID 原始資料 S3 端點。
+* ONTAP NAS 預置資料儲存桶端點。
+* ONTAP S3 目標端點何時 `xcp++_++copy++_++destination=s3`。
+* LustreFS 裝載時 `xcp++_++copy++_++destination=lustrefs`。
+* 透過 SSH 使用 `ssh++_++default`或已設定的 SSH 連線的 XCP 主機。
+
+
+將憑證儲存在 Airflow 連線、變數或機密後端中，而不是將其嵌入到 shell 歷史記錄或 DAG 程式碼中。在觸發傳輸途徑執行之前，設定所需的存取金鑰、端點和設定檔對應。
+
+
+
+[[7-5-6-verify-the-installation]]
+=== 7.5.6 驗證安裝
+
+當 Airflow 排程器和 DAG 正在執行，且範例傳輸途徑可以列出和觸發而沒有組態錯誤時，即可確認安裝成功。
+
+[source, bash]
+----
+airflow dags list
+airflow tasks list example_ai_pipeline_sklearn
+----
+如果安裝正確，DAG 應該存在於 Airflow 中，並準備好使用儲存庫根目錄中的觸發指令碼進行 `CONF++_++JSON`驅動的執行。
+
+[source, bash]
+----
+./trigger_and_wait_ai_pipeline_sklearn.sh
+----
+至此，環境已準備好進行第 8 節中的組態範例和操作指南中所述的部署場景。

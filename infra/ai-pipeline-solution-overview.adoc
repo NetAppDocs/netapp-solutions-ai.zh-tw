@@ -1,0 +1,106 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-pipeline-solution-overview.html 
+keywords:  
+summary:  
+---
+= 2.解決方案概述、業務價值與客戶效益
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Karthikeyan Nagalingam， NetApp
+
+
+
+[[2-1-solution-description]]
+== 2.1 解決方案描述
+
+該傳輸途徑實作為 Airflow DAG `example++_++ai++_++pipeline++_++sklearn`，由工作 `ingestion`、 `data++_++prep`、 `xcp++_++preflight++_++source`、 `xcp++_++copy++_++prep++_++to++_++training`、 `model++_++training`、 `fine++_++tuning`、 `inferencing`、 `checkpoint++_++model++_++training`、 `route++_++manual++_++archive++_++stage` 及 `manual++_++archive` 所組成。
+
+
+
+[[2-2-use-case-and-problem-statement]]
+== 2.2 使用案例與問題陳述
+
+客戶必須使用來自 StorageGRID 的原始資料來訓練並定期重新整理表格迴歸和文字分類模型。此傳輸途徑會在 ONTAP NAS 儲存桶中準備該資料，然後根據每次執行的目的地選擇，使用 NetApp XCP 將其交付至 ONTAP S3 或 LustreFS 進行訓練。
+
+
+
+[[2-3-target-customer-profile-and-industry-applicability]]
+== 2.3 目標客戶輪廓與產業適用性
+
+金融服務（風險/詐欺模型）、製造業（預測性維護）、醫療（分類/分診）、零售業（需求預測）— 任何需要在 NetApp 基礎架構上進行受監管、可重複的 ML 訓練的企業。
+
+
+
+[[2-4-solution-scope-and-boundaries]]
+== 2.4 解決方案範圍和邊界
+
+*涵蓋範圍：*資料攝取閘控、資料準備（Python/Spark）、XCP 資料移動性（S3/LustreFS）、scikit-learn 訓練和遞增微調、推論、檢查點、手冊歸檔。*不涵蓋範圍：*即時模型服務 API、串流資料擷取、基於 GPU 的深度學習框架。
+
+
+
+[[2-5-assumptions-and-prerequisites]]
+== 2.5 假設與前提條件
+
+* 可從 Airflow 連線的 StorageGRID S3 相容端點，用於原始資料存取與歸檔。
+* ONTAP NAS 儲存桶可從 Airflow 存取以寫入準備好的資料，並透過 NFS 提供給 XCP 主機。
+* NetApp ONTAP S3 相容端點，當選擇 ONTAP S3 作為訓練目的地時，可從 Airflow 和 XCP 存取。
+* NetApp XCP 已安裝，可透過 SSH（Airflow 連線 `ssh++_++default`）存取。
+* 選擇 LustreFS 時，LustreFS 用戶端會掛載到 XCP 主機上。
+* Airflow 2.x 搭配 `boto3`、 `scikit-learn`；選用的 PySpark &#43; Delta/Iceberg 套件。
+
+
+
+
+[[2-6-business-drivers]]
+== 2.6 業務驅動因素
+
+透過遞增訓練縮短建模時間、降低基礎架構成本、消除一次性腳本編寫風險。
+
+
+
+[[2-7-value-proposition-summary]]
+== 2.7 價值主張概述
+
+StorageGRID、ONTAP NAS、ONTAP S3、LustreFS 和 XCP 與 Airflow 協調結合，交付了一個具備儲存設備層感知、可觀察、具有恢復能力的 AI 傳輸途徑。
+
+
+
+[[2-8-stakeholder-benefits]]
+== 2.8 利害關係人的收益
+
+[cols="50%,50%"]
+|===
+| 利害關係人 | 益處 
+
+
+| 資料工程 | 聲明式、參數驅動的預處理；自動檔案探索；支援 Spark/Delta/Iceberg 
+
+
+| 資料科學/機器學習 | 遞增微調；各階段一致的工件來源；可重複的分割 
+
+
+| IT 營運 | 執行階段儲存設備選擇；保護/有效組態記錄；以檢查點為基礎的恢復 
+
+
+| 合規/治理 | 清單和存檔記錄提供可稽核的歷程；可設定的保留階段 
+|===
+
+
+[[2-9-tco-considerations]]
+== 2.9 TCO 考量
+
+遞增微調和檢查點復原降低了重複運算成本；儲存層靈活度避免了為所有工作負載過度配置高效能儲存設備。
+
+
+
+[[2-10-roi-considerations]]
+== 2.10 投資報酬率考量
+
+更快的模型重新整理週期，減少手冊維護，縮短每次故障事件的恢復時間。

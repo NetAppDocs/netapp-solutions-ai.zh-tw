@@ -1,0 +1,125 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-pipeline-data-mobility.html 
+keywords:  
+summary:  
+---
+= 6.利用 NetApp XCP 實現資料移動性
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Karthikeyan Nagalingam， NetApp
+
+NetApp XCP 提供 ONTAP NAS 準備資料分層與作用中訓練分層之間的受控傳輸路徑。Airflow 執行預檢並透過 XCP 主機呼叫複本操作； `xcp++_++copy++_++destination` 為每次執行選擇 ONTAP S3 或 LustreFS。模型訓練、微調和推論使用相同的目的地，以將資料和成品保留在一致的分層上。
+
+
+
+[[6-1-why-netapp-xcp]]
+== 6.1 為什麼選擇 NetApp XCP
+
+XCP 是一個平行、多執行緒的複本引擎，支援此架構使用的 NFS 來源、ONTAP S3 和 LustreFS 目的地。它的  `-newid ++<++run++_++stamp++>++` 選項將每次傳輸與傳輸途徑執行關聯起來，從而支援對已準備資料、訓練輸入和模型工件位置的可追溯性。
+
+
+
+[[6-2-xcp-preflight-validation-flow]]
+== 6.2 XCP 預檢驗證流程
+
+預檢工作在 XCP 複本之前執行。它會驗證 Airflow 是否可以透過 SSH 連接到 XCP 主機，以及設定的 ONTAP NAS NFS 來源路徑對 XCP 是否可見。當連線能力或來源可見度不正確時，明確的結束條件會在複本開始之前停止傳輸途徑。
+
+image::ai-pipeline-xcp-preflight-validation.png[XCP 預先驗證流程]
+
+
+
+[[6-3-xcp-copy-to-s3-command-template]]
+== 6.3 XCP 複製到 S3 — 指令範本
+
+當 `xcp++_++copy++_++destination=s3`時，請使用此路徑。XCP 會從 ONTAP NAS NFS 匯出讀取已準備好且帶有執行戳記的資料，並將其寫入設定的 ONTAP S3 儲存桶和前綴。指定的 XCP S3 設定檔會在 XCP 主機上提供目的地認證資料；然後，模型階段會透過 `xcp++_++s3++_++training++_++prefix`探索資料和成品。
+
+[source, bash]
+----
+xcp copy -newid <run_stamp> \
+  -s3.profile <xcp_s3_profile> \
+  -s3.endpoint <xcp_s3_endpoint> \
+  <xcp_nfs_source_ip>:<xcp_nfs_source_path> \
+  s3://<xcp_s3_bucket>/<xcp_s3_dest_prefix>
+----
+*範例：將準備好的 ONTAP NAS 資料集複製到 ONTAP S3 訓練儲存桶*
+
+[source, bash]
+----
+/usr/src/xcp/linux/xcp copy -newid 20260901_120000 \
+    -s3.profile ontaps3 \
+    -s3.endpoint http://10.63.150.161 \
+    10.63.150.159:/prepnasbucket/example_ai_pipeline \
+    s3://trainingbucket/example_ai_pipeline
+----
+本範例使用 `20260901++_++120000` 作為 XCP 作業識別。訓練工作會探索在已設定的 `xcp++_++s3++_++training++_++prefix` 下所複製的檔案，例如 `example++_++ai++_++pipeline/formatted/20260901++_++120000/data/`。
+
+
+
+[[6-4-xcp-copy-to-lustrefs-command-template]]
+== 6.4 XCP 複製到 LustreFS — 指令範本
+
+當 `xcp++_++copy++_++destination=lustrefs`時，請使用此路徑。XCP 會將準備好的資料從裝載的 ONTAP NAS 來源複製到裝載的 LustreFS 目的地。這兩個裝載都必須在 XCP 主機上可用，而且 LustreFS 也必須裝載在執行模型訓練、微調和推論的 Airflow 工作節點上。
+
+[source, bash]
+----
+findmnt -T <xcp_lustrefs_source_path> -o FSTYPE,TARGET -n | grep -E '^nfs[0-9]* '  # source mount type
+findmnt -T <xcp_lustrefs_dest_path> -o FSTYPE,TARGET -n | grep -E '^lustre '   # destination mount type
+xcp copy -newid <run_stamp> \
+  file://<xcp_lustrefs_source_path> \
+  file://<xcp_lustrefs_dest_path>
+----
+*範例：將準備好的 ONTAP NAS 資料集複本到 LustreFS 訓練裝載*
+
+[source, bash]
+----
+findmnt -T /prepnasbucket/example_ai_pipeline -o FSTYPE,TARGET -n | grep -E '^nfs[0-9]* '
+findmnt -T /mnt/lustre/client -o FSTYPE,TARGET -n | grep -E '^lustre '
+
+/usr/src/xcp/linux/xcp copy -newid 20260901_120000 \
+    file:///prepnasbucket/example_ai_pipeline \
+    file:///mnt/lustre/client
+----
+這兩個 `findmnt`指令會在複本開始前驗證來源路徑是否透過 NFS 裝載，目的地路徑是否透過 LustreFS 裝載到 XCP 主機上。使用 `xcp++_++lustrefs++_++training++_++subpath=example++_++ai++_++pipeline`，訓練會讀取 `/mnt/lustre/client/example++_++ai++_++pipeline/formatted/20260901++_++120000/data/`下帶有執行戳記的資料。
+
+
+
+[[6-5-xcp-destination-decision-flow]]
+== 6.5 XCP 目的地決策流程
+
+此決策圖顯示一個執行階段參數如何決定複本目標和訓練讀取路徑。選擇 `s3`做為 ONTAP S3 物件目的地，或選擇 `lustrefs`做為平行檔案系統目的地。下游階段會自動使用相符的來源，避免在儲存設備位置變更時修改模型程式碼。
+
+image::ai-pipeline-xcp-destination-decision.png[XCP 目的地決策流程]
+
+
+
+[[6-6-xcp-failure-handling-and-guardrails]]
+== 6.6 XCP 故障處理和防護措施
+
+這些防護措施使得組態和基礎架構故障能夠儘早被發現。預檢故障可防止無效傳輸，檔案系統類型檢查驗證 ONTAP NAS 和 LustreFS 裝載，而 S3 認證資料驗證僅在 ONTAP S3 被選為 XCP 目的地時才適用。
+
+[cols="50%,50%"]
+|===
+| 狀態 | 防護行為 
+
+
+| 不支援的 `xcp++_++copy++_++destination`值 | 傳輸途徑在任何資料搬移之前拒絕該值 
+
+
+| LustreFS 裝載未顯示 | 檔案系統類型驗證失敗；複本在資料搬移前停止 
+
+
+| SSH 無法連線 | 在任何複本之前，預檢程序會以代碼 1 退出 
+
+
+| NFS 路徑不可見 | 在任何複本之前，預檢程序會以代碼 2 退出 
+
+
+| 缺少 XCP S3 認證資料（僅限 S3 模式） | `model++_++training`/artifact 同步引發顯式 `ValueError` 
+|===

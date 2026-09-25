@@ -1,0 +1,63 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-pipeline-architecture.html 
+keywords:  
+summary:  
+---
+= 3.架構概述
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Karthikeyan Nagalingam， NetApp
+
+本節介紹了已驗證的 AI 傳輸途徑的邏輯工作流程、元件互動、實體部署和資料沿襲。這些圖表共同展示了 Apache Airflow 如何協調從 StorageGRID 透過 ONTAP NAS 的資料搬移，選擇性地使用 NetApp XCP 將資料放置在 ONTAP S3 或 LustreFS 上以執行模型，以及如何將受控結果傳回 StorageGRID 歸檔儲存設備。
+
+
+
+[[3-1-high-level-three-tier-ai-storage-architecture]]
+== 3.1 高階三層 AI 儲存架構
+
+NetApp AI 儲存架構會將資料放置在最符合每個生命週期階段的儲存層。StorageGRID 用於易擴充的、成本最佳化的原始資料擷取與受控歸檔。ONTAP NAS 和 ONTAP S3 用作作用中準備、資料移動性接移和以物件為基礎的訓練工作流程。當需要高吞吐量、平行訓練 I/O 時，會使用配備 LustreFS 的 E 系列。Apache Airflow 負責協調整個生命週期，而 NetApp XCP 則將準備好的資料從 ONTAP NAS 分層移至選定的作用中訓練分層。
+
+image::ai-pipeline-three-tier-storage-arch.png[高階三層 AI 儲存架構]
+
+
+
+[[3-2-high-level-solution-architecture]]
+== 3.2 高階解決方案架構
+
+此工作流程圖顯示了由 Airflow 控制的生命週期，從原始 StorageGRID 資料經過準備、選用的 XCP 移動性、模型執行、檢查點到歸檔。 `enable++_++xcp` 決定在訓練之前，是否將準備好的資料從 ONTAP NAS 儲存桶複製到 ONTAP S3 或 LustreFS。歸檔分支是獨立的： `manual++_++archive++_++stage=model++_++training` 在訓練後立即歸檔基線，而  `manual++_++archive++_++stage=inferencing` 在產生預測後歸檔完整的結果。
+
+image::ai-pipeline-overview.png[高階解決方案架構]
+
+
+
+[[3-3-component-interaction-diagram]]
+== 3.3 元件互動圖
+
+此序列圖標識了執行每個交換的平台元件。Airflow 從 StorageGRID 讀取原始物件，並將準備好的資料寫入 ONTAP NAS 儲存桶；然後，它透過 SSH 呼叫 XCP。XCP 讀取 ONTAP NAS NFS 匯出，並寫入設定的訓練分層。最後一個條件區塊顯示 StorageGRID 歸檔內容取決於所選的手冊歸檔階段。
+
+image::ai-pipeline-component-interaction.png[組件互動圖]
+
+
+
+[[3-4-physical-deployment-architecture]]
+== 3.4 實體/部署架構
+
+此部署圖展示了所需的主機、儲存設備端點和網路介面。Airflow 主機使用 S3 API 存取 StorageGRID、ONTAP NAS 儲存桶和選定的 ONTAP S3 目的地，並使用 SSH 控制 XCP 主機。XCP 主機透過 NFS 存取準備好的資料來源，並寫入 ONTAP S3 或 LustreFS 裝載；當選擇 LustreFS 時，Airflow 主機也必須裝載它以讀取訓練資料並產生工件。
+
+image::ai-pipeline-physical-deployment.png[實體/部署架構]
+
+
+
+[[3-5-data-flow-overview]]
+== 3.5 資料流概述
+
+這個簡潔的流程總結了資料和工件的來源。每次執行都會收到一個唯一的 `run++_++stamp`，這使得準備好的資料、XCP 輸出、模型工件、預測和歸檔物件都能追溯到同一次執行。XCP 目的地選擇決定了訓練資料和模型工件分層，而 `manual++_++archive++_++stage`則決定 StorageGRID 接收的是基準訓練套件還是完整的推論套件。
+
+image::ai-pipeline-data-flow.png[資料流概述]

@@ -1,0 +1,182 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-pipeline-security-considerations-validation-testing.html 
+keywords:  
+summary:  
+---
+= 10.安全考量、驗證與測試
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Karthikeyan Nagalingam， NetApp
+
+本節綜合闡述了安全運作 AI 傳輸途徑所需的控制措施，以及用於驗證設計在典型環境中是否如預期運作的驗證活動。傳輸途徑中所使用的儲存層分離、最小權限存取模型、檢查點邏輯和運作範圍的血緣關係等原則，同樣適用於驗證計畫和運行安全措施。
+
+
+
+[[10-1-security-considerations]]
+== 10.1 安全考量
+
+安全控制措施應隔離每個儲存層和傳輸途徑功能，同時保留稽核所需的血緣關係。針對 StorageGRID 原始資料、 ONTAP NAS 預處理資料、選定的 XCP 目的地和 StorageGRID 歸檔，請使用分隔的最低權限認證資料。加密網路流量，並將所有機密儲存在 DAG 定義、範例和 shell 歷史記錄之外。
+
+[cols="50%,50%"]
+|===
+| 區域 | 建議 
+
+
+| 認證資料管理 | 使用 Airflow 連線/變數或機密管理程式；避免在 `dag++_++run.conf`中使用即時明文 
+
+
+| 傳輸中的資料 | 使用啟用 TLS 的 S3 端點；在支援的情況下使用加密的 NFS/Lustre 傳輸 
+
+
+| 存取控制 | 根據角色（StorageGRID 原始、ONTAP NAS 預處理資料、XCP 目的地、StorageGRID 歸檔）將 S3 認證資料範圍限定為所需的最低權限 
+
+
+| 組態中的機密 | 輪換測試期間暴露的任何認證資料；將觸發指令碼/shell 歷史記錄視為敏感資訊 
+
+
+| 稽核追蹤 | 依靠資料準備清單、檢查點記錄和歸檔清單來取得法規遵循證據 
+|===
+
+
+[[10-2-validation-and-testing]]
+== 10.2 驗證和測試
+
+驗證確認了傳輸途徑的可設定行為在其路由、故障處理、資料移動性和多檔案探索路徑中均能可靠運作。每個驗證測試區域均在具有代表性的環境中執行，使用實際的 Airflow DAG 觸發器，並驗證了記錄輸出和儲存設備清單的正確性。
+
+
+
+[[10-2-1-functional-routing-validation]]
+=== 10.2.1 功能路由驗證
+
+此測試區域會驗證當 `enable++_++xcp=true`時的端對端資料和工件路由。
+
+* *目標：* 驗證資料準備、XCP 移動性、模型訓練、微調和推論是否始終使用選定的 XCP 目的地 (`s3` 或  `lustrefs`）。
+* *測試程序：*使用 `xcp++_++copy++_++destination="s3"` 和 `xcp++_++copy++_++destination="lustrefs"` 觸發了 DAG 執行。檢查了 XCom 輸出、effective-config 記錄和儲存設備位置。
+* *驗證結果：*
++
+** 在 `data++_++prep`中，格式化的表格分割與文字檔案已暫存至 ONTAP NAS 準備資料層的 `++<++xcp++_++prefix++>++/formatted/++<++run++_++stamp++>++/data/`下。
+** 在 `xcp++_++copy` 中，準備好的資料集已傳輸至選定的 XCP 目的地，以用於下游模型階段。
+** 在 `model++_++training`中，模型輸入是從 XCP 目的地載入，而基準成品 (`regression++_++model.bin`， `text++_++vectorizer.bin`， `text++_++classifier.bin`， `train++_++metrics.json`）則發佈回 `++<++xcp++_++prefix++>++/formatted/++<++run++_++stamp++>++/artifacts/`。
+** 在 `fine++_++tuning`中，基礎向量化器/分類器構件從 XCP 目的地實體化，經過逐步調整，並重新發佈為 `text++_++classifier++_++tuned.bin`和 `fine++_++tune++_++metrics.json`。
+** 在 `inferencing`中，調整後的文字分類器加上基準迴歸模型和向量化器從 XCP 目的地實現，以產生預測。
+
+
+
+
+
+
+[[10-2-2-local-fallback-and-non-xcp-execution-validation]]
+=== 10.2.2 本地回退和非 XCP 執行驗證
+
+此測試區域驗證停用 XCP 資料移動性時的傳輸途徑行為(`enable++_++xcp=false`）。
+
+* *目標：*確保傳輸途徑使用直接的本機準備資料路徑無縫地運作，而無需 SSH 連線、遠端 XCP 主機或 XCP 認證資料設定檔。
+* *測試程序：*觸發傳輸途徑執行 `enable++_++xcp=false`，並使用預設的 S3/本機路徑。
+* *驗證結果：*
++
+** XCP 預檢和複本工作已安全繞過。
+** `model++_++training`、 `fine++_++tuning` 和  `inferencing` 直接從本機準備好的資料目錄讀取，並在本機發佈成品。
+** 已驗證停用 XCP 後，未發生 XCP S3 認證資料解析或 SSH 預檢錯誤。
+
+
+
+
+
+
+[[10-2-3-performance-and-tier-comparison-ontap-s3-vs-lustrefs]]
+=== 10.2.3 效能與分層比較（ONTAP S3 與 LustreFS）
+
+此測試區域評估 ONTAP S3 物件儲存和 LustreFS 平行檔案系統層之間的 I/O 延遲、探索例行成本和訓練處理量。
+
+* *目標：*量化採用 LustreFS 的 E 系列與採用 ONTAP S3 作用中訓練層的 ONTAP AFF/AFX 的效能特徵。
+* *測試程序：*測量相同資料集大小（14,400&#43; 列，多檔案文字/表格輸入）的檔案探索時間、訓練資料集載入延遲，以及工件發佈/物化持續時間。
+* *驗證結果：*
++
+** *LustreFS 分層：*在模型訓練期間，檔案探索例行成本更低，隨機存取讀取延遲更快，使其成為高檔案數、GPU 密集型平行訓練工作負載的理想選擇。
+** *ONTAP S3 層：* 提供高處理量與更簡單的多協定管理，使其成為注重成本、彈性存取的作用中儲存設備的最佳選擇，而無需用戶端側檔案系統掛載。
+
+
+
+
+
+
+[[10-2-4-failure-recovery-and-training-checkpoint-validation]]
+=== 10.2.4 故障恢復和訓練檢查點驗證
+
+此測試區域驗證範圍限定於 `model++_++training`的檢查點恢復系統。
+
+* *目標：*驗證傳輸途徑恢復能夠準確檢測先前成功的訓練運行，並跳過備援計算，同時保持工件完整性。
+* *測試流程：*
++
+.. 使用 `checkpoint++_++enabled=true` 和 `checkpoint++_++store="formatted++_++s3"` 執行了傳輸途徑。
+.. 使用 `training++_++checkpoint++_++reuse++_++mode="resume++_++if++_++exists"`模擬工作故障或重新執行。
+.. 已測試 `verify++_++only`和 `off`重複使用模式。
+
+
+* *驗證結果：*
++
+** 當設定了  `resume++_++if++_++exists`，且 S3/LustreFS 中存在有效的檢查點 JSON &#43; 所有核心工件時， `model++_++training` 立即以決定  `RESUMED++_++FROM++_++CHECKPOINT` 退出，並記錄  `++[++checkpoint++]++ resume++_++summary: decision=RESUMED++_++FROM++_++CHECKPOINT`。
+** 下游 `fine++_++tuning` 和 `inferencing` 已成功實現已驗證的檢查點工件。
+** 當  `verify++_++only` 設定時，防護機制會驗證工件是否存在，而不會跳過訓練。
+
+
+
+
+
+
+[[10-2-5-scalability-and-multi-file-dataset-validation]]
+=== 10.2.5 擴充性與多檔案資料集驗證
+
+此測試區域驗證了傳輸途徑在大型、多檔案表格和文字資料集上的擴充性。
+
+* *目標：*確認自動資料集探索、Spark 轉換引擎執行，以及 Lakehouse 表格格式支援 (`delta` 和  `iceberg`）。
+* *測試流程：*
++
+.. 對 StorageGRID 原始前綴下的數十個 CSV/Parquet 檔案進行了資料攝取和準備工作 (`s3++_++raw++_++prefix`）。
+.. 測試了使用明確檔案選擇 `s3++_++tabular++_++object++_++keys`與自動全檔案探索的對比(`sample++_++count=0`）。
+.. 使用 PySpark 搭配 `table++_++format="delta"`和 `table++_++format="iceberg"`執行準備工作。
+
+
+* *驗證結果：*
++
+** Spark 分散式準備成功地攝取、篩選、分割並格式化了大型多部分表格資料集。
+** 自動探索準確地識別出所有有效的表格 CSV/Parquet 物件，同時忽略非表格產物。
+** Delta Lake 和 Iceberg 表格格式皆已正確建立並註冊於 `tables/`之下，下游模型訓練可探索並讀取格式化的分割。
+
+
+
+
+
+
+[[10-2-6-example-customer-evaluation-workflow-sizing-assumptions-and-validation-metrics]]
+=== 10.2.6 客戶評估工作流程範例、規模假設和驗證計量
+
+此工作流程可協助客戶評估設計是否符合其 AI 傳輸途徑成熟度、資料主權要求和效能目標。首先使用具有代表性的資料集並執行一次傳輸途徑，然後僅在滿足每個驗收標準後才增加資料 Volume、檔案數量、模型複雜度和並行執行次數。記錄結果，以便 `run_stamp` ONTAP S3 和 LustreFS 之間的比較使用相同的輸入資料和組態。
+
+[cols="25%,25%,25%,25%"]
+|===
+| 評估步驟 | 範例工作流程 | 規模調整假設 / 決策 | 驗證計量與驗收證據 
+
+
+| 1.建立基線 | 使用 `enable_xcp=false`在有界樣本上執行 Python 準備路徑。 | 使用第 7.1.1 節中的參考驗證環境作為初始功能基線。 | DAG 成功完成；輸入列和輸出分割計數；模型計量；工作持續時間；CPU、記憶體容量和本機磁碟使用率。 
+
+
+| 2.驗證資料主權 | 將原始資料、準備好的資料、作用中訓練資料和歸檔保存在已核准的儲存設備端點和區域中。審查各分層的憑證和保留政策。 | 在移動資料之前，請定義允許的位置、存取角色、加密要求和保留政策。 | 端點、儲存桶、前綴和區域已記錄在有效組態和清單中；最小權限存取驗證；歸檔和刪除原則證據。 
+
+
+| 3.驗證資料移動性 | 啟用 XCP 並將相同的已準備好的執行複本到 ONTAP S3，然後重複至 LustreFS。 | 確保 10 GbE 連線以及足夠的目的地容量，以滿足準備運作、工件、工作空間和同時運作的需求。 | XCP 完成狀態；複製的位元組與檔案數；複本持續時間與處理量；來源/目的地檔案計數與 Checksum 或清單比較；預檢成功。 
+
+
+| 4.驗證訓練分層適合度 | 使用相同的資料集和模型設定，針對每個選定的目的地進行訓練、微調和推論。 | 對於基於物件的工作流程，請使用 ONTAP S3；當並行訓練 I/O 或高檔案數量需要時，請使用具有 LustreFS 的 E 系列。 | 資料集探索與載入時間；訓練、微調與推論持續時間；工件發布/具現化持續時間；CPU/GPU 使用率（如適用）；模型品質一致性。 
+
+
+| 5.驗證規模和恢復 | 增加 `sample_count`至所有列，增加檔案數量和並行執行次數，然後測試檢查點重複使用和歸檔。 | 調整保留的執行範圍資料集和構件的容量大小，以及成長空間；調整 Spark 和並行 Airflow 工作所需的 CPU 和記憶體容量大小。 | 端到端經過時間；成功執行率；佇列時間；檢查點恢復決策與經過時間；歸檔完整性；每次執行的儲存設備增長；恢復時間目標（RTO）達成情況。 
+|===
+在開始評估之前，客戶應定義端對端執行時間、XCP 處理量、訓練資料載入時間、最大並行執行次數、恢復時間和儲存設備保留等量化目標。應將測得的基準測試和每次擴展測試的結果與這些目標進行比較，以確定架構是否符合預期的工作負載和運作要求。

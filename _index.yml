@@ -42,6 +42,8 @@ indexpage:
       url: "/infra/ai-storagegrid-datalake-adas.html"
     - title: 昆騰 StorNext E 系列
       url: "/infra/ai-eseries-nva1150-design.html"
+    - title: 簡化跨 NetApp 儲存平台的 AI 傳輸途徑
+      url: "/infra/ai-pipeline-overview.html"
   - title: MLOps 與資料管理
     links:
     - title: NetApp的開源 MLOps

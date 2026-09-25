@@ -1,0 +1,105 @@
+---
+sidebar: sidebar 
+permalink: infra/ai-pipeline-differentiation-appendices.html 
+keywords:  
+summary:  
+---
+= 11.NetApp 差異化與競爭定位，附錄
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Karthikeyan Nagalingam， NetApp
+
+本綜合章節將此架構與常見的替代方案進行比較，並提供操作人員和審查人員使用的共享的參考資料。其獨特之處並非在於單一儲存設備端點；而在於 StorageGRID、ONTAP NAS、ONTAP S3、LustreFS、XCP 和 Airflow 等策略控制的組合，使得每個 AI 生命週期階段都能使用合適的分層，而無需重建工作流程。
+
+
+
+[[11-1-netapp-differentiation-and-competitive-positioning]]
+== 11.1 NetApp 差異化與競爭定位
+
+此比較將該架構與常見的替代方案進行對照。其差異化優勢不在於單一儲存設備端點；而在於 StorageGRID、ONTAP NAS、ONTAP S3、LustreFS、XCP 和 Airflow 的原則控制組合，讓每個 AI 生命週期階段都能使用合適的分層，而無需重建工作流程。
+
+[cols="34%,33%,33%"]
+|===
+| 替代方案 | 限制 | NetApp 解決方案優勢 
+
+
+| 僅限雲端原生傳輸途徑 | 局限於一種儲存設備模式 | 透過組態實現 S3/LustreFS 的互換 
+
+
+| DIY 指令碼式傳輸途徑 | 沒有重試、檢查點或血統 | Airflow 協調 {plus} 原生檢查點/恢復 
+
+
+| 單一分層儲存設備架構 | 適用於所有工作負載的單一效能/成本設定檔 | 每次執行的分層選擇透過 `xcp++_++copy++_++destination` 
+
+
+| 每次更新時全面重新訓練 | 高昂的經常性運算成本 | 透過 `partial++_++fit`進行增量微調 
+|===
+
+
+[[11-2-appendices]]
+== 11.2 附錄
+
+附錄為操作、審查或修改此 NVA 的讀者提供共享的術語和文件控制上下文。變更已記錄的行為、參數、儲存設備佈局或驗證證據時，請保持修訂歷史記錄的更新。
+
+
+
+[[11-2-1-glossary]]
+=== 11.2.1 術語表
+
+這些定義為架構的儲存設備、協調和譜系術語確立了一致的含義。
+
+[cols="50%,50%"]
+|===
+| 期限 | 定義 
+
+
+| XCP | NetApp 的高速平行資料複本/移轉工具 
+
+
+| ONTAP S3 | NetApp 在 ONTAP 上的 S3 相容物件儲存服務 
+
+
+| LustreFS | 高效能並行分散式檔案系統 
+
+
+| DAG | 有向無環圖 — Airflow 的工作流程定義 
+
+
+| XCom | Airflow 在工作間傳遞資料的機制 
+
+
+| run++_++stamp | 用於譜系的每次執行唯一時間戳記識別碼 
+
+
+| 顯現 | 描述階段的輸入、輸出和組態的 JSON 記錄 
+|===
+
+
+[[11-2-2-revision-history]]
+=== 11.2.2 修訂歷史
+
+記錄每次發布的變更，以保留文件的審查與核准軌跡。
+
+[cols="25%,25%,25%,25%"]
+|===
+| 版本 | 日期 | 作者 | 變更 
+
+
+| 1.0 | 2026-09-25 | 解決方案架構團隊 | 包含完整參數表和圖表的初始發布就緒型 NVA 
+|===
+
+
+[[11-2-3-contact-us-and-software-requests]]
+=== 11.2.3 聯絡我們和軟體請求
+
+如需申請軟體套件、自動化 DAG、部署指令碼或驗證成品，以部署及驗證此架構，或提供意見回饋與技術詢問，請聯絡 NetApp AI 與資料移動性團隊：
+
+* *電子郵件：* ng-data-mobility-in-ai-pipeline@netapp.com
+* *用途：*軟體套件要求、部署指引、架構驗證支援與技術回饋。
+
