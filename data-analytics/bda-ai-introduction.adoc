@@ -42,7 +42,7 @@ IBM 的 GPFS 是一個企業檔案系統，它提供了 HDFS 的替代方案。 
 [[netapp-in-place-analytics-module]]
 === NetApp就地分析模組
 
-NetApp就地分析模組 (NIPAM) 作為 Hadoop 叢集存取 NFS 資料的驅動程式。它有四個元件：連接池、NFS 輸入流、檔案句柄快取和 NFS 輸出流。有關更多信息，請參閱 https://www.netapp.com/pdf.html?item=/media/16351-tr-4382pdf.pdf[] 。
+NetApp 就地分析模組（NIPAM）充當 Hadoop 叢集存取 NFS 資料的驅動程式。它包含四個元件：連線資源池、NFS InputStream、檔案控制代碼快取和 NFS OutputStream。如需詳細資訊，請參閱 https://www.netapp.com/pdf.html?item=/media/16351-tr-4382.pdf[]。
 
 
 

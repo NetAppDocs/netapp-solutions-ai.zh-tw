@@ -22,6 +22,6 @@ https://www.netapp.com/pdf.html?item=/media/12385-tr4571pdf.pdf[]
 
 * NetApp產品文檔
 +
-https://www.netapp.com/us/documentation/index.aspx[]
+https://docs.netapp.com/[]
 
 

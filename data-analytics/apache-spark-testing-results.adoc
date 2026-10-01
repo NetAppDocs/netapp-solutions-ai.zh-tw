@@ -78,7 +78,7 @@ summary: 我們使用 TeraSort 和 TeraValidate 指令碼（位於 TeraGen 基�
 [[financial-sentiment-analysis]]
 == 金融情緒分析
 
-我們發表了link:https://www.netapp.com/pdf.html?item=/media/17123-tr4910pdf.pdf["TR-4910：利用NetApp AI 進行客戶溝通情緒分析"^]，其中使用 https://github.com/NetApp/netapp-dataops-toolkit["NetApp DataOps 工具包"^]、 AFF儲存和NVIDIA DGX 系統。此管道利用 DataOps Toolkit 執行批量音訊訊號處理、自動語音辨識 (ASR)、遷移學習和情緒分析， https://developer.nvidia.com/riva["NVIDIA Riva SDK"^] ，以及 https://developer.nvidia.com/tao["道框架"^]。將情緒分析用例擴展到金融服務業，我們建立了 SparkNLP 工作流程，為各種 NLP 任務（例如命名實體識別）加載了三個 BERT 模型，並獲得了納斯達克十大公司季度收益電話會議的句子級情緒。
+我們發佈了link:https://www.netapp.com/pdf.html?item=/media/17123-tr4910.pdf["TR-4910：利用NetApp AI 進行客戶溝通情緒分析"^]，其中建構了一個端對端對話式 AI 傳輸途徑，該傳輸途徑使用了 https://github.com/NetApp/netapp-dataops-toolkit["NetApp DataOps 工具包"^]、AFF 儲存設備和 NVIDIA DGX 系統。該傳輸途徑利用 DataOps 工具包 https://developer.nvidia.com/riva["NVIDIA Riva SDK"^]和 https://developer.nvidia.com/tao["道框架"^]，執行批次音訊訊號處理、自動語音辨識（ASR）、遷移學習和情緒分析。為了將情緒分析使用案例擴展到金融服務產業，我們建立了一個 SparkNLP 工作流程，載入了三個 BERT 模型用於各種 NLP 任務（例如命名實體辨識），並獲得了 NASDAQ 前十大公司季度財報電話會議的句子級情緒。
 
 以下腳本 `sentiment_analysis_spark. py`使用 FinBERT 模型處理 HDFS 中的轉錄本，並產生正面、中性和負面情緒計數，如下表所示：
 

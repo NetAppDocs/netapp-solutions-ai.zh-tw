@@ -22,7 +22,7 @@ summary: 尋找與 Lustre 搭配 NetApp E 系列儲存設備相關的文件、�
 == NetApp 資源
 
 * link:https://imt.netapp.com/imt/#welcome["NetApp 互通性矩陣工具"^]。搜尋 *E-Series Lustre*。
-* link:https://www.netapp.com/pdf.html?item=/media/14036-ds-4082.pdf["NetApp EF 系列 All Flash Array 產品型錄"^]
+* link:https://www.netapp.com/pdf.html?item=/media/19339-ds-4082.pdf["NetApp EF 系列 All Flash Array 產品型錄"^]
 * link:https://docs.netapp.com/us-en/e-series-santricity/["NetApp SANtricity System Manager 文件"^]
 * link:https://github.com/NetApp/ansible-lustre/tree/release/1.0.0["NetApp ansible-lustre 集合"^]。有關庫存欄位指導，請參閱link:ai-eseries-lustre-deploy-inventory.html["自訂 Lustre Ansible 庫存"]。
 * link:https://github.com/NetApp/netapp-lustre/tree/master["NetApp Lustre 來源儲存庫"^]。NetApp 提供適用於 Rocky Linux 9.8 和 Red Hat Enterprise Linux 9.8 的預先建置 Lustre 伺服器 RPM。從 NetApp 來源為用戶端作業系統和核心建置 Lustre 用戶端套件。

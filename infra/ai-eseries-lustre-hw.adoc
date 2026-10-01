@@ -149,7 +149,7 @@ EF80 平台在每個控制器中安裝三個雙埠主機 I/O 模組後，每個�
 
 每個 EF80 陣列也使用專用的插槽 4 I/O 模組進行控制器間鏡射。將控制器 A 的連接埠 4a 連接到控制器 B 的連接埠 4a，並將控制器 A 的連接埠 4b 連接到控制器 B 的連接埠 4b。這些連線提供快取鏡射和 I/O 傳輸，不用於主機 NVMe-oF 流量。請參閱 link:https://docs.netapp.com/us-en/e-series/install-hw-ef50-ef80/install-cable.html#step-1-cable-the-inter-controller-mirroring-connections["連接 EF50 和 EF80 控制器間鏡射連接線"^]。
 
-有關所有型號的完整 EF 系列規格，請參閱link:https://www.netapp.com/pdf.html?item=/media/14036-ds-4082.pdf["NetApp EF 系列 All Flash Array 產品型錄"^]。
+有關所有型號的完整 EF 系列規格，請參閱link:https://www.netapp.com/pdf.html?item=/media/19339-ds-4082.pdf["NetApp EF 系列 All Flash Array 產品型錄"^]。
 
 
 

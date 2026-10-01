@@ -108,7 +108,7 @@ image:ai-edge-007.png["此圖顯示輸入/輸出對話框或表示書面內容"]
 
 
 
-NOTE: 有關詳細信息，請參閱 https://www.netapp.com/pdf.html?item=/media/19339-DS-4082.pdf["NetApp EF 系列NetApp EF 系列全快閃陣列 EF600、F300、EF570 和 EF280 資料表"^]。
+NOTE: 如需更多資訊，請參閱 https://www.netapp.com/pdf.html?item=/media/19339-ds-4082.pdf["NetApp EF 系列NetApp EF 系列全快閃陣列 EF600、F300、EF570 和 EF280 資料表"^]。
 
 
 

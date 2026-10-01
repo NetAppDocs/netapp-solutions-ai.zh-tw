@@ -30,4 +30,4 @@ summary: 您可以調整用於驗證的設定以適合其他用例。
 
 為了進行測試和驗證，本文檔使用了NetApp AFF C190系統，該系統的最大儲存容量為 50.5TB，順序讀取的吞吐量為 4.4GBps，小型隨機讀取的吞吐量為 230K IOPS，事實證明它非常適合邊緣推理工作負載。
 
-但是，如果您需要更大的儲存容量或更快的網路速度，則應該使用NetApp AFF A220或NetApp AFF A250儲存系統。此外，最大容量1.5PB、頻寬10GBps的NetApp EF280系統也被用於此解決方案的驗證。如果您希望擁有更大的儲存容量和更高的頻寬， https://www.netapp.com/pdf.html?item=/media/19339-DS-4082.pdf&v=2021691654["NetApp EF300"^]可以使用。
+但是，如果您需要更大的儲存容量或更快的連網速度，則應使用 NetApp AFF A220 或 NetApp AFF A250 儲存設備系統。此外，為了驗證此解決方案，我們還使用了最大容量為 1.5PB、頻寬 10GBps 的 NetApp EF280 系統。如果您需要更大的儲存容量和更高的頻寬，可以使用  https://www.netapp.com/pdf.html?item=/media/19339-ds-4082.pdf["NetApp EF300"^]。
