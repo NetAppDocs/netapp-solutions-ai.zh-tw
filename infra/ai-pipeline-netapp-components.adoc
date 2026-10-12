@@ -15,6 +15,9 @@ summary:
 
 Karthikeyan Nagalingam， NetApp
 
+[role="lead"]
+AI 資料傳輸途徑解決方案使用 NetApp、第三方與開啟來源元件。
+
 [cols="50%,50%"]
 |===
 | 成分 | 在解決方案中的角色 

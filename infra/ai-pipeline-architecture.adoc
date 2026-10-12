@@ -15,6 +15,7 @@ summary:
 
 Karthikeyan Nagalingam， NetApp
 
+[role="lead"]
 本節介紹了已驗證的 AI 傳輸途徑的邏輯工作流程、元件互動、實體部署和資料沿襲。這些圖表共同展示了 Apache Airflow 如何協調從 StorageGRID 透過 ONTAP NAS 的資料搬移，選擇性地使用 NetApp XCP 將資料放置在 ONTAP S3 或 LustreFS 上以執行模型，以及如何將受控結果傳回 StorageGRID 歸檔儲存設備。
 
 

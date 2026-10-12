@@ -7261,4 +7261,5 @@
   <block id="23de458a279cb77c771a906ae7fbf52f" category="paragraph">但是，如果您需要更大的儲存容量或更快的連網速度，則應使用 NetApp AFF A220 或 NetApp AFF A250 儲存設備系統。此外，為了驗證此解決方案，我們還使用了最大容量為 1.5PB、頻寬 10GBps 的 NetApp EF280 系統。如果您需要更大的儲存容量和更高的頻寬，可以使用 <block ref="9290c81f76b74b66b7051d50d766b467" category="inline-link-rx"></block>。</block>
   <block id="a340a80086a468e2556a247456572a89" category="admonition">如需更多資訊，請參閱<block ref="a80bca4324b2437c5bf5f4b3248c6eb8" category="inline-link-rx"></block>。</block>
   <block id="f217c81f72a98d73a2ef32abaa405554" category="paragraph">如果您希望自動化此程序，可以使用<block ref="f07bcb7e875f8bb20680b339fb58364a" category="inline-link-macro-rx"></block>、<block ref="7fc386eb564c4560b9bf182228e7a332" category="inline-link-macro-rx"></block>或<block ref="62c3d824298cc8f488bda82279b91e73" category="inline-link-macro-rx"></block>。</block>
+  <block id="ecf051eb19810ee05a1158848fdacf1c" category="paragraph">AI 資料傳輸途徑解決方案使用 NetApp、第三方與開啟來源元件。</block>
 </blocks>

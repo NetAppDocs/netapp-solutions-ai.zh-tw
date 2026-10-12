@@ -15,6 +15,7 @@ summary:
 
 Karthikeyan Nagalingam， NetApp
 
+[role="lead"]
 本節定義了運行該傳輸途徑所需的基礎架構配置、軟體相依性和網路連線。此部署將 Airflow 協調與 XCP 資料移動主機分離，同時將這兩個元件連接到 StorageGRID、ONTAP NAS 以及選定的 ONTAP S3 或 LustreFS 訓練目的地。
 
 

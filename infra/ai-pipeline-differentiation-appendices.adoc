@@ -15,6 +15,7 @@ summary:
 
 Karthikeyan Nagalingam， NetApp
 
+[role="lead"]
 本綜合章節將此架構與常見的替代方案進行比較，並提供操作人員和審查人員使用的共享的參考資料。其獨特之處並非在於單一儲存設備端點；而在於 StorageGRID、ONTAP NAS、ONTAP S3、LustreFS、XCP 和 Airflow 等策略控制的組合，使得每個 AI 生命週期階段都能使用合適的分層，而無需重建工作流程。
 
 

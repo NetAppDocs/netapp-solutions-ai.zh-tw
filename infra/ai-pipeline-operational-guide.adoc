@@ -15,6 +15,7 @@ summary:
 
 Karthikeyan Nagalingam， NetApp
 
+[role="lead"]
 本指南涵蓋日常執行、監控、事件分類、訓練恢復、歸檔驗證、容量調校和資料保護。結合第 8 節中的組態方案，可在本地、ONTAP S3 和 LustreFS 訓練模式下以一致的方式運作相同的傳輸途徑。
 
 

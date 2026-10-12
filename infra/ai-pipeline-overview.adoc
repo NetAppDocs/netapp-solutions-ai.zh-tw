@@ -15,6 +15,7 @@ summary:
 
 Karthikeyan Nagalingam， NetApp
 
+[role="lead"]
 這個經過驗證的架構展示了一個由 Apache Airflow 編排、受控且具備儲存層感知能力的 AI 資料傳輸途徑。此解決方案從 NetApp StorageGRID 擷取原始表格與文字資料，在 ONTAP NAS 儲存桶上準備確定性資料集與清單，並使用 NetApp XCP 根據執行階段組態將準備好的資料移至 NetApp ONTAP S3 或 LustreFS。然後，它會訓練並逐步微調 scikit-learn 模型，產生預測結果，對成功的訓練輸出進行檢查點保存，並將模型、計量、清單和預測證據歸檔到 StorageGRID。該架構提供可重製的執行、可設定的儲存設備位置、故障防護機制、以檢查點為基礎的恢復，以及貫穿整個 AI 生命週期的可稽核血緣關係。它專為需要跨 NetApp 儲存層部署與驗證 AI 傳輸途徑之可重複模式的架構師、資料工程師、機器學習工程師和基礎架構團隊所設計。
 
 '''
