@@ -823,9 +823,7 @@
   <block id="7caace9abf76a798c629a9134d1bb259" category="summary">NFS 和 S3 雙協定存取的潛在用例是在機器學習和資料科學領域。例如，一個資料科學家團隊可能正在使用 AWS SageMaker 進行機器學習項目，這需要存取以 NFS 格式儲存的資料。但是，可能還需要透過 S3 儲存桶存取和共享數據，以便與其他團隊成員合作或與使用 S3 的其他應用程式整合。</block>
   <block id="ee8cf3bf54dea46135e299d79fa1c179" category="paragraph">此解決方案採用以下技術：</block>
   <block id="a03ea23912d3b35c875ff398aa4888af" category="list-text">AWS SageMaker 筆電。為開發人員和資料科學家提供機器學習功能，以有效地建立、訓練和部署高品質的 ML 模型。</block>
-  <block id="bbe2552dc6295d353c02fd85c243f334" category="list-text">* NetApp BlueXP。 *支援在本機以及 AWS、Azure 和 Google Cloud 上發現、部署和操作儲存。它提供資料保護，防止資料遺失、網路威脅和意外中斷，並優化資料儲存和基礎設施。</block>
   <block id="aa6fa71ab9848c5875470d36bbc2138a" category="list-text">* NetApp Cloud Volumes ONTAP。 *在 AWS、Azure 和 Google Cloud 上提供具有 NFS、SMB/CIFS、iSCSI 和 S3 協定的企業級儲存卷，讓使用者在存取和管理雲端中的資料時擁有更大的靈活性。</block>
-  <block id="eea496572a01ca3e5ced1dfe99a5809c" category="paragraph">NetApp Cloud Volumes ONTAP由BlueXP創建，用於儲存 ML 資料。</block>
   <block id="923baf107dc23ca10f968a4fdecd4f4f" category="paragraph">下圖展示了該解決方案的技術組件。</block>
   <block id="8afbfe3aeb9c594404d5c244cf8f6024" category="inline-image-macro">該圖顯示了該解決方案的技術組件。</block>
   <block id="d3d9ae40ce6d205245ae4b8c9649b6e2" category="paragraph"><block ref="d3d9ae40ce6d205245ae4b8c9649b6e2" category="inline-image-macro-rx" type="image"></block></block>
@@ -7262,4 +7260,6 @@
   <block id="a340a80086a468e2556a247456572a89" category="admonition">如需更多資訊，請參閱<block ref="a80bca4324b2437c5bf5f4b3248c6eb8" category="inline-link-rx"></block>。</block>
   <block id="f217c81f72a98d73a2ef32abaa405554" category="paragraph">如果您希望自動化此程序，可以使用<block ref="f07bcb7e875f8bb20680b339fb58364a" category="inline-link-macro-rx"></block>、<block ref="7fc386eb564c4560b9bf182228e7a332" category="inline-link-macro-rx"></block>或<block ref="62c3d824298cc8f488bda82279b91e73" category="inline-link-macro-rx"></block>。</block>
   <block id="ecf051eb19810ee05a1158848fdacf1c" category="paragraph">AI 資料傳輸途徑解決方案使用 NetApp、第三方與開啟來源元件。</block>
+  <block id="32931592cf6b28ce447e74b088c750ed" category="list-text">*NetApp Console。*提供單一控制平面，用於探索、部署及操作內部部署以及 AWS、Azure 和 Google Cloud 上的儲存設備。可防範資料遺失、網路威脅及計畫外中斷，提供資料保護，並最佳化資料儲存設備與基礎架構。</block>
+  <block id="9286b2cd1be0332fa04417bf36c30a89" category="paragraph">NetApp Cloud Volumes ONTAP 是從 NetApp Console 建立，用於儲存 ML 資料。</block>
 </blocks>

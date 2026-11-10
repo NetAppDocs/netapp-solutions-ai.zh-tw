@@ -17,11 +17,11 @@ summary: NFS 和 S3 雙協定存取的潛在用例是在機器學習和資料科
 此解決方案採用以下技術：
 
 * AWS SageMaker 筆電。為開發人員和資料科學家提供機器學習功能，以有效地建立、訓練和部署高品質的 ML 模型。
-* * NetApp BlueXP。 *支援在本機以及 AWS、Azure 和 Google Cloud 上發現、部署和操作儲存。它提供資料保護，防止資料遺失、網路威脅和意外中斷，並優化資料儲存和基礎設施。
+* *NetApp Console。*提供單一控制平面，用於探索、部署及操作內部部署以及 AWS、Azure 和 Google Cloud 上的儲存設備。可防範資料遺失、網路威脅及計畫外中斷，提供資料保護，並最佳化資料儲存設備與基礎架構。
 * * NetApp Cloud Volumes ONTAP。 *在 AWS、Azure 和 Google Cloud 上提供具有 NFS、SMB/CIFS、iSCSI 和 S3 協定的企業級儲存卷，讓使用者在存取和管理雲端中的資料時擁有更大的靈活性。
 
 
-NetApp Cloud Volumes ONTAP由BlueXP創建，用於儲存 ML 資料。
+NetApp Cloud Volumes ONTAP 是從 NetApp Console 建立，用於儲存 ML 資料。
 
 下圖展示了該解決方案的技術組件。
 
